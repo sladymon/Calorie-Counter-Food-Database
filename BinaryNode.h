@@ -1,5 +1,6 @@
 // Node for a binary tree
 // Created by: Deepika Metkar
+// THIS IS DEEPIKA
 
 #ifndef _BINARY_NODE
 #define _BINARY_NODE
