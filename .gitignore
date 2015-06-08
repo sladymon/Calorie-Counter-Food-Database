@@ -4,3 +4,15 @@ Project_Calorie-Counter-Food-Database/Project_Calorie-Counter-Food-Database.sln
 *.suo
 Project_Calorie-Counter-Food-Database/Project_Calorie-Counter-Food-Database.vcxproj
 *.filters
+*.tlog
+*.sln
+myProject_CalorieCounterFoodDatabase/myProject_CalorieCounterFoodDatabase.vcxproj
+*.obj
+myProject_CalorieCounterFoodDatabase/Debug/myProject_CalorieCounterFoodDatabase.ilk
+*.idb
+myProject_CalorieCounterFoodDatabase/Debug/vc120.pdb
+*.pdb
+myProject_CalorieCounterFoodDatabase/Debug/myProject_CalorieCounterFoodDatabase.log
+*.exe
+*.ilk
+Project_Calorie-Counter-Food-Database/Debug/Project_Calorie-Counter-Food-Database.log
