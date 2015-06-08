@@ -1,0 +1,6 @@
+*.opensdf
+*.sdf
+Project_Calorie-Counter-Food-Database/Project_Calorie-Counter-Food-Database.sln
+*.suo
+Project_Calorie-Counter-Food-Database/Project_Calorie-Counter-Food-Database.vcxproj
+*.filters
