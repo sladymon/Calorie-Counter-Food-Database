@@ -7,7 +7,8 @@
 
 using namespace std;
 
-const string INPUT_FILE = "foodInput.txt";
+const string INPUT_FILE = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/foodInput.txt";
+//const string INPUT_FILE = "foodInput.txt";
 
 
 //TODO: Figure out how to sort differently for primaryBST & secondaryBST
@@ -65,7 +66,7 @@ bool CalorieCounterFoodDatabase::readFile(const char* fileName) //TODO: Shannon 
 
 	// Open file to read, if couldn't open, display error
 	// and exit with false
-	inFile.open("foodInput.txt");
+	inFile.open(INPUT_FILE);
 	if (!inFile)
 	{
 		cout << "Error opening \'foodInput.txt\' File!\n";

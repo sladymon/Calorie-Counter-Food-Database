@@ -16,3 +16,14 @@ myProject_CalorieCounterFoodDatabase/Debug/myProject_CalorieCounterFoodDatabase.
 *.exe
 *.ilk
 Project_Calorie-Counter-Food-Database/Debug/Project_Calorie-Counter-Food-Database.log
+*.pbxproj
+
+*.xcworkspacedata
+
+*.xcuserstate
+
+*.xcscheme
+
+*.plist
+
+main.cpp
