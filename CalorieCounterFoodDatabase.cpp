@@ -8,16 +8,9 @@
 using namespace std;
 
 //const string INPUT_FILE = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/foodInput.txt";
-const string INPUT_FILE = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/foodInput.txt";
+//const string INPUT_FILE = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/foodInput.txt";
 //const string INPUT_FILE = "foodInput.txt";
-//// This is Deepika Testing ///////
-/////
-/////
-///// This is Shuti Testing  //////
-////
-//// This is Shannon Testing /////
-////
-//// this is shuti testing 2 /////
+
 
 
 //TODO: Figure out how to sort differently for primaryBST & secondaryBST
