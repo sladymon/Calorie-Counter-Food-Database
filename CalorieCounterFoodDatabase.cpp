@@ -12,8 +12,6 @@ using namespace std;
 //const string INPUT_FILE = "foodInput.txt";
 //// This is Deepika Testing ///////
 /////
-//// This is Wendy Testing ///////
-/////
 /////
 ///// This is Shuti Testing  //////
 ////
