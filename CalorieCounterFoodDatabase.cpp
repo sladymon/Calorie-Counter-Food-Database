@@ -10,14 +10,7 @@ using namespace std;
 //const string INPUT_FILE = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/foodInput.txt";
 //const string INPUT_FILE = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/foodInput.txt";
 //const string INPUT_FILE = "foodInput.txt";
-<<<<<<< HEAD
 
-=======
-//// This is Deepika Testing ///////
-/////
-//// This is Wendy Testing ///////
-/////
->>>>>>> parent of c22417b... shuti testing
 
 
 //TODO: Figure out how to sort differently for primaryBST & secondaryBST
