@@ -73,3 +73,5 @@ RemoteSystemsTempFiles/.project
 *.xmi
 
 *.history
+
+*.xccheckout
