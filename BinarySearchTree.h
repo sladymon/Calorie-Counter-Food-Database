@@ -30,6 +30,11 @@ private:
 	// search for target node
 	BinaryNode<ItemType>* findNode(BinaryNode<ItemType>* treePtr, ItemType & target) const;
 
+	bool printTree(void(*display)(ItemType item));
+
+	int(*compare) (ItemType argu1, ItemType argu2);
+
+
 public:
 	// insert a node at the correct location
     bool insert(const ItemType & newEntry);
@@ -42,10 +47,28 @@ public:
 
 	// search function without using recursion (with iterations)
 	BinaryNode<ItemType>* search(ItemType & target) const;
+
+	bool printTreeInOrder(void(*display)(ItemType item));
+
+	BinarySearchTree(int(*cmp) (ItemType argu1, ItemType argu2))
+	{
+		rootPtr = 0;
+		count = 0;
+		compare = cmp;
+	}
 };
 
 
 ///////////////////////// public function definitions ///////////////////////////
+
+template<class ItemType>
+bool printTreeInOrder(void(*display)(ItemType item))
+{
+	if (rootPtr != 0) {
+		printTree(display);
+	}
+	return true;
+}
 
 // search function without using recursion (with iterations)
 template<class ItemType>
@@ -81,12 +104,22 @@ bool BinarySearchTree<ItemType>::remove(const ItemType & target)
 //////////////////////////// private functions ////////////////////////////////////////////
 
 template<class ItemType>
+bool printTree(void(*display)(ItemType item), BinaryNode<ItemType> node)
+{
+	if (node != null) {
+		printTree(display, node.getLeftPtr());
+		display(node.getItem());
+		printTree(display, node.getRightPtr());
+	}
+}
+
+template<class ItemType>
 BinaryNode<ItemType>* BinarySearchTree<ItemType>::_insert(BinaryNode<ItemType>* nodePtr,
                                                           BinaryNode<ItemType>* newNodePtr)
 {
 	if (nodePtr == 0)
 		return newNodePtr;
-	else if (nodePtr->getItem() > newNodePtr->getItem())
+	else if (compare(nodePtr->getItem(), newNodePtr->getItem()) < 0)
 	{
 		BinaryNode<ItemType>* tempPtr = _insert(nodePtr->getLeftPtr(), newNodePtr);
 		nodePtr->setLeftPtr(tempPtr);
@@ -108,9 +141,9 @@ BinaryNode<ItemType>* BinarySearchTree<ItemType>::_remove(BinaryNode<ItemType>* 
 		success = false;
 		return 0;
 	}
-	if (nodePtr->getItem() > target)
+	if (compare(nodePtr->getItem(), target) > 0)
 		nodePtr->setLeftPtr(_remove(nodePtr->getLeftPtr(), target, success));
-	else if (nodePtr->getItem() < target)
+	else if (compare(nodePtr->getItem(), target) < 0)
 		nodePtr->setRightPtr(_remove(nodePtr->getRightPtr(), target, success));
 	else
 	{
@@ -175,9 +208,9 @@ BinaryNode<ItemType>* BinarySearchTree<ItemType>::findNode(BinaryNode<ItemType>*
 {
 	if (nodePtr == 0)
 		return 0;
-	else if (nodePtr->getItem() < target)
+	else if (compare(nodePtr->getItem(), target) > 0)
 		return findNode(nodePtr->getRightPtr(), target);
-	else if (nodePtr->getItem() > target)
+	else if (compare(nodePtr->getItem(), target) < 0)
 		return findNode(nodePtr->getLeftPtr(), target);
 	else
 		return nodePtr;

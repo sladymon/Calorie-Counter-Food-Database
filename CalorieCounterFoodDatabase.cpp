@@ -9,7 +9,7 @@ using namespace std;
 
 //const string INPUT_FILE = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/foodInput.txt";
 //const string INPUT_FILE = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/foodInput.txt";
-//const string INPUT_FILE = "foodInput.txt";
+//const string INPUT_FILE = "D:\\foodInput.txt";
 
 
 
@@ -33,8 +33,13 @@ void displayIndentedNode(Food & anItem, int level)
 	cout << level << ". " << anItem.getName() << endl;
 }
 
+int compareBST(Food food1, Food food2);
+int compareBSTSecondary(Food food1, Food food2);
+string inputFoodToOutputString(Food* food);
+
 int main()
 {
+
 	CalorieCounterFoodDatabase a;
 	a.readFile(INPUT_FILE.c_str());
 	//cout << "TESTING tree size: " << a.getPrimaryBST()->size() << endl;
@@ -47,10 +52,57 @@ CalorieCounterFoodDatabase::CalorieCounterFoodDatabase()
 {
 	this->hashSize = 0;
 	this->inputCounter = 0;
-	primaryBST = new BinarySearchTree<Food>();
-	secondaryBST = new BinarySearchTree<Food>();
+	primaryBST = new BinarySearchTree<Food>(compareBST);
+	secondaryBST = new BinarySearchTree<Food>(compareBSTSecondary);
 }
 
+int compareBST(Food food1, Food food2)
+{
+	if (food1.getName() > food2.getName())
+	{
+		return -1;
+	}
+	else if (food1.getName() < food2.getName())
+	{
+		return 1;
+	}
+	return 0;
+}
+
+int compareBSTSecondary(Food food1, Food food2)
+{
+	if (food1.getCategory() > food2.getCategory())
+	{
+		return -1;
+	}
+	else if (food1.getCategory() < food2.getCategory())
+	{
+		return 1;
+	}
+	return 0;
+}
+
+string inputFoodToOutputString(Food food)
+{
+	stringstream calaries, fat, fiber, protein, sugar;
+	calaries << food.getCalories();
+	fat << food.getFat();
+	fiber << food.getFiber();
+	protein << food.getProtein();
+	sugar << food.getSugar();
+
+	return food.getName() + "," + food.getCategory() + "," + calaries.str() + "," + fat.str() + "," + fiber.str() + ","
+		+ protein.str() +"," + sugar.str();
+}
+
+void printToFile(Food food)
+{
+	//ofstream myfile;
+	//myfile.open("OutPut.txt");
+	//myfile << inputFoodToOutputString(food);
+	//myfile.close();
+	cout << inputFoodToOutputString(food);
+}
 
 //Author: Deepika Metkar
 bool CalorieCounterFoodDatabase::readFile(const char* fileName) //TODO: Shannon changed this
@@ -106,6 +158,7 @@ bool CalorieCounterFoodDatabase::readFile(const char* fileName) //TODO: Shannon 
 		Food* foodObj = new Food(fName, fCatagery, amount, calories, fiber, sugar, protein, fat); //TODO: Shannon changed this to dynamically allocated
 		primaryBST->insert(*foodObj);  //TODO: Shannon changed this
 		//TODO: add secondaryBST and Hash
+		secondaryBST->insert(*foodObj);
 		delete foodObj; //TODO: Shannon changed this
 
 	}
@@ -115,6 +168,7 @@ bool CalorieCounterFoodDatabase::readFile(const char* fileName) //TODO: Shannon 
 //Deepika
 bool CalorieCounterFoodDatabase::writeToOutputFile(const char* fileName)
 {
+	//primaryBST->printTreeInOrder(printToFile);
 	return true;
 }
 
@@ -236,13 +290,28 @@ void CalorieCounterFoodDatabase::deleteManager() //should take a food argument
 void CalorieCounterFoodDatabase::searchManager() const
 {
 	string name;
-	cout << "Enter the food name to search for: ";
-	getline(cin, name);
-
+	string searchType;
+	
+	cout << "Do you want to search with name or category. Enter N for name and C for category : ";
+	getline(cin, searchType);
 	Food* toSearch = new Food();
 	Food* toReturn = new Food();
-	toSearch->setName(name);
-	primaryBST->getEntry(*toSearch, *toReturn);
+	if (searchType == "N" || searchType == "n")
+	{
+		cout << "Enter the food name to search for: ";
+		getline(cin, name);
+		toSearch->setName(name);
+		primaryBST->getEntry(*toSearch, *toReturn);
+	}
+	else if (searchType == "C" || searchType == "c")
+	{
+		cout << "Enter the food category to search for: ";
+		getline(cin, name);
+		toSearch->setCategory(name);
+		secondaryBST->getEntry(*toSearch, *toReturn);
+	}
+	
+	
 
 	toReturn->displayFood();
 

@@ -18,6 +18,9 @@ protected:
 public:
 	// "admin" functions
  	BinaryTree() {rootPtr = 0; count = 0;}
+
+//	BinaryTree(int(*cmp) (ItemType* argu1, ItemType* argu2));
+
 	//BinaryTree(const BinaryTree<ItemType> & tree){ }  //FIXME: Should this be implemented, or deleted?
 	virtual ~BinaryTree()
 	{
@@ -41,6 +44,7 @@ public:
 	// search by a unique key
 	virtual bool getEntry(ItemType & anEntry, ItemType & returnedItem) const = 0;
 
+	int(*compare) (ItemType* argu1, ItemType* argu2);
 private:
 	// delete all nodes from the tree
 	void destroyTree(BinaryNode<ItemType>* nodePtr);
@@ -54,6 +58,13 @@ private:
 };
 
 //////////////////////////////////////////////////////////////////////////
+//template<class ItemType>
+//BinaryTree(int(*cmp) (ItemType* argu1, ItemType* argu2))
+//{
+//	rootPtr
+//	count = 0;
+//	compare = cmp;
+//}
 
 template<class ItemType>
 void BinaryTree<ItemType>::_printIndented(void visit(ItemType &, int level), BinaryNode<ItemType>* nodePtr, int level) const

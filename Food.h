@@ -47,11 +47,11 @@ public:
 	void setFat(int fat) {this->fat = fat;}
 
 	// overloaded comparison operators
-	bool operator< (const Food& food) const { return this->name < food.getName();}
+	/*bool operator< (const Food& food) const { return this->name < food.getName();}
 	bool operator<= (const Food& food) const { return this->name <= food.getName();}
 	bool operator> (const Food& food) const { return this->name > food.getName();}
 	bool operator>= (const Food& food) const { return this->name >= food.getName();}
-	bool operator== (const Food& food) const { return this->name == food.getName();}
+	bool operator== (const Food& food) const { return this->name == food.getName();}*/
 
 
 	//display
