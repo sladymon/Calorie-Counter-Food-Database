@@ -5,6 +5,14 @@
 #include <sstream>
 #include <fstream>
 
+
+//TODO:
+//Write documentation
+//Get hash working with specified size
+//do input validation
+
+
+
 using namespace std;
 
 //const string INPUT_FILE = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/foodInput.txt";
@@ -13,29 +21,10 @@ using namespace std;
 
 
 
-//TODO: Figure out how to sort differently for primaryBST & secondaryBST
-	//(currently, overloaded operators only sort by primary)
-
-
-//FIXME: Shannon added temporarily to test indented printing - need Deepika's version
-//*********************************************************************
-// displayIndentedNode - Displays student ID and level, indented with
-//		tabs dependent on level.  Is passed to BST functions
-// @param anItem - Student object to be displayed
-// @param level - current level of tree
-//*********************************************************************
-void displayIndentedNode(Food & anItem, int level)
-{
-	for (int i = 1; i < level; i++)
-	{
-		cout << "\t";
-	}
-	cout << level << ". " << anItem.getName() << endl;
-}
-
-int compareBST(Food food1, Food food2);
-int compareBSTSecondary(Food food1, Food food2);
-string inputFoodToOutputString(Food* food);
+//FIXME: Add a regular displayTree function
+void displayIndentedNode(Food* anItem, int level);
+int compareBST(Food* food1, Food* food2);
+int compareBSTSecondary(Food* food1, Food* food2);
 
 int main()
 {
@@ -48,6 +37,49 @@ int main()
 	return 0;
 }
 
+//*********************************************************************
+// displayIndentedNode - Displays student ID and level, indented with
+//		tabs dependent on level.  Is passed to BST functions
+// @param anItem - Student object to be displayed
+// @param level - current level of tree
+//*********************************************************************
+void displayIndentedNode(Food* anItem, int level)
+{
+    for (int i = 1; i <= level; i++)
+    {
+        cout << "\t";
+    }
+    cout << level + 1 << ". " << anItem->getName() << endl;
+}
+
+//Author: Deepika Metkar
+int compareBST(Food* food1, Food* food2)
+{
+    if (food1->getName() > food2->getName())
+    {
+        return 1;
+    }
+    else if (food1->getName() < food2->getName())
+    {
+        return -1;
+    }
+    return 0;
+}
+
+//Author: Deepika Metkar
+int compareBSTSecondary(Food* food1, Food* food2)
+{
+    if (food1->getCategory() > food2->getCategory())
+    {
+        return 1;
+    }
+    else if (food1->getCategory() < food2->getCategory())
+    {
+        return -1;
+    }
+    return 0;
+}
+
 CalorieCounterFoodDatabase::CalorieCounterFoodDatabase()
 {
 	this->hashSize = 0;
@@ -56,46 +88,28 @@ CalorieCounterFoodDatabase::CalorieCounterFoodDatabase()
 	secondaryBST = new BinarySearchTree<Food>(compareBSTSecondary);
 }
 
-int compareBST(Food food1, Food food2)
+CalorieCounterFoodDatabase::~CalorieCounterFoodDatabase()
 {
-	if (food1.getName() > food2.getName())
-	{
-		return -1;
-	}
-	else if (food1.getName() < food2.getName())
-	{
-		return 1;
-	}
-	return 0;
+    //TODO: Determine what should go here and how/where things should be deleted
 }
 
-int compareBSTSecondary(Food food1, Food food2)
+//Author: Deepika Metkar
+string CalorieCounterFoodDatabase::inputFoodToOutputString(Food* food)
 {
-	if (food1.getCategory() > food2.getCategory())
-	{
-		return -1;
-	}
-	else if (food1.getCategory() < food2.getCategory())
-	{
-		return 1;
-	}
-	return 0;
-}
+	stringstream calories, fat, fiber, protein, sugar;
+	calories << food->getCalories();
+	fat << food->getFat();
+	fiber << food->getFiber();
+	protein << food->getProtein();
+	sugar << food->getSugar();
 
-string inputFoodToOutputString(Food food)
-{
-	stringstream calaries, fat, fiber, protein, sugar;
-	calaries << food.getCalories();
-	fat << food.getFat();
-	fiber << food.getFiber();
-	protein << food.getProtein();
-	sugar << food.getSugar();
-
-	return food.getName() + "," + food.getCategory() + "," + calaries.str() + "," + fat.str() + "," + fiber.str() + ","
+	return food->getName() + "," + food->getCategory() + "," + calories.str() + "," + fat.str() + "," + fiber.str() + ","
 		+ protein.str() +"," + sugar.str();
 }
 
-void printToFile(Food food)
+//FIXME: What is this?  Do I need this?
+/*
+void printToFile(Food* food)
 {
 	//ofstream myfile;
 	//myfile.open("OutPut.txt");
@@ -103,9 +117,10 @@ void printToFile(Food food)
 	//myfile.close();
 	cout << inputFoodToOutputString(food);
 }
+*/
 
-//Author: Deepika Metkar
-bool CalorieCounterFoodDatabase::readFile(const char* fileName) //TODO: Shannon changed this
+//Author: Deepika Metkar & Shannon Ladymon
+bool CalorieCounterFoodDatabase::readFile(const char* fileName)
 {
 	ifstream inFile;
 	string fName;
@@ -155,17 +170,16 @@ bool CalorieCounterFoodDatabase::readFile(const char* fileName) //TODO: Shannon 
 		getline(ss, token, ';');
 		fat = std::stoi(token);
 
-		Food* foodObj = new Food(fName, fCatagery, amount, calories, fiber, sugar, protein, fat); //TODO: Shannon changed this to dynamically allocated
-		primaryBST->insert(*foodObj);  //TODO: Shannon changed this
-		//TODO: add secondaryBST and Hash
-		secondaryBST->insert(*foodObj);
-		delete foodObj; //TODO: Shannon changed this
+		Food* foodObj = new Food(fName, fCatagery, amount, calories, fiber, sugar, protein, fat);
+		primaryBST->insert(foodObj);
+		secondaryBST->insert(foodObj);
+        //TODO: add Hash
 
 	}
 	return true;
 }
 
-//Deepika
+//TODO: Write this
 bool CalorieCounterFoodDatabase::writeToOutputFile(const char* fileName)
 {
 	//primaryBST->printTreeInOrder(printToFile);
@@ -228,8 +242,7 @@ void CalorieCounterFoodDatabase::displayMenu() const
 
 
 
-//FIXME: Is this just called for add a new entry?
-//FIXME: Should this ask for all the info to input separately?  Or should it ask for it in the input file manner?
+//FIXME: Add options: Enter food individually, enter line of food, enter file of foods
 void CalorieCounterFoodDatabase::insertManager()
 {
 	string name, category, amountStr, caloriesStr, fiberStr, sugarStr, proteinStr, fatStr;
@@ -259,33 +272,63 @@ void CalorieCounterFoodDatabase::insertManager()
 	fat = atoi(fatStr.c_str());
 
 	Food* food = new Food(name, category, amount, calories, fiber, sugar, protein, fat);
-	primaryBST->insert(*food);
-	delete food;
+	primaryBST->insert(food);
+    secondaryBST->insert(food);
 
 	cout << "TESTING: Size: " << primaryBST->size() << endl;
 
 
-	//TODO: should call insert on hash and both BSTs given a food item
+	//TODO: should call insert on hash
 
 }
 
-void CalorieCounterFoodDatabase::deleteManager() //should take a food argument
+
+//FIXME: Fix - how to delete appropriate item from secondaryBST
+bool CalorieCounterFoodDatabase::deleteManager()
 {
 	string name;
 	cout << "Enter food name to be deleted: ";
 	getline(cin, name);
 
-	Food* food = new Food();
-	food->setName(name);
-	primaryBST->remove(*food);
+    Food* toSearch = new Food();
+    Food* toDelete = new Food();
+	toSearch->setName(name);
+    
+    //TODO: search for item first, and get the category so can delete in secondary
+    //for now, use primaryBST, but change to hash in the future
+    
+    
+    if(!primaryBST->getEntry(toSearch, *toDelete))
+    {
+        cout << "Unable to find " << name << ", so it cannot be removed" << endl;
+        return false;
+    }
 
-	//TODO: should call delete on hash and both BSTs given a food name
-	delete food;
+	if (!primaryBST->remove(toDelete))
+    {
+        cout << "Unable to remove " << name << endl;
+        return false;
+    }
+    
+    if(!secondaryBST->remove(toDelete, compareBST))  //FIXME: Why doesn't this crash when trying to delete actual item again?
+    {
+        cout << "Unable to remove " << name << endl;
+        return false;
+    }
+    
+    //TODO: should call delete on hash
+    
+    cout << name << " was successfully deleted" << endl;
 
 	cout << "TESTING: Size: " << primaryBST->size() << endl;
+    
+    delete toSearch;
+    delete toDelete;
+    
+    return true;
 }
 
-
+//FIXME: Search by category works incorreclty
 //Shuti
 void CalorieCounterFoodDatabase::searchManager() const
 {
@@ -301,22 +344,36 @@ void CalorieCounterFoodDatabase::searchManager() const
 		cout << "Enter the food name to search for: ";
 		getline(cin, name);
 		toSearch->setName(name);
-		primaryBST->getEntry(*toSearch, *toReturn);
+		if(!primaryBST->getEntry(toSearch, *toReturn))
+        {
+            cout << "Could not find " << name << endl;
+        }
+        else
+        {
+            toReturn->displayFood();
+        }
 	}
-	else if (searchType == "C" || searchType == "c")
+	else if (searchType == "C" || searchType == "c") //FIXME: How should this work? What should it print?  Not a single item, but all items
 	{
 		cout << "Enter the food category to search for: ";
 		getline(cin, name);
 		toSearch->setCategory(name);
-		secondaryBST->getEntry(*toSearch, *toReturn);
+		if(!secondaryBST->getEntry(toSearch, *toReturn))
+        {
+            cout << "Could not find " << name << endl;
+        }
+        else
+        {
+            toReturn->displayFood();
+        }
 	}
-	
-	
-
-	toReturn->displayFood();
+    
+    //FIXME: Make this a loop for if the entered choice is not valid
 
 
-	//should call BST getEntry
+    delete toSearch;
+    delete toReturn;
+
 }
 
 
@@ -324,20 +381,20 @@ void CalorieCounterFoodDatabase::searchManager() const
 //Shuti
 void CalorieCounterFoodDatabase::listManager() const
 {
-	cout << "TESTING Primary BST Indented Tree" << endl;
 	primaryBST->printTreeAsIndentedList(displayIndentedNode);
+    secondaryBST->printTreeAsIndentedList(displayIndentedNode);
 
 	//TODO: add in rest of list manager
 }
 
-//Deepika
+//Shuti
 int CalorieCounterFoodDatabase::determineHashSize(int inputCounter)
 {
 	cout << "Determine Hash Size called" << endl;
 	return 0;
 }
 
-//Deepika
+//TODO: Write this
 void CalorieCounterFoodDatabase::rehashing()
 {
 	cout << "Rehashing called" << endl;

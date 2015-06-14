@@ -55,7 +55,7 @@ public:
     void set_empty_buckets(int empty_buckets) {this->empty_buckets = empty_buckets;}
     void set_full_nodes(int full_nodes) {this->full_nodes = full_nodes;}
     void set_full_buckets(int full_buckets) {this->full_buckets = full_buckets;}
-    void set_overflow(int rejected) {this->overflow = overflow;}
+    void set_overflow(int rejected) {this->overflow = overflow;}  //FIXME: This is incorrect
     
     // accessors
     float get_collision() const {return collisions;}

@@ -17,16 +17,15 @@ private:
 //	HashTable<Food>* hash;
 	BinarySearchTree<Food>* primaryBST;
 	BinarySearchTree<Food>* secondaryBST;
-	int hashSize; //FIXME: Purpose and use?
-	int inputCounter;//FIXME: Purpose and use?
+	int hashSize;
+	int inputCounter;
 
 public:
 	//FIXME: Temporary constructor for testing without hash:
 	CalorieCounterFoodDatabase();
 
-	//CalorieCounterFoodDatabase<Food>(); //TODO: consider making overloaded constructor
-	//~CalorieCounterFoodDatabase<Food>(); //TODO: implement destructors for hash/BSTs
-		//for BST - delete?  Or clear()?
+	//CalorieCounterFoodDatabase(); //TODO: consider making overloaded constructor
+	~CalorieCounterFoodDatabase();
 
 	//accessors
 //	HashTable<Food>* getHash() {return this->hash;}
@@ -45,12 +44,13 @@ public:
 	//read/write file and initilize hash & BSTs
 	bool readFile(const char* fileName);
 	bool writeToOutputFile(const char* fileName);
+    string inputFoodToOutputString(Food* food);
 
 	//menu and option manager functions
 	void menu();
 	void displayMenu() const;
 	void insertManager();
-	void deleteManager();
+	bool deleteManager();
 	void searchManager() const;
 	void listManager() const;
 
@@ -59,8 +59,6 @@ public:
 	void rehashing();
 
 };
-
-
 
 
 

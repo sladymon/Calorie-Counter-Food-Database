@@ -3,6 +3,7 @@
 #define _FOOD
 
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -11,7 +12,7 @@ class Food
 private:
 	string name; //unique key
 	string category; //secondary key (type of food - fruit, vegetable, grain, protein, dairy)
-	int amount; //in grams/mL - NOTE: added this after initial design
+	int amount; //in grams/mL
 	int calories;
 	int fiber; //in grams
 	int sugar; //in grams
@@ -23,9 +24,7 @@ public:
 			fiber(0), sugar(0), protein(0), fat(0) {}
 	Food(string name, string category, int amount,
 			int calories, int fiber, int sugar, int protein, int fat);
-
-	//do we need a destructor or any copy constructors?
-
+    
 	//accessors
 	string getName() const {return this->name;}
 	string getCategory() const {return this->category;}
@@ -45,14 +44,6 @@ public:
 	void setSugar(int sugar) {this->sugar = sugar;}
 	void setProtein(int protein) {this->protein = protein;}
 	void setFat(int fat) {this->fat = fat;}
-
-	// overloaded comparison operators
-	/*bool operator< (const Food& food) const { return this->name < food.getName();}
-	bool operator<= (const Food& food) const { return this->name <= food.getName();}
-	bool operator> (const Food& food) const { return this->name > food.getName();}
-	bool operator>= (const Food& food) const { return this->name >= food.getName();}
-	bool operator== (const Food& food) const { return this->name == food.getName();}*/
-
 
 	//display
 	void displayFood();

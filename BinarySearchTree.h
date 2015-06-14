@@ -1,5 +1,6 @@
 // Binary Search Tree ADT
 // Created by: Deepika Metkar
+// Modified by: Shannon Ladymon
 
 #ifndef _BINARY_SEARCH_TREE
 #define _BINARY_SEARCH_TREE
@@ -11,80 +12,90 @@ class BinarySearchTree : public BinaryTree<ItemType>
 {
 private:
 
-	using BinaryTree<ItemType>::rootPtr; //TODO: added by Shannon
-	using BinaryTree<ItemType>::count;//TODO: added by Shannon
-
+	using BinaryTree<ItemType>::rootPtr;
+	using BinaryTree<ItemType>::count;
 
 	// internal insert node: insert newNode in nodePtr subtree
 	BinaryNode<ItemType>* _insert(BinaryNode<ItemType>* nodePtr, BinaryNode<ItemType>* newNode);
 
 	// internal remove node: locate and delete target node under nodePtr subtree
-	BinaryNode<ItemType>* _remove(BinaryNode<ItemType>* nodePtr, const ItemType target, bool & success);
+	BinaryNode<ItemType>* _remove(BinaryNode<ItemType>* nodePtr, ItemType* target, bool& success);
+    
+    // internal remove node: locate and delete target node under nodePtr subtree
+    //based on a different comparison function
+    BinaryNode<ItemType>* _remove(BinaryNode<ItemType>* nodePtr, ItemType* target, bool& success,
+                                  int(*cmp) (ItemType* argu1, ItemType* argu2));
 
 	// delete target node from tree, called by internal remove node
-	BinaryNode<ItemType>* deleteNode(BinaryNode<ItemType>* targetNodePtr);
+	BinaryNode<ItemType>* _unlinkNode(BinaryNode<ItemType>* targetNodePtr, ItemType& successor);
 
 	// remove the leftmost node in the left subtree of nodePtr
-	BinaryNode<ItemType>* removeLeftmostNode(BinaryNode<ItemType>* nodePtr, ItemType & successor);
+	BinaryNode<ItemType>* _removeLeftmostNode(BinaryNode<ItemType>* nodePtr, ItemType& successor);
 
 	// search for target node
-	BinaryNode<ItemType>* findNode(BinaryNode<ItemType>* treePtr, ItemType & target) const;
+	BinaryNode<ItemType>* _findNode(BinaryNode<ItemType>* treePtr, ItemType* target) const;
 
-	bool printTree(void(*display)(ItemType item));
+	bool _printTree(void(*display)(ItemType* item), BinaryNode<ItemType>* node);
 
-	int(*compare) (ItemType argu1, ItemType argu2);
+	int(*compare) (ItemType* argu1, ItemType* argu2);
 
 
 public:
+    
+    //Constructor that takes a comparison function
+    BinarySearchTree(int(*cmp) (ItemType* argu1, ItemType* argu2))
+    {
+        rootPtr = 0;
+        count = 0;
+        compare = cmp;
+    }
+    
 	// insert a node at the correct location
-    bool insert(const ItemType & newEntry);
+    bool insert(ItemType* newEntry);
 
 	// remove a node if found
-	bool remove(const ItemType & anEntry);
+	bool remove(ItemType* target);
+    
+    // remove a node if found based on a different comparison function
+    bool remove(ItemType* anEntry, int(*cmp) (ItemType* argu1, ItemType* argu2));
 
 	// find a target node
-	bool getEntry(ItemType & target, ItemType & returnedItem) const;
+	bool getEntry(ItemType* target, ItemType& returnedItem) const;
 
 	// search function without using recursion (with iterations)
-	BinaryNode<ItemType>* search(ItemType & target) const;
+	BinaryNode<ItemType>* search(ItemType* target) const;
 
-	bool printTreeInOrder(void(*display)(ItemType item));
+	bool printTreeInOrder(void(*display)(ItemType* item));  //FIXME: Where is this called?  Anywhere?
 
-	BinarySearchTree(int(*cmp) (ItemType argu1, ItemType argu2))
-	{
-		rootPtr = 0;
-		count = 0;
-		compare = cmp;
-	}
 };
 
 
 ///////////////////////// public function definitions ///////////////////////////
 
 template<class ItemType>
-bool printTreeInOrder(void(*display)(ItemType item))
+bool BinarySearchTree<ItemType>::printTreeInOrder(void(*display)(ItemType* item))
 {
 	if (rootPtr != 0) {
-		printTree(display);
+		_printTree(display);
 	}
 	return true;
 }
 
 // search function without using recursion (with iterations)
 template<class ItemType>
-bool BinarySearchTree<ItemType>::getEntry(ItemType& anEntry, ItemType & returnedItem) const
+bool BinarySearchTree<ItemType>::getEntry(ItemType* anEntry, ItemType & returnedItem) const
 {
-	BinaryNode<ItemType> * targetNode = findNode(rootPtr, anEntry);
+	BinaryNode<ItemType>* targetNode = _findNode(rootPtr, anEntry);
 	if (targetNode != 0)
 	{
-		returnedItem = targetNode->getItem();
+		returnedItem = *(targetNode->getItem());
 		return true;
 	}
 	return false;
 }
 
 template<class ItemType>
-bool BinarySearchTree<ItemType>::insert(const ItemType & newEntry)
+bool BinarySearchTree<ItemType>::insert(ItemType* newEntry)
 {
 	BinaryNode<ItemType>* newNodePtr = new BinaryNode<ItemType>(newEntry);
 	rootPtr = _insert(rootPtr, newNodePtr);
@@ -92,24 +103,41 @@ bool BinarySearchTree<ItemType>::insert(const ItemType & newEntry)
 	return true;
 }
 
+
 template<class ItemType>
-bool BinarySearchTree<ItemType>::remove(const ItemType & target)
+bool BinarySearchTree<ItemType>::remove(ItemType* target)
 {
-	bool isSuccessful = false;
+    bool isSuccessful = false;
 	rootPtr = _remove(rootPtr, target, isSuccessful);
-	count--; //TODO: Shannon added this
+    if (isSuccessful)
+    {
+        count--;
+    }
 	return isSuccessful;
+}
+
+// remove a node if found based on a different comparison function
+template<class ItemType>
+bool BinarySearchTree<ItemType>::remove(ItemType* target, int(*cmp) (ItemType* argu1, ItemType* argu2))
+{
+    bool isSuccessful = false;
+    rootPtr = _remove(rootPtr, target, isSuccessful, cmp); //call with different internal cmp
+    if (isSuccessful)
+    {
+        count--;
+    }
+    return isSuccessful;
 }
 
 //////////////////////////// private functions ////////////////////////////////////////////
 
 template<class ItemType>
-bool printTree(void(*display)(ItemType item), BinaryNode<ItemType> node)
+bool BinarySearchTree<ItemType>::_printTree(void(*display)(ItemType* item), BinaryNode<ItemType>* node)
 {
-	if (node != null) {
-		printTree(display, node.getLeftPtr());
-		display(node.getItem());
-		printTree(display, node.getRightPtr());
+	if (node != 0) {
+		printTree(display, node->getLeftPtr());
+		display(node->getItem());
+		printTree(display, node->getRightPtr());
 	}
 }
 
@@ -119,7 +147,7 @@ BinaryNode<ItemType>* BinarySearchTree<ItemType>::_insert(BinaryNode<ItemType>* 
 {
 	if (nodePtr == 0)
 		return newNodePtr;
-	else if (compare(nodePtr->getItem(), newNodePtr->getItem()) < 0)
+	else if (compare(nodePtr->getItem(), newNodePtr->getItem()) > 0)
 	{
 		BinaryNode<ItemType>* tempPtr = _insert(nodePtr->getLeftPtr(), newNodePtr);
 		nodePtr->setLeftPtr(tempPtr);
@@ -134,84 +162,106 @@ BinaryNode<ItemType>* BinarySearchTree<ItemType>::_insert(BinaryNode<ItemType>* 
 
 template<class ItemType>
 BinaryNode<ItemType>* BinarySearchTree<ItemType>::_remove(BinaryNode<ItemType>* nodePtr,
-	ItemType target, bool & success)
+	ItemType* target, bool& success)
 {
-	if (nodePtr == 0)
+    if (nodePtr == 0)
 	{
-		success = false;
+        success = false;
 		return 0;
 	}
 	if (compare(nodePtr->getItem(), target) > 0)
-		nodePtr->setLeftPtr(_remove(nodePtr->getLeftPtr(), target, success));
+        nodePtr->setLeftPtr(_remove(nodePtr->getLeftPtr(), target, success));
 	else if (compare(nodePtr->getItem(), target) < 0)
-		nodePtr->setRightPtr(_remove(nodePtr->getRightPtr(), target, success));
+        nodePtr->setRightPtr(_remove(nodePtr->getRightPtr(), target, success));
 	else
 	{
-		nodePtr = deleteNode(nodePtr);
-		success = true;
+        ItemType toDelete;
+        nodePtr = _unlinkNode(nodePtr, toDelete);
+        success = true;
 	}
 	return nodePtr;
 }
 
 template<class ItemType>
-BinaryNode<ItemType>* BinarySearchTree<ItemType>::deleteNode(BinaryNode<ItemType>* nodePtr)
+BinaryNode<ItemType>* BinarySearchTree<ItemType>::_remove(BinaryNode<ItemType>* nodePtr,
+                        ItemType* target, bool& success, int(*cmp) (ItemType* argu1, ItemType* argu2))
 {
-	if (nodePtr->isLeaf())
+    if (nodePtr == 0)
+    {
+        success = false;
+        return 0;
+    }
+    
+    if (cmp(nodePtr->getItem(), target) == 0) //use cmp parameter to compare
+    {
+        ItemType toDelete;
+        nodePtr = _unlinkNode(nodePtr, toDelete);
+        success = true;
+    }
+    else
+    {
+        nodePtr->setLeftPtr(_remove(nodePtr->getLeftPtr(), target, success, cmp));
+        if (!success)
+        {
+            nodePtr->setRightPtr(_remove(nodePtr->getRightPtr(), target, success, cmp));
+        }
+    }
+    
+    return nodePtr;
+}
+
+template<class ItemType>
+BinaryNode<ItemType>* BinarySearchTree<ItemType>::_unlinkNode(BinaryNode<ItemType>* nodePtr, ItemType& toRemove)
+{
+    toRemove = *(nodePtr->getItem()); //Set reference parameter to node that needs to be removed
+    if (nodePtr->isLeaf())
 	{
-		delete nodePtr;
-		nodePtr = 0;
-		return nodePtr;
+		return 0;
 	}
 	else if (nodePtr->getLeftPtr() == 0)
 	{
-		BinaryNode<ItemType>* nodeToConnectPtr = nodePtr->getRightPtr();
-		delete nodePtr;
-		nodePtr = 0;
-		return nodeToConnectPtr;
+		return nodePtr->getRightPtr();
 	}
 	else if (nodePtr->getRightPtr() == 0)
 	{
-		BinaryNode<ItemType>* nodeToConnectPtr = nodePtr->getLeftPtr();
-		delete nodePtr;
-		nodePtr = 0;
-		return nodeToConnectPtr;
+		return nodePtr->getLeftPtr();
 	}
 	else
 	{
-		ItemType newNodeValue;
-		nodePtr->setRightPtr(removeLeftmostNode(nodePtr->getRightPtr(), newNodeValue));
+		ItemType* newNodeValue = new ItemType();
+		nodePtr->setRightPtr(_removeLeftmostNode(nodePtr->getRightPtr(), *newNodeValue));
 		nodePtr->setItem(newNodeValue);
 		return nodePtr;
 	}
+    
 }
 
 template<class ItemType>
-BinaryNode<ItemType>* BinarySearchTree<ItemType>::removeLeftmostNode(BinaryNode<ItemType>* nodePtr,
-                                                                     ItemType & successor)
+BinaryNode<ItemType>* BinarySearchTree<ItemType>::_removeLeftmostNode(BinaryNode<ItemType>* nodePtr,
+                                                                     ItemType& successor)
 {
 	if (nodePtr->getLeftPtr() == 0)
 	{
-		successor = nodePtr->getItem();
-		return deleteNode(nodePtr);
+        return _unlinkNode(nodePtr, successor);
 	}
 	else
 	{
-		nodePtr->setLeftPtr(removeLeftmostNode(nodePtr->getLeftPtr(), successor));
+		nodePtr->setLeftPtr(_removeLeftmostNode(nodePtr->getLeftPtr(), successor));
 		return nodePtr;
 	}
 }
 
 
 template<class ItemType>
-BinaryNode<ItemType>* BinarySearchTree<ItemType>::findNode(BinaryNode<ItemType>* nodePtr,
-                                                           ItemType & target) const
+BinaryNode<ItemType>* BinarySearchTree<ItemType>::_findNode(BinaryNode<ItemType>* nodePtr,
+                                                           ItemType* target) const
 {
 	if (nodePtr == 0)
 		return 0;
-	else if (compare(nodePtr->getItem(), target) > 0)
-		return findNode(nodePtr->getRightPtr(), target);
 	else if (compare(nodePtr->getItem(), target) < 0)
-		return findNode(nodePtr->getLeftPtr(), target);
+		return _findNode(nodePtr->getRightPtr(), target);
+	else if (compare(nodePtr->getItem(), target) > 0)
+		return _findNode(nodePtr->getLeftPtr(), target);
 	else
 		return nodePtr;
 }
