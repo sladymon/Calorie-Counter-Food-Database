@@ -22,8 +22,6 @@
 // constructors
 HashTable::HashTable(){
     sizeTable=0;
-    foodTable=new Bucket[sizeTable];
-    foodList = new Linked_List();
     collisions=0.00;
     load_factor= 0.00;
     empty_nodes=sizeTable*3;
@@ -31,6 +29,8 @@ HashTable::HashTable(){
     empty_buckets=sizeTable;
     full_buckets = 0;
     overflow=0;
+    foodTable=new Bucket[sizeTable];
+    foodList = new Linked_List();
 }
 
 HashTable::HashTable(int size){
@@ -50,7 +50,7 @@ HashTable::HashTable(int size){
 //+ Function Name = insert()
 //
 // Inserts a new Food pointer into the bucket array. If the bucket
-// is full the food will be send it to the overflow output file.
+// is full the food will be send it to the overflow linked list.
 // At the same time keep track of collisions, load factor, full_nodes,
 // full buckets, empty nodes, empty buckets, and overflow items.
 //
@@ -92,13 +92,10 @@ bool HashTable::insert(Food *food){
         full_buckets++;
         
     }else if(position_in_bucket == 3){
-        overflow++;// overflow ++ change variable
-        
-        foodList->insertNode(food);// Insert in the linked list for overload;
-        foodList->displayList(); // ******* Should we delete This???-------------> Displays the Overflow LIST
+        overflow++;
+       // cout << "TESTING: inserting into overflow linked list: " << food->getName() << endl;
+        foodList->insertNode(food);
         cout <<endl;
-        
-        return false;// never returning false is in the LL
     }
     return true;
 }
@@ -111,7 +108,7 @@ bool HashTable::insert(Food *food){
 // @Parameter       : string name
 // @Return          : int
 //* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-int HashTable::hashed_Index (string name){
+int HashTable::hashed_Index(string name){
     
     int size=7;
     long int sum = 0;
@@ -148,7 +145,11 @@ void HashTable::print_Table(){
         
         foodTable[i].print_Items_in_Bucket();
     }
+    foodList->displayList();
 }
+
+
+//FIXME: What is this, and why doesn't it match the name?  What uses this???
 
 //* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 //+ Function Name = hashed_Index()
@@ -176,10 +177,11 @@ void HashTable::print_Indented_Items_with_Index_from_Bucket(){
     
     for (int i=0; i < sizeTable ; i++) {
         
-        cout << "\tIndex " << i << " : ";
+        cout << "Index " << i << " : ";
         foodTable[i].print_Indented_Items_from_bucket();
         cout << endl;
     }
+    foodList->displayList();
 }
 
 //* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -191,7 +193,7 @@ void HashTable::print_Indented_Items_with_Index_from_Bucket(){
 // @Parameter       : Food& find_food
 // @Return          : bool
 //* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-bool HashTable::find_Item (Food& find_food){
+bool HashTable::find_Item(Food& find_food){
 
     int index;
     bool found;
@@ -226,16 +228,19 @@ void HashTable::statistics (){
     non_empty = total_nodes-sizeTable;
     double average = collisions/load_factor;
     
+    //FIXME: Add a total number of items in table
     
-    cout<< "\n\tTotal Nodes        : "<<total_nodes<< endl;
-    cout<< "\tFull Nodes         : "<< full_nodes << endl;
-    cout<< "\tEmpty Nodes        : "<< empty_nodes <<endl;
+    cout << "Hash Table Statistics" << endl;
+    cout <<"\tHash Table Size    : " << sizeTable << endl;
+    cout<< "\tTotal Nodes        : "<<total_nodes<< endl;
+    cout<< "\tFilled Nodes       : "<< full_nodes << endl;  //FIXME: What is this?
+    cout<< "\tEmpty Nodes        : "<< empty_nodes <<endl;  //FIXME: WHat is this?
     cout<< "\tCollisions         : " << collisions << endl;
     cout<< "\tLoad Factor        : " << (load_factor*100)/sizeTable << " %"<< endl;
-    cout<< "\tFullfill Buckets   : "<< load_factor << endl;
+    //cout<< "\tFulFill Buckets    : "<< load_factor << endl;  //FIXME: What is this? change name
     cout<< "\tFull  Buckets      : "<< full_buckets <<endl;
     cout<< "\tEmpty Buckets      : "<< empty_buckets <<endl;
     cout<< "\tOverflow           : "<< overflow << endl;
-    cout<<" \tAvg at buckets index 1 or 2 : "<<fixed << setprecision(2)<<average<<endl;
+    cout<<" \tAvg buckets index 1 or 2 : "<<fixed << setprecision(2)<<average<<endl;
 
 }

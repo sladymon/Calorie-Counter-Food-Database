@@ -82,10 +82,11 @@ int compareBSTSecondary(Food* food1, Food* food2)
 
 CalorieCounterFoodDatabase::CalorieCounterFoodDatabase()
 {
-	this->hashSize = 0;
+	this->hashSize = 10; //FIXME: Change this later to work with determinehashsize, etc. (possibly overload)
 	this->inputCounter = 0;
 	primaryBST = new BinarySearchTree<Food>(compareBST);
 	secondaryBST = new BinarySearchTree<Food>(compareBSTSecondary);
+    hash = new HashTable(hashSize);
 }
 
 CalorieCounterFoodDatabase::~CalorieCounterFoodDatabase()
@@ -173,7 +174,7 @@ bool CalorieCounterFoodDatabase::readFile(const char* fileName)
 		Food* foodObj = new Food(fName, fCatagery, amount, calories, fiber, sugar, protein, fat);
 		primaryBST->insert(foodObj);
 		secondaryBST->insert(foodObj);
-        //TODO: add Hash
+        hash->insert(foodObj);
 
 	}
 	return true;
@@ -212,7 +213,7 @@ void CalorieCounterFoodDatabase::menu()
 			break;
 		case 'W':  cout << "TODO: Call writeToOutPutFile\n";
 			break;
-		case 'G': cout << "TODO: Call statistics\n";
+		case 'G': hash->statistics();
 			break;
 		case 'H': displayMenu();
 			break;
@@ -274,11 +275,10 @@ void CalorieCounterFoodDatabase::insertManager()
 	Food* food = new Food(name, category, amount, calories, fiber, sugar, protein, fat);
 	primaryBST->insert(food);
     secondaryBST->insert(food);
+    hash->insert(food);
+    
 
 	cout << "TESTING: Size: " << primaryBST->size() << endl;
-
-
-	//TODO: should call insert on hash
 
 }
 
@@ -291,45 +291,42 @@ bool CalorieCounterFoodDatabase::deleteManager()
 	getline(cin, name);
 
     Food* toSearch = new Food();
-    Food* toDelete = new Food();
 	toSearch->setName(name);
     
     //TODO: search for item first, and get the category so can delete in secondary
     //for now, use primaryBST, but change to hash in the future
-    
-    
-    if(!primaryBST->getEntry(toSearch, *toDelete))
+
+    if(!hash->find_Item(*toSearch))
     {
         cout << "Unable to find " << name << ", so it cannot be removed" << endl;
         return false;
     }
 
-	if (!primaryBST->remove(toDelete))
+	if (!primaryBST->remove(toSearch))
     {
         cout << "Unable to remove " << name << endl;
         return false;
     }
     
-    if(!secondaryBST->remove(toDelete, compareBST))  //FIXME: Why doesn't this crash when trying to delete actual item again?
+    if(!secondaryBST->remove(toSearch, compareBST))  //FIXME: Why doesn't this crash when trying to delete actual item again?
     {
         cout << "Unable to remove " << name << endl;
         return false;
     }
     
-    //TODO: should call delete on hash
+        
+    //TODO: DELETE IN HASH
     
     cout << name << " was successfully deleted" << endl;
 
 	cout << "TESTING: Size: " << primaryBST->size() << endl;
     
     delete toSearch;
-    delete toDelete;
-    
     return true;
 }
 
-//FIXME: Search by category works incorreclty
-//Shuti
+
+//Shuti - rewrite this
 void CalorieCounterFoodDatabase::searchManager() const
 {
 	string name;
@@ -339,17 +336,35 @@ void CalorieCounterFoodDatabase::searchManager() const
 	getline(cin, searchType);
 	Food* toSearch = new Food();
 	Food* toReturn = new Food();
+    
+
+    
 	if (searchType == "N" || searchType == "n")
 	{
 		cout << "Enter the food name to search for: ";
 		getline(cin, name);
 		toSearch->setName(name);
+        
+        //FIXME: Testing search with hash
+        if (hash->find_Item(*toSearch))
+        {
+            cout << "TESTING: Found item in hash: " << endl;
+            toSearch->displayFood();
+        }
+        else
+        {
+            cout << "TESTING: did NOT find item in hash: " << endl;
+        }
+        
+        
+        
 		if(!primaryBST->getEntry(toSearch, *toReturn))
         {
             cout << "Could not find " << name << endl;
         }
         else
         {
+            cout << "TESTING: Found item in primaryBST: " << endl;
             toReturn->displayFood();
         }
 	}
@@ -383,6 +398,7 @@ void CalorieCounterFoodDatabase::listManager() const
 {
 	primaryBST->printTreeAsIndentedList(displayIndentedNode);
     secondaryBST->printTreeAsIndentedList(displayIndentedNode);
+    hash->print_Indented_Items_with_Index_from_Bucket();
 
 	//TODO: add in rest of list manager
 }

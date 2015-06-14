@@ -33,26 +33,21 @@ Linked_List::Linked_List() // dummy node
 
 void Linked_List::displayList() const
 {
+    cout << "Overflow Linked List (" << count << " items in list): " << endl;
     ListNode *nodePtr;  // To move through the list
     
     // Position nodePtr at the head of the list.
     nodePtr = head->next;
     
-    cout << "Overload - Food " << endl;
-    
     // While nodePtr points to a node, traverse the list.
     while (nodePtr)
     {
-        string toy  = nodePtr->food->getName();
-        
         // Display the value in this node in columns.
-        cout << toy<< endl;
+        cout << nodePtr->food->getName() << endl;
         
         // Move to the next node.
         nodePtr = nodePtr->next;
     }
-    
-    cout<< "\nTotal in Overload : " << count << endl;
 }
 
 //**************************************************
@@ -71,10 +66,8 @@ bool Linked_List::searchNode(Food &foodData)
     nodePtr = head->next;
     
     if (nodePtr==0) {
-        cout << "Empty" <<endl;
-    }
-    if (nodePtr!=0) {
-        cout << "TESTING SEARCH : "; /// delete
+        //cout << "Empty" <<endl;
+        return false;
     }
     
      // Skip all nodes that doesn't matches code of nodeData
@@ -83,14 +76,12 @@ bool Linked_List::searchNode(Food &foodData)
         // Move to the next node
         nodePtr = nodePtr->next;
     }
-    
-    // If nodePtr is NULL (not found)
    
     if (!nodePtr)
         return false;
     
     // Load nodeData with data from the found node
-    foodData = *nodePtr->food;
+    foodData = *(nodePtr->food);
     
     return true;
 }

@@ -39,15 +39,23 @@ public:
     //
     ~Bucket(); // delete each *
     
-    // mutators
-    void set_count(int count) { this->count = count;}
-    int insert_Items_in_Bucket(Food *food);
-    void print_Items_in_Bucket();  
-    void print_Indented_Items_from_bucket();
-    bool find_Item_in_Bucket(Food& find_food);
-    
     // accessors
     int get_count() const	 {return count;}
+    
+    // mutators
+    void set_count(int count) { this->count = count;}
+    
+    // insert food pointer into bucket
+    int insert_Items_in_Bucket(Food *food);
+    
+    // find an item and modify the reference parameter with its details
+    bool find_Item_in_Bucket(Food& find_food);
+    
+    // print functions
+    void print_Items_in_Bucket();  
+    void print_Indented_Items_from_bucket();
+
+
 
 };
 

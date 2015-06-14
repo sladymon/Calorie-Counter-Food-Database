@@ -43,7 +43,7 @@ public:
     
     // Destructor
     ~HashTable(){
-        delete []foodTable;
+        delete []foodTable;  //FIXME: Is this the correct destructor?
         delete foodList;
     }
     
@@ -55,7 +55,7 @@ public:
     void set_empty_buckets(int empty_buckets) {this->empty_buckets = empty_buckets;}
     void set_full_nodes(int full_nodes) {this->full_nodes = full_nodes;}
     void set_full_buckets(int full_buckets) {this->full_buckets = full_buckets;}
-    void set_overflow(int rejected) {this->overflow = overflow;}  //FIXME: This is incorrect
+    void set_overflow(int overflow) {this->overflow = overflow;}
     
     // accessors
     float get_collision() const {return collisions;}
@@ -69,8 +69,8 @@ public:
     
     
     int hashed_Index (string name);
-    bool insert(Food *food);
-    void print_Table ();
+    bool insert(Food* food);
+    void print_Table();
     void print_Items_in_Bucket();
     void print_Indented_Items_with_Index_from_Bucket();
     bool find_Item (Food& find_food);

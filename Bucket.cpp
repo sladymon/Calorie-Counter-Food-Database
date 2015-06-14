@@ -16,7 +16,8 @@
 #include <cstring>
 #include <string>
 
-const string outputFileURL= "/Users/wendymartell/Dropbox/COLLEGE/CLASSES/Q Spring 2015/22C/Asigmments/HMK_5/HMK_5/Toys_Output.txt";
+//FIXME: Delete this
+//const string outputFileURL= "/Users/wendymartell/Dropbox/COLLEGE/CLASSES/Q Spring 2015/22C/Asigmments/HMK_5/HMK_5/Toys_Output.txt";
 
 using namespace std;
 
@@ -61,17 +62,17 @@ int Bucket::insert_Items_in_Bucket(Food *food){
         
         if (count == 0){
             bucket_Array[count] = food;
-            count ++;
+            count++;
             bucket_position = 0;
             
         }else if(count == 1) {
             bucket_Array[count] = food;
-            count ++;
+            count++;
             bucket_position = 1;
         
         }else if(count == 2) {
             bucket_Array[count] = food;
-            count ++;
+            count++;
             bucket_position = 2;
         }
     }else{
@@ -108,20 +109,23 @@ void Bucket::print_Items_in_Bucket(){
 void Bucket::print_Indented_Items_from_bucket(){
     
     if (count == 0) {
-        cout << "Empty Bucket.\n";
+        cout << "//Empty Bucket";
     }
+    //FIXME: Change this to else?
     
     for(int i=0; i< count; i++){
         if (i==0){
-            cout << bucket_Array[i]->getName()<< endl;
+            cout << bucket_Array[i]->getName();
         
         }if (i>=1){
         
-            cout << "\t\t\t\t\t"<<bucket_Array[i]->getName()<< endl;
+            cout << "\n\t\t\t\t"<<bucket_Array[i]->getName();
         }
         
     }
 }
+
+//FIXME: Modify to change the reference parameter
 
 //* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 //+ Function Name = find_Item_in_Bucket()
@@ -134,13 +138,11 @@ void Bucket::print_Indented_Items_from_bucket(){
 bool Bucket::find_Item_in_Bucket(Food& find_food){
     
     string search_name = find_food.getName();
-    
     string cutName = search_name.substr(0,5);
     
     for(int i=0; i< count; i++){
-        
-        if(bucket_Array[i]->getName() == cutName){
-            bucket_Array[i]->displayFood();
+        if(bucket_Array[i]->getName().substr(0,5) == cutName){
+            find_food = *(bucket_Array[i]);
             return true;
         }
     }
