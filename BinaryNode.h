@@ -1,6 +1,14 @@
-// Node for a binary tree
-// Created by: Deepika Metkar
+
+//*********************************************************************
+//                          BINARY NODE CLASS
+// Author: Deepika Metkar
 // Modified by: Shannon Ladymon
+// Description: BinaryNode is a node for use with BinaryTree and
+//              BinarySearchTree.  It is templated to work with any
+//              class.  It contains a pointer data item of that class
+//              and two BinaryNode pointers for its children.
+//
+//*********************************************************************
 
 #ifndef _BINARY_NODE
 #define _BINARY_NODE
@@ -9,7 +17,7 @@ template<class ItemType>
 class BinaryNode
 {
 private:
-	ItemType*              item;         // Data portion
+	ItemType*              item;        // Pointer to data of ItemType class
 	BinaryNode<ItemType>* leftPtr;		// Pointer to left child
 	BinaryNode<ItemType>* rightPtr;		// Pointer to right child
 
@@ -23,7 +31,7 @@ public:
 	BinaryNode(ItemType* anItem, BinaryNode<ItemType>* left, BinaryNode<ItemType>* right)
 	{item = anItem; leftPtr = left; rightPtr = right;}
 
-	//accessors
+	// accessors
 	ItemType* getItem() const
 	{return item;}
 
@@ -33,11 +41,7 @@ public:
 	BinaryNode<ItemType>* getRightPtr() const
 	{return rightPtr;}
 
-	bool isLeaf() const
-	{return (leftPtr == 0 && rightPtr == 0);}
-    
-    
-    //mutators
+    // mutators
     void setItem(ItemType* anItem)
     {item = anItem;}
     
@@ -46,6 +50,10 @@ public:
     
     void setRightPtr(BinaryNode<ItemType>* right)
     {rightPtr = right;}
+    
+    // determines if a node has any children
+	bool isLeaf() const
+	{return (leftPtr == 0 && rightPtr == 0);}
 };
 
 #endif
