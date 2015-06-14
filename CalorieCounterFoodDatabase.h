@@ -55,7 +55,9 @@ public:
 	void listManager() const;
 
 	//hash functions
-	int determineHashSize(int inputCounter);//FIXME: inputCounter is not needed if in class, correct?
+	int determineHashSize(const char* fileName);//FIXME: inputCounter is not needed if in class, correct?
+	bool isPrime(int inputCounter);
+	int nextPrime(int size);
 	void rehashing();
 
 };

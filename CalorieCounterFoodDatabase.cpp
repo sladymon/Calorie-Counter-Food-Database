@@ -330,18 +330,24 @@ bool CalorieCounterFoodDatabase::deleteManager()
 void CalorieCounterFoodDatabase::searchManager() const
 {
 	string name;
-	string searchType;
+	string choiceStr;
+	char choice;
 	
-	cout << "Do you want to search with name or category. Enter N for name and C for category : ";
-	getline(cin, searchType);
+	do{
+		cout << "Search item: \n"
+			 << "     Search with Primary key(by name) or Secondary key(by category).\n"
+			 << "     Enter P for primary and S for secondary : ";
+		getline(cin, choiceStr);
+		choice = toupper(choiceStr[0]);
+
+	} while (choice != 'P' && choice != 'S');
+    
 	Food* toSearch = new Food();
 	Food* toReturn = new Food();
-    
-
-    
-	if (searchType == "N" || searchType == "n")
+	
+	if (choice == 'P')
 	{
-		cout << "Enter the food name to search for: ";
+		cout << "Enter the food name(P) to search for: ";
 		getline(cin, name);
 		toSearch->setName(name);
         
@@ -354,11 +360,9 @@ void CalorieCounterFoodDatabase::searchManager() const
         else
         {
             cout << "TESTING: did NOT find item in hash: " << endl;
-        }
+        }   
         
-        
-        
-		if(!primaryBST->getEntry(toSearch, *toReturn))
+		/*if(!primaryBST->getEntry(toSearch, *toReturn))
         {
             cout << "Could not find " << name << endl;
         }
@@ -366,11 +370,11 @@ void CalorieCounterFoodDatabase::searchManager() const
         {
             cout << "TESTING: Found item in primaryBST: " << endl;
             toReturn->displayFood();
-        }
+        }*/
 	}
-	else if (searchType == "C" || searchType == "c") //FIXME: How should this work? What should it print?  Not a single item, but all items
+	else if (choice == 'S') //FIXME: How should this work? What should it print?  Not a single item, but all items
 	{
-		cout << "Enter the food category to search for: ";
+		cout << "Enter the food category(S) to search for: ";
 		getline(cin, name);
 		toSearch->setCategory(name);
 		if(!secondaryBST->getEntry(toSearch, *toReturn))
@@ -396,18 +400,76 @@ void CalorieCounterFoodDatabase::searchManager() const
 //Shuti
 void CalorieCounterFoodDatabase::listManager() const
 {
+	cout << "Display food: " << endl;
+	cout << "Print the hash table unsorted: \n";
+	hash->print_Items_in_Bucket();
+	cout << "Print the primaryBST: \n";
 	primaryBST->printTreeAsIndentedList(displayIndentedNode);
+	cout << "Print the secondaryBST: \n";
     secondaryBST->printTreeAsIndentedList(displayIndentedNode);
+	cout << "Print the hash table in indended order: \n";
     hash->print_Indented_Items_with_Index_from_Bucket();
 
 	//TODO: add in rest of list manager
 }
 
 //Shuti
-int CalorieCounterFoodDatabase::determineHashSize(int inputCounter)
+int CalorieCounterFoodDatabase::determineHashSize(const char* fileName)
 {
-	cout << "Determine Hash Size called" << endl;
-	return 0;
+	int inputCounter = 0;
+	ifstream inFile("foodInput.txt");
+	string temp;
+
+	inFile.open(INPUT_FILE);
+	if (!inFile)
+	{
+		cout << "Error opening \'foodInput.txt\' File!\n";
+		return false;
+	}
+
+	if (inFile.eof())
+	{
+		cout << "File is empty" << endl;
+		return false;
+	}
+	
+	while (getline(inFile, temp))
+	{
+		inputCounter++;
+	}
+	inFile.clear();
+	inFile.seekg(0, inFile.beg);
+	
+
+	return isPrime(inputCounter);
+	/*cout << "Determine Hash Size called" << endl;
+	return 0;*/
+}
+// 
+bool CalorieCounterFoodDatabase::isPrime(int inputCounter)
+{
+	int divisor = 6;
+	if (inputCounter == 2 || inputCounter == 3) 
+		return true;
+	if (inputCounter % 2 == 0 || inputCounter % 3 == 0)
+		return false;
+	while (divisor * divisor - 2 * divisor + 1 <= inputCounter)
+	{
+		if (inputCounter % (divisor - 1))
+			return false;
+		if (inputCounter % (divisor + 1))
+			return false;
+			divisor += 6;
+	}
+	return true;
+
+} 
+// 
+int CalorieCounterFoodDatabase::nextPrime(int size)
+{
+	while (!isPrime(++size))
+
+	return size;    // size is the hash size; which is the prime number
 }
 
 //TODO: Write this
