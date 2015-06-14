@@ -87,8 +87,8 @@ void BinaryTree<ItemType>::_destroyTree(BinaryNode<ItemType>* nodePtr)
 {
 	if (nodePtr != 0)
 	{
-		destroyTree(nodePtr->getLeftPtr());
-		destroyTree(nodePtr->getRightPtr());
+		_destroyTree(nodePtr->getLeftPtr());
+		_destroyTree(nodePtr->getRightPtr());
 		delete nodePtr;
 	}
 }
