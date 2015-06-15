@@ -1,10 +1,14 @@
+//*********************************************************************
+//                              HASH TABLE CLASS
 //
-//  HashTable.cpp
-//  HMK_5
+// Author: Wendy Martell
+// Description: HashTable contains a dynamically allocated array of
+//              Buckets in which to store Food pointers, and a
+//              dynamically allocated linked list for any overflow
+//              It also contains numerous data items to track
+//              statistics for the hash table, such as collisions.
 //
-//  Created by Wendy Martell on 6/10/15.
-//  Copyright (c) 2015 ___MARTELL___. All rights reserved.
-//
+//*********************************************************************
 
 #include "HashTable.h"
 #include "Food.h"
@@ -17,7 +21,6 @@
 #include <iomanip>
 #include <cctype>
 
-//Author: Wendy Martell
 
 // constructors
 HashTable::HashTable(){

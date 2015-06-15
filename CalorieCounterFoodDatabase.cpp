@@ -1,4 +1,15 @@
-//Author: Shannon Ladymon
+//*********************************************************************
+//                  CALORIE COUNTER FOOD DATABASE CLASS
+//
+// Author: Shannon Ladymon, Deepika Metkar, Shuti Wang
+// Description: CalorieCounterFoodDatabase maintains a database of food
+//              objects in three data structures: a BinarySearchTree
+//              based on food names (primary, unique key), a
+//              BinarySearchTree based on food categories (secondary,
+//              non-unique key), and a HashTable based on food names.
+//
+//*********************************************************************
+
 #include "CalorieCounterFoodDatabase.h"
 #include <string>
 #include <iostream>
@@ -15,8 +26,8 @@
 
 using namespace std;
 
-const string INPUT_FILE = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/foodInput.txt";
-//const string INPUT_FILE = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/foodInput.txt";
+//const string INPUT_FILE = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/foodInput.txt";
+const string INPUT_FILE = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/foodInput.txt";
 //const string INPUT_FILE = "D:\\foodInput.txt";
 
 
@@ -38,9 +49,10 @@ int main()
 }
 
 //*********************************************************************
-// displayIndentedNode - Displays student ID and level, indented with
+// Author - Shannon Ladymon
+// displayIndentedNode - Displays food name, indented with
 //		tabs dependent on level.  Is passed to BST functions
-// @param anItem - Student object to be displayed
+// @param anItem - pointer to Food to be displayed
 // @param level - current level of tree
 //*********************************************************************
 void displayIndentedNode(Food* anItem, int level)
@@ -52,7 +64,13 @@ void displayIndentedNode(Food* anItem, int level)
     cout << level + 1 << ". " << anItem->getName() << endl;
 }
 
-//Author: Deepika Metkar
+//*********************************************************************
+// Author - Deepika Metkar
+// compareBST - a comparison function to work with the primary key, name
+// @param food1 - a pointer to the first food to compare
+// @param food2 - a pointer to the second food to compare
+// @return - 1 if food1 is greater; 0 if equal; -1 if food1 is less
+//*********************************************************************
 int compareBST(Food* food1, Food* food2)
 {
     if (food1->getName() > food2->getName())
@@ -66,7 +84,14 @@ int compareBST(Food* food1, Food* food2)
     return 0;
 }
 
-//Author: Deepika Metkar
+//*********************************************************************
+// Author - Deepika Metkar
+// compareBSTSecondary - a comparison function to work with the
+//          secondary key, category
+// @param food1 - a pointer to the first food to compare
+// @param food2 - a pointer to the second food to compare
+// @return - 1 if food1 is greater; 0 if equal; -1 if food1 is less
+//*********************************************************************
 int compareBSTSecondary(Food* food1, Food* food2)
 {
     if (food1->getCategory() > food2->getCategory())
@@ -80,6 +105,12 @@ int compareBSTSecondary(Food* food1, Food* food2)
     return 0;
 }
 
+//*********************************************************************
+// Author - Shannon Ladymon
+// Constructor - initializes the hashSize and inputCounter, and
+//          dynamically allocates the primaryBST, secondaryBST, and
+//          hash.
+//*********************************************************************
 CalorieCounterFoodDatabase::CalorieCounterFoodDatabase()
 {
 	this->hashSize = 10; //FIXME: Change this later to work with determinehashsize, etc. (possibly overload)
@@ -94,7 +125,13 @@ CalorieCounterFoodDatabase::~CalorieCounterFoodDatabase()
     //TODO: Determine what should go here and how/where things should be deleted
 }
 
-//Author: Deepika Metkar
+//*********************************************************************
+// Author - Deepika Metkar
+// inputFoodToOutputString - converts information from a Food pointer
+//          to a string with the data
+// @param food - the Food pointer to get the information from
+// @return - the string with all information on the food
+//*********************************************************************
 string CalorieCounterFoodDatabase::inputFoodToOutputString(Food* food)
 {
 	stringstream calories, fat, fiber, protein, sugar;
@@ -106,6 +143,48 @@ string CalorieCounterFoodDatabase::inputFoodToOutputString(Food* food)
 
 	return food->getName() + "," + food->getCategory() + "," + calories.str() + "," + fat.str() + "," + fiber.str() + ","
 		+ protein.str() +"," + sugar.str();
+}
+
+
+//*********************************************************************
+// Author - Deepika Metkar, Shannon Ladymon
+// inputStringToFood - converts an input string into a food object
+// @param input - string with the information for a new food item
+// @return - true for tree being printed
+//*********************************************************************
+Food* CalorieCounterFoodDatabase::inputStringToFood(string input)
+{
+   //FIXME: add a check for incorrect input?
+    string token;
+    string fName;
+    string fCatagery;
+    int amount;
+    int calories;
+    int fiber;
+    int sugar;
+    int protein;
+    int fat;
+    istringstream ss(input);
+    
+    getline(ss, token, ';');
+    fName = token;
+    getline(ss, token, ';');
+    fCatagery = token;
+    getline(ss, token, ';');
+    amount = std::stoi(token);
+    getline(ss, token, ';');
+    calories = std::stoi(token);
+    getline(ss, token, ';');
+    fiber = std::stoi(token);
+    getline(ss, token, ';');
+    sugar = std::stoi(token);
+    getline(ss, token, ';');
+    protein = std::stoi(token);
+    getline(ss, token, ';');
+    fat = std::stoi(token);
+    
+    Food* foodObj = new Food(fName, fCatagery, amount, calories, fiber, sugar, protein, fat);
+    return foodObj;
 }
 
 //FIXME: What is this?  Do I need this?
@@ -120,22 +199,17 @@ void printToFile(Food* food)
 }
 */
 
-//Author: Deepika Metkar & Shannon Ladymon
+//*********************************************************************
+// Author - Deepika Metkar, Shannon Ladymon
+// readFile - reads a file of data for food, creates food objects,
+//          and inserts them in the data structures
+// @param fileName - the name of the file to be read
+// @return - true if able to read file and if not empty
+//*********************************************************************
 bool CalorieCounterFoodDatabase::readFile(const char* fileName)
 {
 	ifstream inFile;
-	string fName;
-	string fCatagery;
-	int amount;
-	int calories;
-	int fiber;
-	int sugar;
-	int protein;
-	int fat;
 
-
-	// Open file to read, if couldn't open, display error
-	// and exit with false
 	inFile.open(INPUT_FILE);
 	if (!inFile)
 	{
@@ -148,30 +222,13 @@ bool CalorieCounterFoodDatabase::readFile(const char* fileName)
 		cout << "File is empty" << endl;
 		return false;
 	}
-	string temp;
-	string token;
+	
+    string temp;
 	while (getline(inFile, temp))
 	{
-		istringstream ss(temp);
-
-		getline(ss, token, ';');
-		fName = token;
-		getline(ss, token, ';');
-		fCatagery = token;
-		getline(ss, token, ';');
-		amount = std::stoi(token);
-		getline(ss, token, ';');
-		calories = std::stoi(token);
-		getline(ss, token, ';');
-		fiber = std::stoi(token);
-		getline(ss, token, ';');
-		sugar = std::stoi(token);
-		getline(ss, token, ';');
-		protein = std::stoi(token);
-		getline(ss, token, ';');
-		fat = std::stoi(token);
-
-		Food* foodObj = new Food(fName, fCatagery, amount, calories, fiber, sugar, protein, fat);
+        Food* foodObj = inputStringToFood(temp);
+        
+        //FIXME: Add a check for unique item
 		primaryBST->insert(foodObj);
 		secondaryBST->insert(foodObj);
         hash->insert(foodObj);
@@ -188,6 +245,11 @@ bool CalorieCounterFoodDatabase::writeToOutputFile(const char* fileName)
 }
 
 
+//*********************************************************************
+// Author - Shannon Ladymon
+// menu - a menu which allows users to enter choices for actions until
+//          quitting
+//*********************************************************************
 void CalorieCounterFoodDatabase::menu()
 {
 	string choiceStr;
@@ -228,6 +290,10 @@ void CalorieCounterFoodDatabase::menu()
 	}
 }
 
+//*********************************************************************
+// Author - Shannon Ladymon
+// displayMenu - a listing of the menu options
+//*********************************************************************
 void CalorieCounterFoodDatabase::displayMenu() const
 {
 	cout << "Menu Options" << endl
@@ -241,6 +307,10 @@ void CalorieCounterFoodDatabase::displayMenu() const
 		<< "Q - Quit" << endl;
 }
 
+//*********************************************************************
+// Author - Shuti Wang
+// displayListMenu - a listing of the list menu options
+//*********************************************************************
 void CalorieCounterFoodDatabase::displayListMenu() const
 {
 	cout << "List menu Options" << endl
@@ -249,7 +319,6 @@ void CalorieCounterFoodDatabase::displayListMenu() const
 		<< "P - List data sorted by the primary key" << endl
 		<< "S - List data sorted by the secondary key" << endl
 		<< "H - Display main menu again" << endl;
-	
 }
 
 
@@ -408,7 +477,10 @@ void CalorieCounterFoodDatabase::searchManager() const
 
 
 
-//Shuti
+//*********************************************************************
+// Author - Shuti Wang
+// listManager - 
+//*********************************************************************
 void CalorieCounterFoodDatabase::listManager() const
 {
 	string name;
@@ -521,7 +593,7 @@ bool CalorieCounterFoodDatabase::isPrime(int inputCounter)
 // 
 int CalorieCounterFoodDatabase::nextPrime(int size)
 {
-	while (!isPrime(++size))
+	//while (!isPrime(++size))
 
 	return size;    // size is the hash size; which is the prime number, find place to return
 }

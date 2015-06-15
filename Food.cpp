@@ -1,4 +1,14 @@
-//Author: Shannon Ladymon
+//*********************************************************************
+//                              FOOD CLASS
+//
+// Author: Shannon Ladymon
+// Description: Food is a class that contains information about a food
+//              item, including name (primary, unique key), category
+//              (secondary, non-unique key), and information about the
+//              calories and nutrition.
+//
+//*********************************************************************
+
 #include "Food.h"
 #include <string>
 #include <iostream>

@@ -1,10 +1,11 @@
+//*********************************************************************
+//                              BUCKET CLASS
 //
-//  Bucket.h
-//  HMK_5
+// Author: Wendy Martell
+// Description: Bucket contains a count of items in the bucket and an
+//              array of 3 pointers to Food objects.
 //
-//  Created by Wendy Martell on 6/10/15.
-//  Copyright (c) 2015 ___MARTELL___. All rights reserved.
-//
+//*********************************************************************
 
 #ifndef HMK_5_Bucket_h
 #define HMK_5_Bucket_h
@@ -15,14 +16,6 @@
 #include <cstring>
 #include <string>
 
-//Author: Wendy Martell
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-//                      BUCKET CLASS
-//
-//  This is Bucket Class which holds all the data need it in order
-//  to create a new Bucket object to host the food pointer in it.
-//
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 using namespace std;
 

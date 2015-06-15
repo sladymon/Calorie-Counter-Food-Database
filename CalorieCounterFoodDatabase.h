@@ -1,4 +1,14 @@
-//Author: Shannon Ladymon
+//*********************************************************************
+//                  CALORIE COUNTER FOOD DATABASE CLASS
+//
+// Author: Shannon Ladymon, Deepika Metkar, Shuti Wang
+// Description: CalorieCounterFoodDatabase maintains a database of food
+//              objects in three data structures: a BinarySearchTree
+//              based on food names (primary, unique key), a
+//              BinarySearchTree based on food categories (secondary,
+//              non-unique key), and a HashTable based on food names.
+//
+//*********************************************************************
 
 #ifndef CALORIECOUNTERFOODDATABASE_H_
 #define CALORIECOUNTERFOODDATABASE_H_
@@ -45,6 +55,7 @@ public:
 	bool readFile(const char* fileName);
 	bool writeToOutputFile(const char* fileName);
     string inputFoodToOutputString(Food* food);
+    Food* inputStringToFood(string input);
 
 	//menu and option manager functions
 	void menu();

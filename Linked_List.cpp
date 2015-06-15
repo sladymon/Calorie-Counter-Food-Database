@@ -1,22 +1,25 @@
+//*********************************************************************
+//                              LINKED LIST CLASS
 //
+// Author: Wendy Martell
+// Description: LinkedList is a singlely-linked list with a dummy node
+//              which contains a pointer the the head of the list, a
+//              count of items in the list, and ListNodes, which each
+//              hold a Food pointer and a pointer to the next item in
+//              the list.
 //
-//  Created by Wendy Martell on 6/10/15.
-//  Copyright (c) 2015 ___MARTELL___. All rights reserved.
-//
-// Implementation file for the FoodList Overfloww from the hashtable
+//*********************************************************************
+
 #include <iostream>  // For cout and NULL
 #include <iomanip>   // For setw()
 #include <string>
 #include <cstring>   // For strcmp()
 #include "Linked_List.h"
 #include "Food.h"
-
-//Author: Wendy Martell
-
 using namespace std;
 
 //**************************************************
-// Constructor                                     *
+// Constructor                                     
 //**************************************************
 Linked_List::Linked_List() // dummy node
 {

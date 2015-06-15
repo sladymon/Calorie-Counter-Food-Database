@@ -1,12 +1,12 @@
+//*********************************************************************
+//                              BUCKET CLASS
 //
-//  Bucket.cpp
-//  HMK_5
+// Author: Wendy Martell
+// Description: Bucket contains a count of items in the bucket and an
+//              array of 3 pointers to Food objects.
 //
-//  Created by Wendy Martell on 6/10/15.
-//  Copyright (c) 2015 ___MARTELL___. All rights reserved.
-//
+//*********************************************************************
 
-//Author: Wendy Martell 
 #include "Bucket.h"
 #include "Food.h"
 #include "HashTable.h"
@@ -145,6 +145,8 @@ bool Bucket::find_Item_in_Bucket(Food& find_food){
     }
     return false;
 }
+
+//FIXME: Check this function and j
 
 //* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 //+ Function Name = delete_Item_in_Bucket()

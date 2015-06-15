@@ -1,9 +1,14 @@
+//*********************************************************************
+//                              LINKED LIST CLASS
 //
+// Author: Wendy Martell
+// Description: LinkedList is a singlely-linked list with a dummy node
+//              which contains a pointer the the head of the list, a
+//              count of items in the list, and ListNodes, which each
+//              hold a Food pointer and a pointer to the next item in
+//              the list.
 //
-//  Created by Wendy Martell on 6/10/15.
-//  Copyright (c) 2015 ___MARTELL___. All rights reserved.
-//
-// Specification file for the LinkedList class
+//*********************************************************************
 
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
