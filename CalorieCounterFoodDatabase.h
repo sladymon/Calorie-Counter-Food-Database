@@ -49,6 +49,7 @@ public:
 	//menu and option manager functions
 	void menu();
 	void displayMenu() const;
+	void displayListMenu() const;
 	void insertManager();
 	bool deleteManager();
 	void searchManager() const;
@@ -59,6 +60,10 @@ public:
 	bool isPrime(int inputCounter);
 	int nextPrime(int size);
 	void rehashing();
+	void display_Indented_Hash() const;
+	void display_Unsorted_Hash() const;
+	void display_Primary_key() const;
+	void display_Secondary_key() const;
 
 };
 

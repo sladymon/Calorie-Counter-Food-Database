@@ -241,6 +241,17 @@ void CalorieCounterFoodDatabase::displayMenu() const
 		<< "Q - Quit" << endl;
 }
 
+void CalorieCounterFoodDatabase::displayListMenu() const
+{
+	cout << "List menu Options" << endl
+		<< "I - Special print, as an indented list" << endl
+		<< "U - List unsorted data." << endl
+		<< "P - List data sorted by the primary key" << endl
+		<< "S - List data sorted by the secondary key" << endl
+		<< "H - Display main menu again" << endl;
+	
+}
+
 
 
 //FIXME: Add options: Enter food individually, enter line of food, enter file of foods
@@ -400,17 +411,60 @@ void CalorieCounterFoodDatabase::searchManager() const
 //Shuti
 void CalorieCounterFoodDatabase::listManager() const
 {
-	cout << "Display food: " << endl;
-	cout << "Print the hash table unsorted: \n";
-	hash->print_Items_in_Bucket();
-	cout << "Print the primaryBST: \n";
-	primaryBST->printTreeAsIndentedList(displayIndentedNode);
-	cout << "Print the secondaryBST: \n";
-    secondaryBST->printTreeAsIndentedList(displayIndentedNode);
-	cout << "Print the hash table in indended order: \n";
-    hash->print_Indented_Items_with_Index_from_Bucket();
+	string name;
+	string choiceStr;
+	char choice;
+	displayListMenu();
+	do{
 
-	//TODO: add in rest of list manager
+		cout << "Please enter the option of your choice ('H': go back to the main menu): ";
+		getline(cin, choiceStr);
+		choice = toupper(choiceStr[0]);
+
+		switch (choice)
+		{
+		case'I': display_Indented_Hash();
+			break;
+		case'U': display_Unsorted_Hash();
+			break;
+		case'P': display_Primary_key();
+			break;
+		case'S': display_Secondary_key();
+			break;
+		case'R': displayListMenu();
+			break;
+		case'H': displayMenu();
+			break;
+		default: cout << choice << " is an invalid option."
+			<< " Please choose one of the following options: \n";
+			displayListMenu();
+		}
+
+	} while (choice == 'H');
+}
+	
+void CalorieCounterFoodDatabase::display_Indented_Hash() const
+{
+	cout << "I - Special print, as an indented list: \n";
+	hash->print_Indented_Items_with_Index_from_Bucket();
+
+}
+void CalorieCounterFoodDatabase::display_Unsorted_Hash()const
+{
+	cout << "U - List unsorted data: \n";
+	hash->print_Items_in_Bucket();
+}
+void CalorieCounterFoodDatabase::display_Primary_key() const
+{
+	cout << "P - List data sorted by the primary key: \n";
+	primaryBST->printTreeAsIndentedList(displayIndentedNode);
+}
+
+void CalorieCounterFoodDatabase::display_Secondary_key() const
+{
+	cout << "S - List data sorted by the secondary key: \n";
+	secondaryBST->printTreeAsIndentedList(displayIndentedNode);
+	
 }
 
 //Shuti
@@ -469,7 +523,7 @@ int CalorieCounterFoodDatabase::nextPrime(int size)
 {
 	while (!isPrime(++size))
 
-	return size;    // size is the hash size; which is the prime number
+	return size;    // size is the hash size; which is the prime number, find place to return
 }
 
 //TODO: Write this
