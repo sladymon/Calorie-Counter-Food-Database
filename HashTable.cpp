@@ -32,6 +32,8 @@ HashTable::HashTable(){
     sizeTable=0;
     collisions=0.00;
     load_factor= 0.00;
+    items_at_pos_0=0;
+    items_in_the_Hash_and_List=0;
     empty_nodes=sizeTable*3;
     full_nodes=0;
     empty_buckets=sizeTable;
@@ -52,6 +54,8 @@ HashTable::HashTable(int size){
     sizeTable= size;
     collisions=0.00;
     load_factor= 0.00;
+    items_at_pos_0=0;
+    items_in_the_Hash_and_List=0;
     empty_nodes=sizeTable*3;
     full_nodes=0;
     empty_buckets=sizeTable;
@@ -85,7 +89,7 @@ bool HashTable::insert(Food *food){
 
     if (position_in_bucket == 0){
         
-        load_factor++;
+        items_at_pos_0++;
         full_nodes++;
         empty_nodes--;
         empty_buckets--;
@@ -122,14 +126,14 @@ bool HashTable::insert(Food *food){
 //*********************************************************************
 int HashTable::hashed_Index(string name){
     
-    int size=7;
+    int size=21;
     long int sum = 0;
     
     char key[size];
     
-    //partial copy (only 6 chars)
-    strncpy(key,name.c_str(),6);
-    key[6] = '\0';                  /* null character manually added */
+    //partial copy (only 20 chars)
+    strncpy(key,name.c_str(),20);
+    key[20] = '\0';                  /* null character manually added */
     
     char *index= key;
     
@@ -221,14 +225,44 @@ bool HashTable::delete_Item (Food& find_food){
     int index;
     
     //bool done;
-    int position_in_bucket;
+    int bucket_count;
     
     index = hashed_Index (find_food.getName());
     
     //done = foodTable[index].delete_Item_in_Bucket(find_food);
-    position_in_bucket  = foodTable[index].delete_Item_in_Bucket(find_food);
+    bucket_count  = foodTable[index].delete_Item_in_Bucket(find_food);
+    if (bucket_count==0){
+        
+        empty_nodes++;
+        empty_buckets++;
+        items_at_pos_0--;
+        full_nodes--;
+        //collisions--;
+        return true;
     
-    /*if (done) {
+    }if (bucket_count==1){
+        full_nodes--;
+        collisions--;
+        empty_nodes++;
+        return true;
+        
+    }if (bucket_count==2){
+        collisions--;
+        empty_nodes++;
+        return true;
+        
+    }else{
+        bool deleteSuccessful = foodList->deleteNode(find_food);
+        overflow--;
+        return deleteSuccessful;
+    }
+
+return false;
+}
+
+
+    /*
+     if (done) {
     
         full_nodes--;
         empty_nodes++;
@@ -240,19 +274,22 @@ bool HashTable::delete_Item (Food& find_food){
     }
     
     return false;*/
-    
+
+    /*
     if (position_in_bucket == 0){
         
         load_factor--;
         full_nodes--;
         empty_nodes++;
         empty_buckets++;
+        return true;
         
     }if(position_in_bucket == 1){
         
         collisions--;
         full_nodes--;
         empty_nodes++;
+        return true;
         
     }if(position_in_bucket == 2){
         
@@ -260,15 +297,9 @@ bool HashTable::delete_Item (Food& find_food){
         empty_nodes++;
         full_nodes--;
         full_buckets--;
-        
-    }else if(position_in_bucket == 3){
-        overflow--;
-        //foodList->insertNode(food);
-        //cout <<endl;
-    }
-    return true;
-}
-
+        return true;
+     */
+    
 
 //*********************************************************************
 // Author - Wendy Martell
@@ -279,21 +310,24 @@ void HashTable::statistics (){
     int non_empty=0;
     total_nodes= sizeTable*3;
     non_empty = total_nodes-sizeTable;
-    double average = collisions/load_factor;
+    double average = collisions/items_at_pos_0;
+    
+    load_factor=(items_at_pos_0 *100)/sizeTable ;
+    items_in_the_Hash_and_List=full_nodes + overflow;
     
     cout << "\n\t\t\tHash Table Statistics\n" << endl;
     
     cout <<"\tHash Table Size                      : " << sizeTable << endl;
     cout<< "\tHash Table - Elements capacity       : "<< total_nodes<< endl;
-    cout<< "\tTotal Number of items in the Hash    : "<< full_nodes + overflow << endl;
+    cout<< "\tTotal Number of items in the Hash    : "<< items_in_the_Hash_and_List << endl;
     cout<< "\tNumber of items in the Array         : "<< full_nodes << endl;
     cout<< "\tNumber of items in the Overflow      : "<< overflow << endl;
     cout<< "\tHash Table - Empty Nodes             : "<< empty_nodes <<endl;
     cout<< "\tCollisions                           : " << collisions << endl;
-    cout<< "\tLoad Factor                          : " << (load_factor*100)/sizeTable << " %"<< endl;
+    cout<< "\tLoad Factor                          : " << load_factor << " %"<< endl;
     cout<< "\tFull Buckets                         : "<< full_buckets <<endl;
     cout<< "\tEmpty Buckets                        : "<< empty_buckets <<endl;
-    cout<< "\tBuckets with at least one item       : "<<fixed << setprecision(2)<< load_factor <<endl;
+    cout<< "\tBuckets with at least one item       : "<<fixed << setprecision(2)<< items_at_pos_0 <<endl;
     cout<<" \tAvg buckets index 1 or 2             : "<<fixed << setprecision(2)<<average<<endl;
     cout<< endl;
 

@@ -137,10 +137,10 @@ void Bucket::print_Indented_Items_from_bucket(){
 bool Bucket::find_Item_in_Bucket(Food& find_food){
     
     string search_name = find_food.getName();
-    string cutName = search_name.substr(0,5);
+    string cutName = search_name.substr(0,19);
     
     for(int i=0; i< count; i++){
-        if(bucket_Array[i]->getName().substr(0,5) == cutName){
+        if(bucket_Array[i]->getName().substr(0,19) == cutName){
             find_food = *(bucket_Array[i]);
             return true;
         }
@@ -163,25 +163,27 @@ bool Bucket::find_Item_in_Bucket(Food& find_food){
 int Bucket::delete_Item_in_Bucket(Food& find_food){
     
     string search_name = find_food.getName();
-    string cutName = search_name.substr(0,5);
+    string cutName = search_name.substr(0,19);
    
     bool found = false;
     int position = 0;
     
     int j = 0;
     for(int i=0; i< count; i++){
-        if(bucket_Array[i]->getName().substr(0,5)==cutName){
+        if(bucket_Array[i]->getName().substr(0,19)==cutName){
             bucket_Array[i] = 0;
             
-            found = true;
+           // found = true;
             position = i;
             
             j=i;
             count--;
+            bucket_Array[position] = bucket_Array[count];
+            bucket_Array[count]=0;
             break;
         }
     }
-    
+    /*
     if(found){
     //if (position==0||position==1){
     
@@ -189,9 +191,9 @@ int Bucket::delete_Item_in_Bucket(Food& find_food){
             bucket_Array[j] = bucket_Array[j+1];
             bucket_Array[j+1] = 0;
         }
-    }
+    }*/
     //return found;
-    return position;
+    return count;
 }
 
 
