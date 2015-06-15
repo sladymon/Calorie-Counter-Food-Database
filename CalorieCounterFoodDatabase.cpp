@@ -21,7 +21,6 @@
 //Get hash working with specified size
 //Get hash traverse to work for writing to file
 //Get secondaryBST search to print all matching items
-//make a secondary input file for testing hash
 
 
 

@@ -13,9 +13,6 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 
-
-//Author: Wendy Martell
-
 #include "Food.h"
 #include <string>
 using namespace std;
