@@ -54,13 +54,17 @@ public:
 	//read/write file and initilize hash & BSTs
 	bool readFile(const char* fileName);
 	bool writeToOutputFile(const char* fileName);
-    string inputFoodToOutputString(Food* food);
-    Food* inputStringToFood(string input);
+    bool insertInDataStructures(Food* food);
+    string inputFoodToOutputString(Food* food) const;
+    Food* inputStringToFood(string input) const;
+    
+    Food* enterFoodManually() const;
 
 	//menu and option manager functions
 	void menu();
 	void displayMenu() const;
 	void displayListMenu() const;
+    void displayInsertMenu() const;
 	void insertManager();
 	bool deleteManager();
 	void searchManager() const;

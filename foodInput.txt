@@ -8,7 +8,7 @@ cucumber;vegetable;100;12;1;1;1;0
 broccoli;vegetable;100;34;3;2;3;0
 spinach;vegetable;100;23;2;0;3;0
 peas;vegetable;100;81;5;6;5;0
-whole wheat bread;grain;100;246;5;37;8;0
+wheat bread;grain;100;246;5;37;8;0
 white rice;grain;100;130;0;0;3;0
 brown rice;grain;100;111;2;0;3;1
 oatmeal;grain;100;379;10;1;13;7

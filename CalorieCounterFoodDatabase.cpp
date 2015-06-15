@@ -18,9 +18,10 @@
 
 
 //TODO:
-//Write documentation
 //Get hash working with specified size
 //do input validation
+//add welcome/goodbye functions
+//make a secondary input file for testing hash
 
 
 
@@ -132,7 +133,7 @@ CalorieCounterFoodDatabase::~CalorieCounterFoodDatabase()
 // @param food - the Food pointer to get the information from
 // @return - the string with all information on the food
 //*********************************************************************
-string CalorieCounterFoodDatabase::inputFoodToOutputString(Food* food)
+string CalorieCounterFoodDatabase::inputFoodToOutputString(Food* food) const
 {
 	stringstream calories, fat, fiber, protein, sugar;
 	calories << food->getCalories();
@@ -152,7 +153,7 @@ string CalorieCounterFoodDatabase::inputFoodToOutputString(Food* food)
 // @param input - string with the information for a new food item
 // @return - true for tree being printed
 //*********************************************************************
-Food* CalorieCounterFoodDatabase::inputStringToFood(string input)
+Food* CalorieCounterFoodDatabase::inputStringToFood(string input) const
 {
    //FIXME: add a check for incorrect input?
     string token;
@@ -210,7 +211,8 @@ bool CalorieCounterFoodDatabase::readFile(const char* fileName)
 {
 	ifstream inFile;
 
-	inFile.open(INPUT_FILE);
+	//inFile.open(INPUT_FILE);
+    inFile.open(fileName);
 	if (!inFile)
 	{
 		cout << "Error opening \'foodInput.txt\' File!\n";
@@ -227,14 +229,33 @@ bool CalorieCounterFoodDatabase::readFile(const char* fileName)
 	while (getline(inFile, temp))
 	{
         Food* foodObj = inputStringToFood(temp);
-        
-        //FIXME: Add a check for unique item
-		primaryBST->insert(foodObj);
-		secondaryBST->insert(foodObj);
-        hash->insert(foodObj);
-
+        insertInDataStructures(foodObj);
 	}
+    
 	return true;
+}
+
+//*********************************************************************
+// Author - Shannon Ladymon
+// insertInDataStructures - inserts a food pointer into all data
+//          structures (primaryBST, secondaryBST, hash) if it is
+//          a unique key
+// @param food - a pointer to the food to be inserted
+// @return - true if able to insert
+//*********************************************************************
+bool CalorieCounterFoodDatabase::insertInDataStructures(Food* food)
+{
+    string foodName = food->getName();
+    if(hash->find_Item(*food))
+    {
+        cout << "Unable to insert " << foodName << " because it is not a unique name" << endl;
+        return false;
+    }
+    
+    primaryBST->insert(food);
+    secondaryBST->insert(food);
+    hash->insert(food);
+    return true;
 }
 
 //TODO: Write this
@@ -320,9 +341,18 @@ void CalorieCounterFoodDatabase::displayListMenu() const
         << "S - List data sorted by the secondary key" << endl;
 }
 
+//*********************************************************************
+// Author - Shannon Ladymon
+// displayInsertMenu - a listing of the insert menu options
+//*********************************************************************
+void CalorieCounterFoodDatabase::displayInsertMenu() const
+{
+    cout << "Insert Menu Options" << endl
+    << "M - Enter a food manually" << endl
+    << "S - Enter an input string" << endl
+    << "F - Enter multiple foods via file" << endl;
+}
 
-
-//FIXME: Add options: Enter food individually, enter line of food, enter file of foods
 //*********************************************************************
 // Author - Shannon Ladymon
 // insertManager - manages any insertion of new Food items into the
@@ -332,49 +362,82 @@ void CalorieCounterFoodDatabase::displayListMenu() const
 //*********************************************************************
 void CalorieCounterFoodDatabase::insertManager()
 {
-    //call menu with options - add individual food, add foodinputstring, add file
-    
-    //make this a subfunction
-    string name, category, amountStr, caloriesStr, fiberStr, sugarStr, proteinStr, fatStr;
-	int amount, calories, fiber, sugar, protein, fat;
 
-	cout << "Enter the name of the food you would like to add: ";
-	getline(cin, name);
-	cout << "Enter the category (fruit, vegetable, grain, protein, dairy): ";
-	getline(cin, category);
-	cout << "Enter the amount (in grams/mL): ";
-	getline(cin, amountStr);
-	amount = atoi(amountStr.c_str());
-	cout << "Enter the calories: ";
-	getline(cin, caloriesStr);
-	calories = atoi(caloriesStr.c_str());
-	cout << "Enter the fiber (in grams): ";
-	getline(cin, fiberStr);
-	fiber = atoi(caloriesStr.c_str());
-	cout << "Enter the sugar (in grams): ";
-	getline(cin, sugarStr);
-	sugar = atoi(sugarStr.c_str());
-	cout << "Enter the protein (in grams): ";
-	getline(cin, proteinStr);
-	protein = atoi(proteinStr.c_str());
-	cout << "Enter the fat (in grams): ";
-	getline(cin, fatStr);
-	fat = atoi(fatStr.c_str());
+    string choiceStr;
+    string inputString;
+    string inputFile;
+    char choice;
+    Food* toInsert;
+    displayInsertMenu();
 
-	Food* food = new Food(name, category, amount, calories, fiber, sugar, protein, fat);
-    
-    
-    //only insert if unique
-	primaryBST->insert(food);
-    secondaryBST->insert(food);
-    hash->insert(food);
-    
-
-	//cout << "TESTING: Size: " << primaryBST->size() << endl;
+    do
+    {
+        cout << "Please enter the option of your choice: ";
+        getline(cin, choiceStr);
+        choice = toupper(choiceStr[0]);
+        
+        switch (choice)
+        {
+            case'M': toInsert = enterFoodManually();
+                insertInDataStructures(toInsert);
+                break;
+            case'S': cout << "Enter the input string: " << endl;
+                getline(cin, inputString);
+                toInsert = inputStringToFood(inputString);
+                insertInDataStructures(toInsert);
+                break;
+            case'F': cout << "Enter the name of the file to read: " << endl;
+                getline(cin, inputFile);
+                readFile(inputFile.c_str());
+                break;
+            default: cout << choice << " is an invalid option."
+                << " Please choose one of the following options: \n";
+                displayInsertMenu();
+        }
+        
+    } while (choice != 'M' && choice != 'S' && choice != 'F');
 
 }
 
-//FIXME: Don't have a return value - get this to work inside itself
+//*********************************************************************
+// Author - Shannon Ladymon
+// enterFoodManually - prompts a user to enter a food's information
+//          and creates a food object dynamically with that info
+// @return - a pointer to the food created
+//*********************************************************************
+Food* CalorieCounterFoodDatabase::enterFoodManually() const
+{
+    //FIXME: Add validation for input
+    string name, category, amountStr, caloriesStr, fiberStr, sugarStr, proteinStr, fatStr;
+    int amount, calories, fiber, sugar, protein, fat;
+    
+    cout << "Enter the name of the food you would like to add: ";
+    getline(cin, name);
+    cout << "Enter the category (fruit, vegetable, grain, protein, dairy): ";
+    getline(cin, category);
+    cout << "Enter the amount (in grams/mL): ";
+    getline(cin, amountStr);
+    amount = atoi(amountStr.c_str());
+    cout << "Enter the calories: ";
+    getline(cin, caloriesStr);
+    calories = atoi(caloriesStr.c_str());
+    cout << "Enter the fiber (in grams): ";
+    getline(cin, fiberStr);
+    fiber = atoi(caloriesStr.c_str());
+    cout << "Enter the sugar (in grams): ";
+    getline(cin, sugarStr);
+    sugar = atoi(sugarStr.c_str());
+    cout << "Enter the protein (in grams): ";
+    getline(cin, proteinStr);
+    protein = atoi(proteinStr.c_str());
+    cout << "Enter the fat (in grams): ";
+    getline(cin, fatStr);
+    fat = atoi(fatStr.c_str());
+    
+    Food* food = new Food(name, category, amount, calories, fiber, sugar, protein, fat);
+    return food;
+}
+
 //*********************************************************************
 // Author - Shannon Ladymon
 // deleteManager - manages deletion of Food items from all data
@@ -388,35 +451,36 @@ bool CalorieCounterFoodDatabase::deleteManager()
 	cout << "Enter food name to be deleted: ";
 	getline(cin, name);
 
-    Food* toSearch = new Food();
-	toSearch->setName(name);
+    Food* toDelete = new Food();
+	toDelete->setName(name);
 
-    if(!hash->find_Item(*toSearch))
+    if(!hash->find_Item(*toDelete))
     {
         cout << "Unable to find " << name << ", so it cannot be removed" << endl;
         return false;
     }
 
-	if (!primaryBST->remove(toSearch))  //FIXME: What should happen if unable to remove from only one data structure?
+	if (!primaryBST->remove(toDelete))  //FIXME: What should happen if unable to remove from only one data structure?
     {
-        cout << "Unable to remove " << name << endl;
-        return false;
+        cout << "Unable to remove " << name << " from primaryBST" << endl;
+        //return false;
     }
     
-    if(!secondaryBST->remove(toSearch, compareBST))  //FIXME: Why doesn't this crash when trying to delete actual item again?
+    if(!secondaryBST->remove(toDelete, compareBST))  //FIXME: Why doesn't this crash when trying to delete actual item again?
     {
-        cout << "Unable to remove " << name << endl;
-        return false;
+        cout << "Unable to remove " << name << " from secondaryBST" << endl;
+        //return false;
     }
     
-        
-    //TODO: DELETE IN HASH
+    if(!hash->delete_Item(*toDelete))
+    {
+        cout << "Unable to remove " << name << " from hash" << endl;
+        //return false;
+    }
     
     cout << name << " was successfully deleted" << endl;
-
-	cout << "TESTING: Size: " << primaryBST->size() << endl;
     
-    delete toSearch;
+    delete toDelete;
     return true;
 }
 
@@ -504,7 +568,7 @@ void CalorieCounterFoodDatabase::listManager() const
 	displayListMenu();
 	do{
 
-		cout << "Please enter the option of your choice ('H': go back to the main menu): ";
+		cout << "Please enter the option of your choice: ";
 		getline(cin, choiceStr);
 		choice = toupper(choiceStr[0]);
 
