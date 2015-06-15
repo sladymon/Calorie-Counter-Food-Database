@@ -313,20 +313,29 @@ void CalorieCounterFoodDatabase::displayMenu() const
 //*********************************************************************
 void CalorieCounterFoodDatabase::displayListMenu() const
 {
-	cout << "List menu Options" << endl
+	cout << "List Menu Options" << endl
 		<< "I - Special print, as an indented list" << endl
 		<< "U - List unsorted data." << endl
 		<< "P - List data sorted by the primary key" << endl
-		<< "S - List data sorted by the secondary key" << endl
-		<< "H - Display main menu again" << endl;
+        << "S - List data sorted by the secondary key" << endl;
 }
 
 
 
 //FIXME: Add options: Enter food individually, enter line of food, enter file of foods
+//*********************************************************************
+// Author - Shannon Ladymon
+// insertManager - manages any insertion of new Food items into the
+//          data structures.  Offers different options for insertion
+//          and validates input before inserting.  Will display an
+//          error message if unable to insert.
+//*********************************************************************
 void CalorieCounterFoodDatabase::insertManager()
 {
-	string name, category, amountStr, caloriesStr, fiberStr, sugarStr, proteinStr, fatStr;
+    //call menu with options - add individual food, add foodinputstring, add file
+    
+    //make this a subfunction
+    string name, category, amountStr, caloriesStr, fiberStr, sugarStr, proteinStr, fatStr;
 	int amount, calories, fiber, sugar, protein, fat;
 
 	cout << "Enter the name of the food you would like to add: ";
@@ -353,17 +362,26 @@ void CalorieCounterFoodDatabase::insertManager()
 	fat = atoi(fatStr.c_str());
 
 	Food* food = new Food(name, category, amount, calories, fiber, sugar, protein, fat);
+    
+    
+    //only insert if unique
 	primaryBST->insert(food);
     secondaryBST->insert(food);
     hash->insert(food);
     
 
-	cout << "TESTING: Size: " << primaryBST->size() << endl;
+	//cout << "TESTING: Size: " << primaryBST->size() << endl;
 
 }
 
-
-//FIXME: Fix - how to delete appropriate item from secondaryBST
+//FIXME: Don't have a return value - get this to work inside itself
+//*********************************************************************
+// Author - Shannon Ladymon
+// deleteManager - manages deletion of Food items from all data
+//          structures (primaryBST, secondaryBST, hash).  Will display
+//          an error message if unable to find or delete.
+// @return - true if able to find and delete
+//*********************************************************************
 bool CalorieCounterFoodDatabase::deleteManager()
 {
 	string name;
@@ -372,9 +390,6 @@ bool CalorieCounterFoodDatabase::deleteManager()
 
     Food* toSearch = new Food();
 	toSearch->setName(name);
-    
-    //TODO: search for item first, and get the category so can delete in secondary
-    //for now, use primaryBST, but change to hash in the future
 
     if(!hash->find_Item(*toSearch))
     {
@@ -382,7 +397,7 @@ bool CalorieCounterFoodDatabase::deleteManager()
         return false;
     }
 
-	if (!primaryBST->remove(toSearch))
+	if (!primaryBST->remove(toSearch))  //FIXME: What should happen if unable to remove from only one data structure?
     {
         cout << "Unable to remove " << name << endl;
         return false;
@@ -406,7 +421,12 @@ bool CalorieCounterFoodDatabase::deleteManager()
 }
 
 
-//Shuti - rewrite this
+//*********************************************************************
+// Author - Shuti Wang
+// searchManager - manages searching for a Food item in the data
+//          structures.  Offers options to search by primary or
+//          secondary key.
+//*********************************************************************
 void CalorieCounterFoodDatabase::searchManager() const
 {
 	string name;
@@ -414,11 +434,16 @@ void CalorieCounterFoodDatabase::searchManager() const
 	char choice;
 	
 	do{
-		cout << "Search item: \n"
-			 << "     Search with Primary key(by name) or Secondary key(by category).\n"
-			 << "     Enter P for primary and S for secondary : ";
+		cout << "Search Menu Options: \n"
+			 << "P - Search by Primary key (by name)\n"
+			 << "S - Search by Secondary key (by category)\n";
 		getline(cin, choiceStr);
 		choice = toupper(choiceStr[0]);
+        
+        if (choice != 'P' && choice != 'S')
+        {
+            cout << "Invalid option.  Please enter a valid option.\n";
+        }
 
 	} while (choice != 'P' && choice != 'S');
     
@@ -431,32 +456,22 @@ void CalorieCounterFoodDatabase::searchManager() const
 		getline(cin, name);
 		toSearch->setName(name);
         
-        //FIXME: Testing search with hash
         if (hash->find_Item(*toSearch))
         {
-            cout << "TESTING: Found item in hash: " << endl;
             toSearch->displayFood();
         }
         else
         {
-            cout << "TESTING: did NOT find item in hash: " << endl;
-        }   
-        
-		/*if(!primaryBST->getEntry(toSearch, *toReturn))
-        {
-            cout << "Could not find " << name << endl;
+            cout << name << " was not found." << endl;
         }
-        else
-        {
-            cout << "TESTING: Found item in primaryBST: " << endl;
-            toReturn->displayFood();
-        }*/
 	}
-	else if (choice == 'S') //FIXME: How should this work? What should it print?  Not a single item, but all items
+	else if (choice == 'S') //FIXME: display ALL Matches - need to write additional search function for all matches
 	{
 		cout << "Enter the food category(S) to search for: ";
 		getline(cin, name);
 		toSearch->setCategory(name);
+        
+        
 		if(!secondaryBST->getEntry(toSearch, *toReturn))
         {
             cout << "Could not find " << name << endl;
@@ -466,9 +481,6 @@ void CalorieCounterFoodDatabase::searchManager() const
             toReturn->displayFood();
         }
 	}
-    
-    //FIXME: Make this a loop for if the entered choice is not valid
-
 
     delete toSearch;
     delete toReturn;
@@ -479,7 +491,10 @@ void CalorieCounterFoodDatabase::searchManager() const
 
 //*********************************************************************
 // Author - Shuti Wang
-// listManager - 
+// listManager - manages listing all food items stored in data
+//          structures.  Offers options to display by indented
+//          list, unsorted list, primary sorted list, or secondary
+//          sorted list.
 //*********************************************************************
 void CalorieCounterFoodDatabase::listManager() const
 {
@@ -495,48 +510,20 @@ void CalorieCounterFoodDatabase::listManager() const
 
 		switch (choice)
 		{
-		case'I': display_Indented_Hash();
+		case'I': hash->print_Indented_Items_with_Index_from_Bucket();
 			break;
-		case'U': display_Unsorted_Hash();
+		case'U': hash->print_Table();
 			break;
-		case'P': display_Primary_key();
+		case'P': primaryBST->printTreeAsIndentedList(displayIndentedNode); //FIXME: should this be a list or an indented list?
 			break;
-		case'S': display_Secondary_key();
-			break;
-		case'R': displayListMenu();
-			break;
-		case'H': displayMenu();
+		case'S': secondaryBST->printTreeAsIndentedList(displayIndentedNode); //FIXME: should this be a list or an indented list?
 			break;
 		default: cout << choice << " is an invalid option."
 			<< " Please choose one of the following options: \n";
 			displayListMenu();
 		}
 
-	} while (choice == 'H');
-}
-	
-void CalorieCounterFoodDatabase::display_Indented_Hash() const
-{
-	cout << "I - Special print, as an indented list: \n";
-	hash->print_Indented_Items_with_Index_from_Bucket();
-
-}
-void CalorieCounterFoodDatabase::display_Unsorted_Hash()const
-{
-	cout << "U - List unsorted data: \n";
-	hash->print_Items_in_Bucket();
-}
-void CalorieCounterFoodDatabase::display_Primary_key() const
-{
-	cout << "P - List data sorted by the primary key: \n";
-	primaryBST->printTreeAsIndentedList(displayIndentedNode);
-}
-
-void CalorieCounterFoodDatabase::display_Secondary_key() const
-{
-	cout << "S - List data sorted by the secondary key: \n";
-	secondaryBST->printTreeAsIndentedList(displayIndentedNode);
-	
+	} while (choice != 'I' && choice != 'U' && choice != 'P' && choice != 'S');
 }
 
 //Shuti

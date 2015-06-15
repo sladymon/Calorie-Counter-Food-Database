@@ -18,9 +18,11 @@
 #include "Food.h"
 using namespace std;
 
-//**************************************************
-// Constructor                                     
-//**************************************************
+
+//*********************************************************************
+// Author - Wendy Martell
+// Constructor - initializes the dummy node at head and sets count to 0
+//*********************************************************************
 Linked_List::Linked_List() // dummy node
 {
     head = new ListNode;
@@ -28,15 +30,41 @@ Linked_List::Linked_List() // dummy node
     count = 0;
 }
 
-//**************************************************
-// displayList shows the value                     *
-// stored in each node of the linked list          *
-// pointed to by head.                             *
-//**************************************************
+//*********************************************************************
+// Author - Wendy Martell
+// Destructor - deletes all the nodes in the list
+//*********************************************************************
+
+Linked_List::~Linked_List()
+{
+    ListNode *nodePtr;   // To traverse the list
+    ListNode *nextNode;  // To point to the next node
+    
+    // Position nodePtr at the head of the list.
+    nodePtr = head;
+    
+    // While nodePtr is not at the end of the list...
+    while (nodePtr != NULL)
+    {
+        // Save a pointer to the next node.
+        nextNode = nodePtr->next;
+        
+        // Delete the current node.
+        delete nodePtr;
+        
+        // Position nodePtr at the next node.
+        nodePtr = nextNode;
+    }
+}
+
+//*********************************************************************
+// Author - Wendy Martell
+// displayList - shows the value stored in each node of the linked list
+//          pointed to by head.
+//*********************************************************************
 
 void Linked_List::displayList() const
 {
-    cout << "Overflow Linked List (" << count << " items in list): " << endl;
     ListNode *nodePtr;  // To move through the list
     
     // Position nodePtr at the head of the list.
@@ -46,22 +74,22 @@ void Linked_List::displayList() const
     while (nodePtr)
     {
         // Display the value in this node in columns.
-        cout << nodePtr->food->getName() << endl;
+        cout << "\t" << nodePtr->food->getName() << endl;
         
         // Move to the next node.
         nodePtr = nodePtr->next;
     }
 }
 
-//**************************************************
-// The searchNode function searches for a node     *
-// with foodData.code. If the node was found       *
-// then true is returned and the Food data of      *
-// node found is returned in foodData. If the node *
-// was not found, then false is returned and       *
-// foodData reference variable is unchanged.       *
-//**************************************************
-bool Linked_List::searchNode(Food &foodData)
+//*********************************************************************
+// Author - Wendy Martell
+// searchNode - searches for a node with matching food name.  If the
+//          node is found, the reference parameter is updated with the
+//          food information.
+// @param foodData - reference parameter with food name to find
+// @return - true if found
+//*********************************************************************
+bool Linked_List::searchNode(Food& foodData)
 {
     ListNode *nodePtr;            // To traverse the list
     
@@ -89,10 +117,12 @@ bool Linked_List::searchNode(Food &foodData)
     return true;
 }
 
-//**************************************************
-// The insertNode function inserts a node with     *
-// countryIn copied to its food member.         *
-//**************************************************
+
+//*********************************************************************
+// Author - Wendy Martell
+// insertNode - inserts a node into the beginning of the linked list
+// @param foodIn - a pointer to the food to be inserted
+//*********************************************************************
 
 void Linked_List::insertNode(Food* foodIn)
 {
@@ -109,18 +139,17 @@ void Linked_List::insertNode(Food* foodIn)
            
 }
 
-//**************************************************
-// The deleteNode function searches for a node     *
-// with the same code in foodData. If node is found*
-// it is deleted from the list and from memory. The*
-// function returns true if node was deleted & the *
-// node to delete food information is returned     *
-// in foodData. If node to delete is not found (or *
-// there is nothing to delete) then a false is     *
-// returned.                                       *
-//**************************************************
+//*********************************************************************
+// Author - Wendy Martell
+// deleteNode - searches for a node in the list with matching food
+//          name.  If found, deletes the node and modifies the
+//          reference parameter with the information for the deleted
+//          food.
+// @param foodData - reference parameter with the food to delete
+// @return - true if found and deleted.
+//*********************************************************************
 
-bool Linked_List::deleteNode(Food &foodData)
+bool Linked_List::deleteNode(Food& foodData)
 {
     ListNode *nodePtr;       // To traverse the list
     ListNode *previousNode;  // To point to the previous node
@@ -148,29 +177,4 @@ bool Linked_List::deleteNode(Food &foodData)
     return true;
 }
 
-//**************************************************
-// Destructor                                      *
-// This function deletes every node in the list.   *
-//**************************************************
 
-Linked_List::~Linked_List()
-{
-    ListNode *nodePtr;   // To traverse the list
-    ListNode *nextNode;  // To point to the next node
-    
-    // Position nodePtr at the head of the list.
-    nodePtr = head;
-    
-    // While nodePtr is not at the end of the list...
-    while (nodePtr != NULL)
-    {
-        // Save a pointer to the next node.
-        nextNode = nodePtr->next;
-        
-        // Delete the current node.
-        delete nodePtr;
-        
-        // Position nodePtr at the next node.
-        nodePtr = nextNode;
-    }
-}

@@ -26,7 +26,6 @@ private:
     // Declare a structure for the list
     struct ListNode
     {
-        //Food* food;        // The value in this node
         Food* food;
         ListNode *next;         // To point to the next node
     };
@@ -41,6 +40,7 @@ public:
     // Destructor
     ~Linked_List();
     
+    // Accessor
     int getcount(){return count;}
     
     // Linked list operations

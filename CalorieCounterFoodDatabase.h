@@ -71,10 +71,7 @@ public:
 	bool isPrime(int inputCounter);
 	int nextPrime(int size);
 	void rehashing();
-	void display_Indented_Hash() const;
-	void display_Unsorted_Hash() const;
-	void display_Primary_key() const;
-	void display_Secondary_key() const;
+
 
 };
 

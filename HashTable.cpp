@@ -22,7 +22,12 @@
 #include <cctype>
 
 
-// constructors
+//*********************************************************************
+// Author - Wendy Martell
+// Constructor - initializes all statistics counters to 0 and
+//          dynamically allocates the array of buckets and the overflow
+//          linked list.
+//*********************************************************************
 HashTable::HashTable(){
     sizeTable=0;
     collisions=0.00;
@@ -36,6 +41,13 @@ HashTable::HashTable(){
     foodList = new Linked_List();
 }
 
+//*********************************************************************
+// Author - Wendy Martell
+// Constructor - initializes all statistics counters to 0 and
+//          dynamically allocates the array of buckets (to the size
+//          specified) and the overflow linked list.
+// @param size - the size of the array of buckets for initialization
+//*********************************************************************
 HashTable::HashTable(int size){
     sizeTable= size;
     collisions=0.00;
@@ -49,31 +61,28 @@ HashTable::HashTable(int size){
     foodList = new Linked_List();
 }
 
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-//+ Function Name = insert()
-//
-// Inserts a new Food pointer into the bucket array. If the bucket
-// is full the food will be send it to the overflow linked list.
-// At the same time keep track of collisions, load factor, full_nodes,
-// full buckets, empty nodes, empty buckets, and overflow items.
-//
-// @Parameter       : Food *food
-// @Return          : bool
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+//*********************************************************************
+// Author - Wendy Martell
+// insert - inserts a new Food pointer into hash table. Calls the hash
+//          function to determine which index of the table to insert at.
+//          If the bucket at that index if full, it will be inserted
+//          into the overflow linked list. It also keeps track of
+//          collisions, load factor, full_nodes, full buckets,
+//          empty nodes, empty buckets, and overflow items.
+// @param food - a Food pointer with the name of the food to be inserted
+// @return - true if inserted
+//*********************************************************************
 bool HashTable::insert(Food *food){
     
     string name;
     int index;
-    int bucket_count;
     int position_in_bucket;
     
     name = food->getName();
-    index = hashed_Index (name);
-    
-    bucket_count++;
+    index = hashed_Index(name);
     position_in_bucket = foodTable[index].insert_Items_in_Bucket(food);
 
-    
     if (position_in_bucket == 0){
         
         load_factor++;
@@ -96,21 +105,20 @@ bool HashTable::insert(Food *food){
         
     }else if(position_in_bucket == 3){
         overflow++;
-       // cout << "TESTING: inserting into overflow linked list: " << food->getName() << endl;
         foodList->insertNode(food);
         cout <<endl;
     }
     return true;
 }
 
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-//+ Function Name = hashed_Index()
-//
-// Creates a unique ID & match the unique ID with the index
-//
-// @Parameter       : string name
-// @Return          : int
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+//*********************************************************************
+// Author - Wendy Martell
+// hashed_Index - given a unique key (food name), it will determine
+//          the index in the hash table to insert the item.
+// @param name - the unique key (food name)
+// @return - the index where the food should be inserted in the hash
+//*********************************************************************
 int HashTable::hashed_Index(string name){
     
     int size=7;
@@ -134,14 +142,11 @@ int HashTable::hashed_Index(string name){
     return returnVal;
   }
 
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-//+ Function Name = print_Table()
-//
-// prints the table by indexes displaying the unique ID.
-//
-// @Parameter       : none
-// @Return          : void
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+//*********************************************************************
+// Author - Wendy Martell
+// print_Table - prints all foods in the array and overflow linked list
+//*********************************************************************
+
 void HashTable::print_Table(){
     
     for (int i=0; i < sizeTable ; i++) {
@@ -151,32 +156,12 @@ void HashTable::print_Table(){
     foodList->displayList();
 }
 
-
-//FIXME: What is this, and why doesn't it match the name?  What uses this??? ANSWER: It is used with the previous function
-// void HashTable::print_Table()
-
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-//+ Function Name = hashed_Index()
-//
-// Prints list of food per bucket, this function is called by print_Table()
-//
-// @Parameter       : none
-// @Return          : void
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-void HashTable::print_Items_in_Bucket(){
-    
-   foodTable->print_Items_in_Bucket();
-}
-
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-//+ Function Name = print_Indented_Items_with_Index_from_Bucket()
-//
-// Prints indented list of food including their indexes.
-// This one calls print_Indented_Items_from_bucket() function.
-//
-// @Parameter       : none
-// @Return          : void
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+//*********************************************************************
+// Author - Wendy Martell
+// print_Indented_Items_with_Index_from_Bucket - prints indented list
+//          of all foods in the array by index and also prints
+//          items in the overflow linked list
+//*********************************************************************
 void HashTable::print_Indented_Items_with_Index_from_Bucket(){
     
     for (int i=0; i < sizeTable ; i++) {
@@ -185,18 +170,20 @@ void HashTable::print_Indented_Items_with_Index_from_Bucket(){
         foodTable[i].print_Indented_Items_from_bucket();
         cout << endl;
     }
+    cout << "Items in overflow linked list (" << foodList->getcount() << "): " << endl;
     foodList->displayList();
 }
 
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-//+ Function Name = find_Item()
-//
-// Finds a food in the Bucket of food based on his index.
-// This one calls find_Item_in_Bucket(name)function.
-//
-// @Parameter       : Food& find_food
-// @Return          : bool
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+//*********************************************************************
+// Author - Wendy Martell
+// find_Item - finds a food in the hash table.  First searches for the
+//          item in the expected index of the array.  If not found
+//          there, searches in the overflow linked list.  Modifies the
+//          reference parameter with the food's information if found
+// @param food - a reference parameter with the name of the food to find
+// @return - true if found
+//*********************************************************************
 bool HashTable::find_Item(Food& find_food){
 
     int index;
@@ -217,21 +204,24 @@ bool HashTable::find_Item(Food& find_food){
     return true;
 }
 
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-//+ Function Name = delete_Item()
-//
-// Deletes a food in the Bucket of food based on his index.
-// This one calls delete_Item_in_Bucket(name)function.
-//
-// @Parameter       : Food& find_food
-// @Return          : bool
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+//FIXME: Delete does not work!
+
+//*********************************************************************
+// Author - Wendy Martell
+// delete_Item - deletes an item from the hash.  First tries to delete
+//          the item the expected index of the array.  If not found
+//          there, tries to delete it in the overflow linked list.
+//          Modifies the reference parameter with the food's
+//          information if found
+// @param food - a reference parameter with the name of the food to
+//          delete
+// @return - true if found and deleted
+//*********************************************************************
 bool HashTable::delete_Item (Food& find_food){
     
     int index;
     bool done;
-    
-    //print_Indented_Items_with_Index_from_Bucket();
     
     index = hashed_Index (find_food.getName());
     
@@ -240,7 +230,6 @@ bool HashTable::delete_Item (Food& find_food){
     if (done) {
         full_nodes--;
         empty_nodes++;
-        //print_Indented_Items_with_Index_from_Bucket();
         return true;
     }else{
         bool deleteSuccessful = foodList->deleteNode(find_food);
@@ -252,14 +241,11 @@ bool HashTable::delete_Item (Food& find_food){
     return false;
 }
 
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-//+ Function Name = statistics()
-//
-// Calculates and display the statistics of the Hash Table.
-//
-// @Parameter       : none
-// @Return          : void
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+//*********************************************************************
+// Author - Wendy Martell
+// statistics - displays the statistics for the hash table
+//*********************************************************************
 void HashTable::statistics (){
     int total_nodes=0;
     int non_empty=0;
@@ -267,13 +253,13 @@ void HashTable::statistics (){
     non_empty = total_nodes-sizeTable;
     double average = collisions/load_factor;
     
-    //FIXME: Add a total number of items in table
+    //FIXME: Add a total number of items in table (count)
     
     cout << "\n\t\t\tHash Table Statistics\n" << endl;
     
     cout <<"\tHash Table Size                    : " << sizeTable << endl;
     cout<< "\tHash Table - Elements capacity     : "<<total_nodes<< endl;
-    cout<< "\tTotal Number of items in the Table : "<< full_nodes << endl;
+    cout<< "\tTotal Number of items in the Table : "<< full_nodes << endl;  //FIXME: Not accurate - should be 25
     cout<< "\tHash Table - Empty positions       : "<< empty_nodes <<endl;
     cout<< "\tCollisions                         : " << collisions << endl;
     cout<< "\tLoad Factor                        : " << (load_factor*100)/sizeTable << " %"<< endl;

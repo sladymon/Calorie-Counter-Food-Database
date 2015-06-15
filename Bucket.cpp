@@ -18,7 +18,11 @@
 
 using namespace std;
 
-// constructor
+//*********************************************************************
+// Author - Wendy Martell
+// Constructor - initializes count to 0 and all indexes of array to
+//          null pointers (0)
+//*********************************************************************
 Bucket::Bucket(){
     
     count = 0;
@@ -28,7 +32,11 @@ Bucket::Bucket(){
     }
 }
 
-// Destructor
+//*********************************************************************
+// Author - Wendy Martell
+// Destructor - sets count to 0 and deletes all pointers in array
+//          unless null
+//*********************************************************************
 Bucket::~Bucket(){    
     count = 0;
     
@@ -42,15 +50,15 @@ Bucket::~Bucket(){
     }
 }
 
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-//+ Function Name = insert_Items_in_Bucket()
-//
-// Inserts a new food pointer into the bucket array. If the bucket
-// is full the food will be send it to the rejected output file.
-//
-// @Parameter       : Food *food
-// @Return          : int
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+//*********************************************************************
+// Author - Wendy Martell
+// insert_Items_in_Bucket - inserts a new food pointer into the next
+//          available index in the bucket array if not full.
+// @param food - a pointer to the Food to be inserted.
+// @return - an int for the index position (0-2). 3 if unable to
+//          insert in array.
+//*********************************************************************
 int Bucket::insert_Items_in_Bucket(Food *food){
     
     int bucket_position;
@@ -79,14 +87,11 @@ int Bucket::insert_Items_in_Bucket(Food *food){
     return bucket_position;
 }
 
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-//+ Function Name = print_Items_in_Bucket()
-//
-// Prints the Name of the food from the bucket.
-//
-// @Parameter       : none
-// @Return          : void
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+//*********************************************************************
+// Author - Wendy Martell
+// print_Items_in_Bucket - prints the names of the foods from the bucket
+//*********************************************************************
 void Bucket::print_Items_in_Bucket(){
     
     for(int i=0; i< count; i++){
@@ -95,14 +100,12 @@ void Bucket::print_Items_in_Bucket(){
     }
 }
 
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-//+ Function Name = print_Indented_Items_from_bucket()
-//
-// Prints the name of the food by indexes indenting positions 1 and 2
-//
-// @Parameter       : none
-// @Return          : void
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+//*********************************************************************
+// Author - Wendy Martell
+// print_Indented_Items_from_bucket - prints the names of the foods
+//          from the bucket, indenting indexes 1 and 2.  Prints empty
+//          if there are no foods in the bucket.
+//*********************************************************************
 void Bucket::print_Indented_Items_from_bucket(){
     
     if (count == 0) {
@@ -122,16 +125,15 @@ void Bucket::print_Indented_Items_from_bucket(){
     }
 }
 
-//FIXME: Modify to change the reference parameter
 
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-//+ Function Name = find_Item_in_Bucket()
-//
-// Find the name of the food in the hash table
-//
-// @Parameter       : Food& find_food
-// @Return          : bool
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+//*********************************************************************
+// Author - Wendy Martell
+// find_Item_in_Bucket - finds a food in the bucket and modifies the
+//          reference parameter with that food's information if found
+// @param food - a reference parameter with the name of the Food to
+//          be found
+// @return - false if unable to find
+//*********************************************************************
 bool Bucket::find_Item_in_Bucket(Food& find_food){
     
     string search_name = find_food.getName();
@@ -148,22 +150,22 @@ bool Bucket::find_Item_in_Bucket(Food& find_food){
 
 //FIXME: Check this function and j
 
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-//+ Function Name = delete_Item_in_Bucket()
-//
-// Deletes food in the hash table & rearranges the elements in
-// the array to not leave a position empty.
-//
-// @Parameter       : Food& find_food
-// @Return          : bool
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+//*********************************************************************
+// Author - Wendy Martell
+// delete_Item_in_Bucket - deletes a food from the bucket if found
+//          and rearranges the elements in the array to not leave a
+//          position empty.
+// @param food - a reference parameter with the name of the Food to
+//          be deleted.
+// @return - false if unable to find
+//*********************************************************************
 bool Bucket::delete_Item_in_Bucket(Food& find_food){
     
     string search_name = find_food.getName();
     string cutName = search_name.substr(0,5);
     
     bool found = false;
-    int j;
+    int j = 0;
     for(int i=0; i< count; i++){
         if(bucket_Array[i]->getName().substr(0,5)==cutName){
             bucket_Array[i] = 0;

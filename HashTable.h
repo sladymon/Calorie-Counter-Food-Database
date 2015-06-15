@@ -70,15 +70,25 @@ public:
     int get_empty_buckets() const {return empty_buckets;}
     int get_overflow()const {return overflow;}
     
-    
+    // hashing function to determine index based on unique key (name)
     int hashed_Index (string name);
-    bool insert(Food* food);
-    void print_Table();
-    void print_Items_in_Bucket();
-    void print_Indented_Items_with_Index_from_Bucket();
+    
+    // finds item in hash
     bool find_Item (Food& find_food);
+    
+    // inserts food pointer into hash
+    bool insert(Food* food);
+    
+    // deletes item in hash
     bool delete_Item (Food& find_food);
-    void statistics ();                      
+    
+    // displays statistics on hash
+    void statistics ();
+    
+    // print functions
+    void print_Table();
+    void print_Indented_Items_with_Index_from_Bucket();
+    
     
 };
 

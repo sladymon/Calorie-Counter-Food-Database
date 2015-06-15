@@ -16,7 +16,16 @@
 using namespace std;
 
 //*********************************************************************
-// Overloaded Constructor
+// Author - Shannon Ladymon
+// Overloaded Constructor - takes all data for a food to construct it
+// @param name - a string that is the unique key for the food (its name)
+// @param cateogry - a string that is the secondary, non-unique key
+//          (type of food - fruit, vegetable, grain, protein, dairy)
+// @param amount - int for amount of food in grams/mL
+// @param fiber - int for fiber in grams per specified amount
+// @param sugar - int for sugar in grams per specified amount
+// @param protein - int for protein in grams per specified amount
+// @param fat - int for fat in grams per specified amount
 //*********************************************************************
 Food::Food(string name, string category, int amount, int calories, int fiber, int sugar, int protein, int fat)
 {
@@ -31,6 +40,7 @@ Food::Food(string name, string category, int amount, int calories, int fiber, in
 }
 
 //*********************************************************************
+// Author: Shannon Ladymon
 // displayFood - displays all member data for Food object
 //*********************************************************************
 
