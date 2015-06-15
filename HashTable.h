@@ -74,6 +74,7 @@ public:
     void print_Items_in_Bucket();
     void print_Indented_Items_with_Index_from_Bucket();
     bool find_Item (Food& find_food);
+    bool delete_Item (Food& find_food);
     void statistics ();                      
     
 };

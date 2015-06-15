@@ -149,12 +149,13 @@ void HashTable::print_Table(){
 }
 
 
-//FIXME: What is this, and why doesn't it match the name?  What uses this???
+//FIXME: What is this, and why doesn't it match the name?  What uses this??? ANSWER: It is used with the previous function
+// void HashTable::print_Table()
 
 //* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 //+ Function Name = hashed_Index()
 //
-// Prints list of food per bucket.
+// Prints list of food per bucket, this function is called by print_Table()
 //
 // @Parameter       : none
 // @Return          : void
@@ -214,6 +215,41 @@ bool HashTable::find_Item(Food& find_food){
 }
 
 //* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+//+ Function Name = delete_Item()
+//
+// Deletes a food in the Bucket of food based on his index.
+// This one calls delete_Item_in_Bucket(name)function.
+//
+// @Parameter       : Food& find_food
+// @Return          : bool
+//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+bool HashTable::delete_Item (Food& find_food){
+    
+    int index;
+    bool done;
+    
+    //print_Indented_Items_with_Index_from_Bucket();
+    
+    index = hashed_Index (find_food.getName());
+    
+    done = foodTable[index].delete_Item_in_Bucket(find_food);
+    
+    if (done) {
+        full_nodes--;
+        empty_nodes++;
+        //print_Indented_Items_with_Index_from_Bucket();
+        return true;
+    }else{
+        bool deleteSuccessful = foodList->deleteNode(find_food);
+        overflow--;
+        foodList->displayList();
+        return deleteSuccessful;
+    }
+    
+    return false;
+}
+
+//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 //+ Function Name = statistics()
 //
 // Calculates and display the statistics of the Hash Table.
@@ -230,17 +266,19 @@ void HashTable::statistics (){
     
     //FIXME: Add a total number of items in table
     
-    cout << "Hash Table Statistics" << endl;
-    cout <<"\tHash Table Size    : " << sizeTable << endl;
-    cout<< "\tTotal Nodes        : "<<total_nodes<< endl;
-    cout<< "\tFilled Nodes       : "<< full_nodes << endl;  //FIXME: What is this?
-    cout<< "\tEmpty Nodes        : "<< empty_nodes <<endl;  //FIXME: WHat is this?
-    cout<< "\tCollisions         : " << collisions << endl;
-    cout<< "\tLoad Factor        : " << (load_factor*100)/sizeTable << " %"<< endl;
-    //cout<< "\tFulFill Buckets    : "<< load_factor << endl;  //FIXME: What is this? change name
-    cout<< "\tFull  Buckets      : "<< full_buckets <<endl;
-    cout<< "\tEmpty Buckets      : "<< empty_buckets <<endl;
-    cout<< "\tOverflow           : "<< overflow << endl;
-    cout<<" \tAvg buckets index 1 or 2 : "<<fixed << setprecision(2)<<average<<endl;
+    cout << "\n\t\t\tHash Table Statistics\n" << endl;
+    
+    cout <<"\tHash Table Size                    : " << sizeTable << endl;
+    cout<< "\tHash Table - Elements capacity     : "<<total_nodes<< endl;
+    cout<< "\tTotal Number of items in the Table : "<< full_nodes << endl;
+    cout<< "\tHash Table - Empty positions       : "<< empty_nodes <<endl;
+    cout<< "\tCollisions                         : " << collisions << endl;
+    cout<< "\tLoad Factor                        : " << (load_factor*100)/sizeTable << " %"<< endl;
+    //cout<< "\tFulFill Buckets    : "<< load_factor << endl;  //FIXME: What is this? change name // In the slides this number is represented by LOAD FACTOR slide 106 - Hash Section
+    cout<< "\tFulFill Buckets                    : "<< full_buckets <<endl;
+    cout<< "\tEmpty Buckets                      : "<< empty_buckets <<endl;
+    cout<< "\tOverflow                           : "<< overflow << endl;
+    cout<<" \tAvg buckets index 1 or 2           : "<<fixed << setprecision(2)<<average<<endl;
+    cout<< endl;
 
 }

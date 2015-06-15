@@ -16,9 +16,6 @@
 #include <cstring>
 #include <string>
 
-//FIXME: Delete this
-//const string outputFileURL= "/Users/wendymartell/Dropbox/COLLEGE/CLASSES/Q Spring 2015/22C/Asigmments/HMK_5/HMK_5/Toys_Output.txt";
-
 using namespace std;
 
 // constructor
@@ -147,6 +144,41 @@ bool Bucket::find_Item_in_Bucket(Food& find_food){
         }
     }
     return false;
+}
+
+//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+//+ Function Name = delete_Item_in_Bucket()
+//
+// Deletes food in the hash table & rearranges the elements in
+// the array to not leave a position empty.
+//
+// @Parameter       : Food& find_food
+// @Return          : bool
+//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+bool Bucket::delete_Item_in_Bucket(Food& find_food){
+    
+    string search_name = find_food.getName();
+    string cutName = search_name.substr(0,5);
+    
+    bool found = false;
+    int j;
+    for(int i=0; i< count; i++){
+        if(bucket_Array[i]->getName().substr(0,5)==cutName){
+            bucket_Array[i] = 0;
+            found = true;
+            j=i;
+            count--;
+            break;
+        }
+    }
+    
+    if(found){
+        for(; j< count; j++){
+            bucket_Array[j] = bucket_Array[j+1];
+            bucket_Array[j+1] = 0;
+        }
+    }
+    return found;
 }
 
 

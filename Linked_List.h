@@ -40,7 +40,7 @@ public:
     
     // Linked list operations
     void insertNode(Food* foodIn);
-    bool deleteNode(Food *foodData);
+    bool deleteNode(Food &foodData);
     bool searchNode(Food &foodData);
     void displayList() const;
     

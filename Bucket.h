@@ -51,6 +51,9 @@ public:
     // find an item and modify the reference parameter with its details
     bool find_Item_in_Bucket(Food& find_food);
     
+    // deletes an item 
+    bool delete_Item_in_Bucket(Food& find_food);
+    
     // print functions
     void print_Items_in_Bucket();  
     void print_Indented_Items_from_bucket();

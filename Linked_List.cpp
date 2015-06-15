@@ -117,7 +117,7 @@ void Linked_List::insertNode(Food* foodIn)
 // returned.                                       *
 //**************************************************
 
-bool Linked_List::deleteNode(Food *foodData)
+bool Linked_List::deleteNode(Food &foodData)
 {
     ListNode *nodePtr;       // To traverse the list
     ListNode *previousNode;  // To point to the previous node
@@ -127,7 +127,7 @@ bool Linked_List::deleteNode(Food *foodData)
     previousNode = head;
     
     // Skip all nodes whose code is not equal to the code pointed by pDeleteCode.
-    while (nodePtr != NULL && nodePtr->food->getName()!= foodData->getName())
+    while (nodePtr != NULL && nodePtr->food->getName()!= foodData.getName())
     {
         previousNode = nodePtr;
         nodePtr = nodePtr->next;
@@ -137,7 +137,7 @@ bool Linked_List::deleteNode(Food *foodData)
     if (!nodePtr)
         return false;
     
-        foodData = nodePtr->food;  // return the deleted data
+        foodData = *nodePtr->food;  // return the deleted data
         previousNode->next = nodePtr->next;
         delete nodePtr;
     
