@@ -106,7 +106,6 @@ bool HashTable::insert(Food *food){
     }else if(position_in_bucket == 3){
         overflow++;
         foodList->insertNode(food);
-        cout <<endl;
     }
     return true;
 }
