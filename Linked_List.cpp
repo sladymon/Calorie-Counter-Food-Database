@@ -172,6 +172,7 @@ bool Linked_List::deleteNode(Food& foodData)
     
         foodData = *nodePtr->food;  // return the deleted data
         previousNode->next = nodePtr->next;
+        delete nodePtr->food;
         delete nodePtr;
     
     count--;

@@ -25,6 +25,12 @@ public:
 	// constructors
 	BinaryNode() { leftPtr = 0; rightPtr = 0; }
     
+    /*destructor - not used in this file to limit deletes of items to hash
+    ~BinaryNode()
+    {
+        delete item;
+    }*/
+    
 	BinaryNode(ItemType* anItem)
 	{item = anItem; leftPtr = 0; rightPtr = 0;}
     

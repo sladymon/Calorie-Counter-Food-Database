@@ -22,6 +22,8 @@
 //Get hash traverse to work for writing to file
 //Get secondaryBST search to print all matching items
 
+//CHECK THAT ONLY HASH DELETES
+
 
 
 using namespace std;
@@ -48,14 +50,13 @@ const string INPUT_FILE = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Count
 //const string OUTPUT_FILE = "D:\\foodOutput.txt";
 
 
-
-//FIXME: Add a regular displayTree function (if needed?)
 void displayIndentedNode(Food* anItem, int level);
+void displayFood(Food& anItem);
 int compareBST(Food* food1, Food* food2);
 int compareBSTSecondary(Food* food1, Food* food2);
 
 
-//FIXME: Should we have a separate driver?  Or is this okay?
+//FIXME: Should we have a separate driver?  YES - make a driver file
 int main()
 {
 	CalorieCounterFoodDatabase a;
@@ -81,6 +82,19 @@ void displayIndentedNode(Food* anItem, int level)
         cout << "\t";
     }
     cout << level + 1 << ". " << anItem->getName() << endl;
+}
+
+//*********************************************************************
+// Author - Shannon Ladymon
+// displaySecondaryFoods -  Displays all informationg for a food.
+//          Is passed to BST function that displays all foods that
+//          match a secondary key.
+// @param anItem - pointer to Food to be displayed
+// @param level - current level of tree
+//*********************************************************************
+void displayFood(Food& anItem)
+{
+    anItem.displayFood();
 }
 
 //*********************************************************************
@@ -544,22 +558,22 @@ bool CalorieCounterFoodDatabase::deleteManager()
         return false;
     }
 
-	if (!primaryBST->remove(toDelete))  //FIXME: What should happen if unable to remove from only one data structure?
+	if (!primaryBST->remove(toDelete))
     {
         cout << "Unable to remove " << name << " from primaryBST" << endl;
-        //return false;
+        cout << "Suggestion: restart your program - this is an unexpected error.\n";
     }
     
     if(!secondaryBST->remove(toDelete, compareBST))  //FIXME: Why doesn't this crash when trying to delete actual item again?
     {
         cout << "Unable to remove " << name << " from secondaryBST" << endl;
-        //return false;
+        cout << "Suggestion: restart your program - this is an unexpected error.\n";
     }
     
     if(!hash->delete_Item(*toDelete))
     {
         cout << "Unable to remove " << name << " from hash" << endl;
-        //return false;
+        cout << "Suggestion: restart your program - this is an unexpected error.\n";
     }
     
     cout << name << " was successfully deleted" << endl;
@@ -628,7 +642,7 @@ void CalorieCounterFoodDatabase::searchManager() const
         }
         else
         {
-            toReturn->displayFood();
+            //secondaryBST->printAllMatches(toSearch, displayFood);
         }
 	}
 

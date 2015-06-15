@@ -46,9 +46,9 @@ private:
 
 	// search for target node
 	BinaryNode<ItemType>* _findNode(BinaryNode<ItemType>* treePtr, ItemType* target) const;
-
-    // internal print tree as a list
-	void _printTree(void(*display)(ItemType* item), BinaryNode<ItemType>* node);
+    
+    // internal print all key matches
+    void _printAllMatches(ItemType* target, void visit(ItemType &), BinaryNode<ItemType>* nodePtr) const;
 
 public:
     
@@ -69,9 +69,9 @@ public:
 
 	// search function without using recursion (with iterations)
 	BinaryNode<ItemType>* search(ItemType* target) const;
-
-    //prints tree as a list
-	void printTreeInOrder(void(*display)(ItemType* item));
+    
+    //prints all key matches
+    void printAllMatches(ItemType* target, void visit(ItemType &)) const;
 
 };
 
@@ -94,17 +94,17 @@ BinarySearchTree<ItemType>::BinarySearchTree(int(*cmp) (ItemType* argu1, ItemTyp
 
 
 //*********************************************************************
-// Author - Deepika Metkar
-// printTreeInOrder - prints tree as a list in sorted order
+// Author - Shannon Ladymon
+// printAllMatches - prints all matches to the key
 // @param display - function to use to display each node
-// @return - true for tree being printed
 //*********************************************************************
+
 template<class ItemType>
-void BinarySearchTree<ItemType>::printTreeInOrder(void(*display)(ItemType* item))
+void BinarySearchTree<ItemType>::printAllMatches(ItemType* target, void visit(ItemType &)) const
 {
-	if (rootPtr != 0) {
-		_printTree(display);
-	}
+    if (rootPtr != 0) {
+        _printAllMatches(target, visit, rootPtr);
+    }
 }
 
 
@@ -124,7 +124,7 @@ bool BinarySearchTree<ItemType>::getEntry(ItemType* anEntry, ItemType & returned
 	BinaryNode<ItemType>* targetNode = _findNode(rootPtr, anEntry);
 	if (targetNode != 0)
 	{
-		returnedItem = *(targetNode->getItem());
+        returnedItem = *(targetNode->getItem());
 		return true;
 	}
 	return false;
@@ -190,19 +190,23 @@ bool BinarySearchTree<ItemType>::remove(ItemType* target, int(*cmp) (ItemType* a
 //////////////////////////// private functions ////////////////////////////////////////////
 
 //*********************************************************************
-// Author - Deepika Metkar
-// _printTree - internal recursive print tree as a list in sorted order
+// Author - Shannon Ladymon
+// _printAllMatches - internal recursive print all key matches
 // @param display - function to use to display each node
 // @param node - a BinaryNode pointer to the current subtree
 //*********************************************************************
+
 template<class ItemType>
-void BinarySearchTree<ItemType>::_printTree(void(*display)(ItemType* item), BinaryNode<ItemType>* node)
+void _printAllMatches(ItemType* target, void visit(ItemType &), BinaryNode<ItemType>* nodePtr)
 {
-	if (node != 0) {
-		_printTree(display, node->getLeftPtr());
-		display(node->getItem());
-		_printTree(display, node->getRightPtr());
-	}
+    if (nodePtr != 0) {
+        _printTree(visit, nodePtr->getLeftPtr());
+        if (compare(nodePtr->getItem(), target) == 0)
+        {
+            visit(*(nodePtr->getItem()));
+        }
+        _printTree(visit, nodePtr->getRightPtr());
+    }
 }
 
 //*********************************************************************
