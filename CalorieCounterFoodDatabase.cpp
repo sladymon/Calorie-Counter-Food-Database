@@ -297,6 +297,9 @@ bool CalorieCounterFoodDatabase::insertInDataStructures(Food* food)
     
     primaryBST->insert(food);
     secondaryBST->insert(food);
+    //if (hash->getLoadFactor() > 75)
+    // { rehash()}
+    
     hash->insert(food);
     return true;
 }
