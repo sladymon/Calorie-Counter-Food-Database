@@ -45,7 +45,8 @@ public:
     bool find_Item_in_Bucket(Food& find_food);
     
     // deletes an item 
-    bool delete_Item_in_Bucket(Food& find_food);
+    //bool delete_Item_in_Bucket(Food& find_food);
+    int delete_Item_in_Bucket(Food& find_food);
     
     // print functions
     void print_Items_in_Bucket();  

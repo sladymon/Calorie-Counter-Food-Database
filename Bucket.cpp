@@ -159,17 +159,23 @@ bool Bucket::find_Item_in_Bucket(Food& find_food){
 //          be deleted.
 // @return - false if unable to find
 //*********************************************************************
-bool Bucket::delete_Item_in_Bucket(Food& find_food){
+//bool Bucket::delete_Item_in_Bucket(Food& find_food){
+int Bucket::delete_Item_in_Bucket(Food& find_food){
     
     string search_name = find_food.getName();
     string cutName = search_name.substr(0,5);
-    
+   
     bool found = false;
+    int position = 0;
+    
     int j = 0;
     for(int i=0; i< count; i++){
         if(bucket_Array[i]->getName().substr(0,5)==cutName){
             bucket_Array[i] = 0;
+            
             found = true;
+            position = i;
+            
             j=i;
             count--;
             break;
@@ -177,13 +183,17 @@ bool Bucket::delete_Item_in_Bucket(Food& find_food){
     }
     
     if(found){
+    //if (position==0||position==1){
+    
         for(; j< count; j++){
             bucket_Array[j] = bucket_Array[j+1];
             bucket_Array[j+1] = 0;
         }
     }
-    return found;
+    //return found;
+    return position;
 }
+
 
 
 

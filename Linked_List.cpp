@@ -121,6 +121,7 @@ bool Linked_List::searchNode(Food& foodData)
 //*********************************************************************
 // Author - Wendy Martell
 // insertNode - inserts a node into the beginning of the linked list
+//
 // @param foodIn - a pointer to the food to be inserted
 //*********************************************************************
 

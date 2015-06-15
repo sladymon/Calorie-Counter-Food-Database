@@ -107,6 +107,8 @@ bool HashTable::insert(Food *food){
         overflow++;
         foodList->insertNode(food);
     }
+    
+   
     return true;
 }
 
@@ -217,13 +219,17 @@ bool HashTable::find_Item(Food& find_food){
 bool HashTable::delete_Item (Food& find_food){
     
     int index;
-    bool done;
+    
+    //bool done;
+    int position_in_bucket;
     
     index = hashed_Index (find_food.getName());
     
-    done = foodTable[index].delete_Item_in_Bucket(find_food);
+    //done = foodTable[index].delete_Item_in_Bucket(find_food);
+    position_in_bucket  = foodTable[index].delete_Item_in_Bucket(find_food);
     
-    if (done) {
+    /*if (done) {
+    
         full_nodes--;
         empty_nodes++;
         return true;
@@ -233,7 +239,34 @@ bool HashTable::delete_Item (Food& find_food){
         return deleteSuccessful;
     }
     
-    return false;
+    return false;*/
+    
+    if (position_in_bucket == 0){
+        
+        load_factor--;
+        full_nodes--;
+        empty_nodes++;
+        empty_buckets++;
+        
+    }if(position_in_bucket == 1){
+        
+        collisions--;
+        full_nodes--;
+        empty_nodes++;
+        
+    }if(position_in_bucket == 2){
+        
+        collisions--;
+        empty_nodes++;
+        full_nodes--;
+        full_buckets--;
+        
+    }else if(position_in_bucket == 3){
+        overflow--;
+        //foodList->insertNode(food);
+        //cout <<endl;
+    }
+    return true;
 }
 
 
@@ -253,14 +286,14 @@ void HashTable::statistics (){
     cout <<"\tHash Table Size                      : " << sizeTable << endl;
     cout<< "\tHash Table - Elements capacity       : "<< total_nodes<< endl;
     cout<< "\tTotal Number of items in the Hash    : "<< full_nodes + overflow << endl;
-    cout<< "\tTotal Number of items in the Array   : "<< full_nodes << endl;
-    cout<< "\tTotal Number of items in the Overflow: "<< overflow << endl;
+    cout<< "\tNumber of items in the Array         : "<< full_nodes << endl;
+    cout<< "\tNumber of items in the Overflow      : "<< overflow << endl;
     cout<< "\tHash Table - Empty Nodes             : "<< empty_nodes <<endl;
     cout<< "\tCollisions                           : " << collisions << endl;
     cout<< "\tLoad Factor                          : " << (load_factor*100)/sizeTable << " %"<< endl;
     cout<< "\tFull Buckets                         : "<< full_buckets <<endl;
     cout<< "\tEmpty Buckets                        : "<< empty_buckets <<endl;
-    cout<< "\tBuckets with at least one item       : " << load_factor <<endl;
+    cout<< "\tBuckets with at least one item       : "<<fixed << setprecision(2)<< load_factor <<endl;
     cout<<" \tAvg buckets index 1 or 2             : "<<fixed << setprecision(2)<<average<<endl;
     cout<< endl;
 
