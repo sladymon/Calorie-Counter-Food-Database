@@ -441,7 +441,7 @@ int CalorieCounterFoodDatabase::determineHashSize(const char* fileName)
 	inFile.seekg(0, inFile.beg);
 	
 
-	return isPrime(inputCounter);
+	return isPrime(inputCounter * 2);
 	/*cout << "Determine Hash Size called" << endl;
 	return 0;*/
 }
