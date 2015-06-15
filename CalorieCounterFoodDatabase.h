@@ -31,10 +31,13 @@ private:
 	int inputCounter;
 
 public:
-	//FIXME: Temporary constructor for testing without hash:
-	CalorieCounterFoodDatabase();
+	//constructor
+    CalorieCounterFoodDatabase();
+    
+    //overloaded constructor that takes hashSize as a parameter
+    CalorieCounterFoodDatabase(int hashSize);
 
-	//CalorieCounterFoodDatabase(); //TODO: consider making overloaded constructor
+    //destructor
 	~CalorieCounterFoodDatabase();
 
 	//accessors
@@ -51,16 +54,31 @@ public:
 	void setHashSize(int hashSize) {this->hashSize = hashSize;}
 	void setInputCounter(int inputCounter) {this->inputCounter = inputCounter;}
 
-	//read/write file and initilize hash & BSTs
+    //welcome message
+    void welcome() const;
+    
+    //goodbye message
+    void goodbye() const;
+    
+	//read input file and insert items into data structures
 	bool readFile(const char* fileName);
-	bool writeToOutputFile(const char* fileName);
+    
+    //write output file with all items from data structures
+	bool writeFile(const char* fileName);
+    
+    //insert a food pointer into all data structures
     bool insertInDataStructures(Food* food);
+    
+    //convert a food pointer to an output string
     string inputFoodToOutputString(Food* food) const;
+    
+    //convert an input string to a food pointer
     Food* inputStringToFood(string input) const;
     
+    //enter information for a food item manually
     Food* enterFoodManually() const;
 
-	//menu and option manager functions
+	//menus and option manager functions
 	void menu();
 	void displayMenu() const;
 	void displayListMenu() const;
