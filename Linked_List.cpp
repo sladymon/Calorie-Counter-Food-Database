@@ -198,4 +198,23 @@ void Linked_List::traverseList(void visit(Food*))
     
 }
 
+//*********************************************************************
+// Author - Shannon Ladymon
+// traverseList - traverses every Food* item in the list and calls
+//          the visit function on each one
+// @param visit - the function to call on each item
+//*********************************************************************
+void Linked_List::traverseList(void visit(Food*, ofstream&), ofstream& outfile)
+{
+    ListNode *nodePtr;
+    nodePtr = head->next;
+    
+    while (nodePtr)
+    {
+        visit(nodePtr->food, outfile);
+        nodePtr = nodePtr->next;
+    }
+    
+}
+
 

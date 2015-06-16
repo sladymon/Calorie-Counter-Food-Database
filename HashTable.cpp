@@ -160,7 +160,22 @@ void HashTable::traverseHash(void visit(Food*))
         
         foodTable[i].traverseBucket(visit);
     }
-    foodList->displayList(); ///FIXEME - traverse linked list too
+    foodList->traverseList(visit);
+}
+
+//*********************************************************************
+// Author - Shannon Ladymon
+// traverseHash - overloaded traverse for every Food* item in the hash
+//          which calls the visit function on each one
+// @param visit - the function to call on each item
+//*********************************************************************
+void HashTable::traverseHash(void visit(Food*, ofstream&), ofstream& outfile)
+{
+    for (int i=0; i < sizeTable ; i++) {
+        
+        foodTable[i].traverseBucket(visit, outfile);
+    }
+    foodList->traverseList(visit, outfile);
 }
 
 //*********************************************************************

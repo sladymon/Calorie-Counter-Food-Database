@@ -54,6 +54,7 @@ public:
 
     // traverse
     void traverseBucket(void visit(Food*));
+    void traverseBucket(void visit(Food*, ofstream&), ofstream& outfile);
 
 
 };

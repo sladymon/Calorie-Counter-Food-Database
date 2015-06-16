@@ -93,6 +93,7 @@ public:
     
     // traverse all items in hash
     void traverseHash(void visit(Food*));
+    void traverseHash(void visit(Food*, ofstream&), ofstream& outfile);
     
     
 };

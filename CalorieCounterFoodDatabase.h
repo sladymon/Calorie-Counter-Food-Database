@@ -70,7 +70,7 @@ public:
     bool insertInDataStructures(Food* food);
     
     //convert a food pointer to an output string
-    string inputFoodToOutputString(Food* food) const;
+    //string inputFoodToOutputString(Food* food) const;
     
     //convert an input string to a food pointer
     Food* inputStringToFood(string input) const;

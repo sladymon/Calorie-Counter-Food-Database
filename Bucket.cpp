@@ -212,6 +212,25 @@ void Bucket::traverseBucket(void visit(Food*))
 }
 
 
+//*********************************************************************
+// Author - Shannon Ladymon
+// traverseBucket - traverses every Food* item in the bucket and calls
+//          the visit function on each one
+// @param visit - the function to call on each item
+//*********************************************************************
+void Bucket::traverseBucket(void visit(Food*, ofstream&), ofstream& outfile)
+{
+    for(int i=0; i< count; i++){
+        
+        if(bucket_Array[i] != 0) //if not a null ptr
+        {
+            visit(bucket_Array[i], outfile);
+        }
+    }
+}
+
+
+
 
 
 

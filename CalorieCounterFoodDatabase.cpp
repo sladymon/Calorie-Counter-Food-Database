@@ -19,8 +19,7 @@
 
 //TODO:
 //Get hash working with specified size
-//Get hash traverse to work for writing to file
-//Get secondaryBST search to print all matching items
+//FIX DOCUMENTATION FOR NEW FUNCTIONS (traverse, writefile, etc)
 
 //CHECK THAT ONLY HASH DELETES
 
@@ -32,6 +31,7 @@ void displayFood(Food& anItem);
 void visit(Food* anItem);
 int compareBST(Food* food1, Food* food2);
 int compareBSTSecondary(Food* food1, Food* food2);
+string inputFoodToOutputString(Food* food);
 
 
 
@@ -77,6 +77,16 @@ void visit(Food* anItem)
 }
 
 //*********************************************************************
+// Author - Shannon Ladymon
+// TODO
+//*********************************************************************
+void writeFoodItemToFile(Food* anItem, ofstream& outfile)
+{
+    string outStr = inputFoodToOutputString(anItem);
+    outfile << outStr << endl;
+}
+
+//*********************************************************************
 // Author - Deepika Metkar
 // compareBST - a comparison function to work with the primary key, name
 // @param food1 - a pointer to the first food to compare
@@ -115,6 +125,26 @@ int compareBSTSecondary(Food* food1, Food* food2)
         return -1;
     }
     return 0;
+}
+
+//*********************************************************************
+// Author - Deepika Metkar, Shannon Ladymon
+// inputFoodToOutputString - converts information from a Food pointer
+//          to a string with the data
+// @param food - the Food pointer to get the information from
+// @return - the string with all information on the food
+//*********************************************************************
+string inputFoodToOutputString(Food* food)
+{
+    stringstream amount, calories, fat, fiber, protein, sugar;
+    calories << food->getCalories();
+    amount << food->getAmount();
+    fat << food->getFat();
+    fiber << food->getFiber();
+    protein << food->getProtein();
+    sugar << food->getSugar();
+    
+    return food->getName() + ";" + food->getCategory() + ";" + amount.str() + ";" + calories.str() + ";" + fiber.str() + ";" + sugar.str() + ";"+ protein.str() + ";" + fat.str() ;
 }
 
 
@@ -227,7 +257,10 @@ bool CalorieCounterFoodDatabase::readFile(const char* fileName)
     {
         Food* foodObj = inputStringToFood(temp);
         insertInDataStructures(foodObj);
+        string outStr = inputFoodToOutputString(foodObj);
     }
+    
+    inFile.close();
     
     return true;
 }
@@ -247,12 +280,9 @@ bool CalorieCounterFoodDatabase::writeFile(const char* fileName)
         cout << "Error opening output file!\n";
         return false;
     }
+    hash->traverseHash(writeFoodItemToFile, outfile);
     
-    cout << "TESTING: writeFile is called\n";
-    
-    //FIXME: call hashItemsList function
-    // loop through it
-    //outfile << inputFoodToOutputString(food);
+    cout << "All items written to file\n";
     outfile.close();
     return true;
 }
@@ -285,25 +315,7 @@ bool CalorieCounterFoodDatabase::insertInDataStructures(Food* food)
     return true;
 }
 
-//*********************************************************************
-// Author - Deepika Metkar
-// inputFoodToOutputString - converts information from a Food pointer
-//          to a string with the data
-// @param food - the Food pointer to get the information from
-// @return - the string with all information on the food
-//*********************************************************************
-string CalorieCounterFoodDatabase::inputFoodToOutputString(Food* food) const
-{
-	stringstream calories, fat, fiber, protein, sugar;
-	calories << food->getCalories();
-	fat << food->getFat();
-	fiber << food->getFiber();
-	protein << food->getProtein();
-	sugar << food->getSugar();
 
-	return food->getName() + "," + food->getCategory() + "," + calories.str() + "," + fat.str() + "," + fiber.str() + ","
-		+ protein.str() +"," + sugar.str();
-}
 
 //*********************************************************************
 // Author - Deepika Metkar, Shannon Ladymon
@@ -398,8 +410,8 @@ void CalorieCounterFoodDatabase::menu(const char* fileName)
 	char choice = 'A'; //default to enter the while loop
     
     //TESTING
-    cout << "TESTING TRAVERSE FUNCTION" << endl;
-    traverseData();
+    //cout << "TESTING TRAVERSE FUNCTION" << endl;
+    //traverseData();
     
 	displayMenu();
 
@@ -617,7 +629,7 @@ void CalorieCounterFoodDatabase::searchManager() const
             cout << name << " was not found." << endl;
         }
 	}
-	else if (choice == 'S') //FIXME: display ALL Matches - need to write additional search function for all matches
+	else if (choice == 'S') 
 	{
 		cout << "\nEnter the food category(S) to search for: ";
 		getline(cin, name);
