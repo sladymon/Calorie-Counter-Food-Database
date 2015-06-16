@@ -25,30 +25,7 @@
 //CHECK THAT ONLY HASH DELETES
 
 
-
 using namespace std;
-
-//<<<<<<< Updated upstream
-//Shannon's files
-const string INPUT_FILE = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/foodInput.txt";
-const string OUTPUT_FILE = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/foodOutput.txt";
-
-//Wendy's files
-//const string INPUT_FILE = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/foodInput.txt";
-//const string OUTPUT_FILE = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/foodOutput.txt";
-
-//Shuti's files
-//const string INPUT_FILE = "foodInput.txt";
-//const string OUTPUT_FILE = "foodOutput.txt";
-
-//Deepika's files
-//=======
-//const string INPUT_FILE = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/foodInput.txt";
-//const string INPUT_FILE = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/foodInput.txt";
-//>>>>>>> Stashed changes
-//const string INPUT_FILE = "D:\\foodInput.txt";
-//const string OUTPUT_FILE = "D:\\foodOutput.txt";
-
 
 void displayIndentedNode(Food* anItem, int level);
 void displayFood(Food& anItem);
@@ -400,7 +377,7 @@ Food* CalorieCounterFoodDatabase::enterFoodManually() const
 // menu - a menu which allows users to enter choices for actions until
 //          quitting
 //*********************************************************************
-void CalorieCounterFoodDatabase::menu()
+void CalorieCounterFoodDatabase::menu(const char* fileName)
 {
     welcome();
     string choiceStr;
@@ -424,13 +401,13 @@ void CalorieCounterFoodDatabase::menu()
 			break;
 		case 'L': listManager();
 			break;
-		case 'W': writeFile(OUTPUT_FILE.c_str());
+		case 'W': writeFile(fileName);
 			break;
 		case 'G': hash->statistics();
 			break;
 		case 'H': displayMenu();
 			break;
-            case 'Q': writeFile(OUTPUT_FILE.c_str());
+            case 'Q': writeFile(fileName);
             goodbye();
 			break;
 		default: cout << choice << " is an invalid option."

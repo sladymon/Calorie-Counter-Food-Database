@@ -11,7 +11,7 @@ using namespace std;
 
 //Wendy's files
 //const string INPUT_FILE = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/foodInput.txt";
-//const string INPUT_FILE = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/foodOutput.txt";
+//const string OUTPUT_FILE = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/foodOutput.txt";
 //const string PRIME_NUMBERS = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/primeNumbers.txt";
 
 //Shuti's files
@@ -32,7 +32,7 @@ int main()
 {
 	CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(determineHashSize(INPUT_FILE.c_str(), PRIME_NUMBERS.c_str()));
 	a->readFile(INPUT_FILE.c_str());
-	a->menu();
+	a->menu(OUTPUT_FILE.c_str());
 	return 0;
 }
 

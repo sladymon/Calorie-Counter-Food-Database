@@ -79,7 +79,7 @@ public:
     Food* enterFoodManually() const;
 
 	//menus and option manager functions
-	void menu();
+	void menu(const char* fileName);
 	void displayMenu() const;
 	void displayListMenu() const;
     void displayInsertMenu() const;
