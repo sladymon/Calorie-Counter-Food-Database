@@ -38,8 +38,8 @@ Bucket::Bucket(){
 //          unless null
 //*********************************************************************
 Bucket::~Bucket(){    
-    count = 0;
     
+    count = 0;
     for(int i=0; i< 3; i++){
         
         if (bucket_Array[i]!=0) {

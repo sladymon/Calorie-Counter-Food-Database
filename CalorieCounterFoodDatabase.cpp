@@ -19,10 +19,6 @@
 
 //TODO:
 //Get hash working with specified size
-//FIX DOCUMENTATION FOR NEW FUNCTIONS (traverse, writefile, etc)
-
-//CHECK THAT ONLY HASH DELETES
-
 
 using namespace std;
 

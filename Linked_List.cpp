@@ -49,6 +49,9 @@ Linked_List::~Linked_List()
         // Save a pointer to the next node.
         nextNode = nodePtr->next;
         
+        // Delete Food* in each node;
+        delete nodePtr->food;
+        
         // Delete the current node.
         delete nodePtr;
         

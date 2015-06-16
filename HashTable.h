@@ -48,7 +48,7 @@ public:
     
     // Destructor
     ~HashTable(){
-        delete []foodTable;  //FIXME: Is this the correct destructor?
+        delete []foodTable;
         delete foodList;
     }
     
