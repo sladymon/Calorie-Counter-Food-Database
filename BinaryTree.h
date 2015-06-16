@@ -37,6 +37,7 @@ public:
 
 	// search by a unique key
 	virtual bool getEntry(ItemType* anEntry, ItemType& returnedItem) const = 0;
+    virtual void printAllMatches(ItemType* target, void visit(ItemType &)) const = 0;
 
     // comparison function to be used in sorting trees by different keys
 	int(*compare) (ItemType* argu1, ItemType* argu2);
