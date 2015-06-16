@@ -197,15 +197,15 @@ bool BinarySearchTree<ItemType>::remove(ItemType* target, int(*cmp) (ItemType* a
 //*********************************************************************
 
 template<class ItemType>
-void _printAllMatches(ItemType* target, void visit(ItemType &), BinaryNode<ItemType>* nodePtr)
+void BinarySearchTree<ItemType>::_printAllMatches(ItemType* target, void visit(ItemType &), BinaryNode<ItemType>* nodePtr) const
 {
     if (nodePtr != 0) {
-        _printTree(visit, nodePtr->getLeftPtr());
+        _printAllMatches(target, visit, nodePtr->getLeftPtr());
         if (compare(nodePtr->getItem(), target) == 0)
         {
             visit(*(nodePtr->getItem()));
         }
-        _printTree(visit, nodePtr->getRightPtr());
+        _printAllMatches(target, visit, nodePtr->getRightPtr());
     }
 }
 
