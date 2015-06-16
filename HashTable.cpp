@@ -62,8 +62,16 @@ HashTable::HashTable(int size){
     foodTable = new Bucket[size];
     foodList = new Linked_List();
 }
-
-
+//
+////~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//void HashTable::rehash(){
+//	int newSize= sizeTable * 2 + 1;//u should call nextprime
+//	Bucket* newFoodTable; 
+//	newFoodTable = new Bucket[newSize];
+//	//give this array to a visit function that u give it to traversehash 
+//	delete foodTable;//PROBLEM!!!, all memory deallocated
+//	sizeTable = newSize;
+//}
 //*********************************************************************
 // Author - Wendy Martell
 // insert - inserts a new Food pointer into hash table. Calls the hash

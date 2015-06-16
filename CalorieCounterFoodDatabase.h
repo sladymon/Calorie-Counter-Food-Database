@@ -96,4 +96,4 @@ public:
 #endif /* CALORIECOUNTERFOODDATABASE_H_ */
 
 
-int nextPrime(int inputCounter, const char* primeFile);
+int nextPrime(int inputCounter);
