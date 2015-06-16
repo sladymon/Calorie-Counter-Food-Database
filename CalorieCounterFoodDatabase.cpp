@@ -56,16 +56,6 @@ int compareBST(Food* food1, Food* food2);
 int compareBSTSecondary(Food* food1, Food* food2);
 
 
-//FIXME: Should we have a separate driver?  YES - make a driver file
-int main()
-{
-	CalorieCounterFoodDatabase a;
-	a.readFile(INPUT_FILE.c_str());
-	a.menu();
-	return 0;
-}
-
-
 /////////////////////////////////// Stand Alone Functions /////////////////////////////////////
 
 //*********************************************************************
@@ -697,64 +687,6 @@ void CalorieCounterFoodDatabase::listManager() const
 
 /////////////////////////////////// Hash Functions /////////////////////////////////////
 
-//Shuti
-int CalorieCounterFoodDatabase::determineHashSize(const char* fileName)
-{
-	int inputCounter = 0;
-	ifstream inFile("foodInput.txt");
-	string temp;
-
-	inFile.open(INPUT_FILE);
-	if (!inFile)
-	{
-		cout << "Error opening \'foodInput.txt\' File!\n";
-		return false;
-	}
-
-	if (inFile.eof())
-	{
-		cout << "File is empty" << endl;
-		return false;
-	}
-	
-	while (getline(inFile, temp))
-	{
-		inputCounter++;
-	}
-	inFile.clear();
-	inFile.seekg(0, inFile.beg);
-	
-
-	return isPrime(inputCounter * 2);
-	/*cout << "Determine Hash Size called" << endl;
-	return 0;*/
-}
-// 
-bool CalorieCounterFoodDatabase::isPrime(int inputCounter)
-{
-	int divisor = 6;
-	if (inputCounter == 2 || inputCounter == 3) 
-		return true;
-	if (inputCounter % 2 == 0 || inputCounter % 3 == 0)
-		return false;
-	while (divisor * divisor - 2 * divisor + 1 <= inputCounter)
-	{
-		if (inputCounter % (divisor - 1))
-			return false;
-		if (inputCounter % (divisor + 1))
-			return false;
-			divisor += 6;
-	}
-	return true;
-
-} 
-// 
-int CalorieCounterFoodDatabase::nextPrime(int size)
-{
-	//while (!isPrime(++size))
-
-	return size;    // size is the hash size; which is the prime number, find place to return
-}
 
 //TODO: Write this
 void CalorieCounterFoodDatabase::rehashing()
