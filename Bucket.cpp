@@ -163,7 +163,6 @@ int Bucket::delete_Item_in_Bucket(Food& find_food){
     string search_name = find_food.getName();
     string cutName = search_name.substr(0,19);
    
-    //bool found = false;
     int position = 0;
     
     int j = 0;
@@ -171,7 +170,6 @@ int Bucket::delete_Item_in_Bucket(Food& find_food){
         if(bucket_Array[i]->getName().substr(0,19)==cutName){
             bucket_Array[i] = 0;
             
-           // found = true;
             position = i;
             
             j=i;
@@ -181,16 +179,6 @@ int Bucket::delete_Item_in_Bucket(Food& find_food){
             break;
         }
     }
-    /*
-    if(found){
-    //if (position==0||position==1){
-    
-        for(; j< count; j++){
-            bucket_Array[j] = bucket_Array[j+1];
-            bucket_Array[j+1] = 0;
-        }
-    }*/
-    //return found;
     return count;
 }
 
