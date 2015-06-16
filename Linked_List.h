@@ -45,6 +45,7 @@ public:
     bool deleteNode(Food &foodData);
     bool searchNode(Food &foodData);
     void displayList() const;
+    void traverseList(void visit(Food*));
     
 };
 #endif

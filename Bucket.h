@@ -52,6 +52,8 @@ public:
     void print_Items_in_Bucket();  
     void print_Indented_Items_from_bucket();
 
+    // traverse
+    void traverseBucket(void visit(Food*));
 
 
 };

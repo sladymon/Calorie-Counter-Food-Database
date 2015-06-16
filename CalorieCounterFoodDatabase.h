@@ -90,6 +90,7 @@ public:
 
 	//hash functions
 	void rehashing();
+    void traverseData();
 };
 
 

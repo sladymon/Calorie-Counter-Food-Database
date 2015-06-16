@@ -179,4 +179,23 @@ bool Linked_List::deleteNode(Food& foodData)
     return true;
 }
 
+//*********************************************************************
+// Author - Shannon Ladymon
+// traverseList - traverses every Food* item in the list and calls
+//          the visit function on each one
+// @param visit - the function to call on each item
+//*********************************************************************
+void Linked_List::traverseList(void visit(Food*))
+{
+    ListNode *nodePtr;
+    nodePtr = head->next;
+
+    while (nodePtr)
+    {
+        visit(nodePtr->food);
+        nodePtr = nodePtr->next;
+    }
+    
+}
+
 

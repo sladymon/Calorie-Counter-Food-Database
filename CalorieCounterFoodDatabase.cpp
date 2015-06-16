@@ -29,8 +29,10 @@ using namespace std;
 
 void displayIndentedNode(Food* anItem, int level);
 void displayFood(Food& anItem);
+void visit(Food* anItem);
 int compareBST(Food* food1, Food* food2);
 int compareBSTSecondary(Food* food1, Food* food2);
+
 
 
 /////////////////////////////////// Stand Alone Functions /////////////////////////////////////
@@ -57,11 +59,21 @@ void displayIndentedNode(Food* anItem, int level)
 //          Is passed to BST function that displays all foods that
 //          match a secondary key.
 // @param anItem - pointer to Food to be displayed
-// @param level - current level of tree
 //*********************************************************************
 void displayFood(Food& anItem)
 {
     anItem.displayFood();
+    cout << endl;
+}
+
+//*********************************************************************
+// Author - Shannon Ladymon
+// TODO
+//*********************************************************************
+void visit(Food* anItem)
+{
+    anItem->displayFood();
+    cout << endl;
 }
 
 //*********************************************************************
@@ -382,6 +394,11 @@ void CalorieCounterFoodDatabase::menu(const char* fileName)
     welcome();
     string choiceStr;
 	char choice = 'A'; //default to enter the while loop
+    
+    //TESTING
+    cout << "TESTING TRAVERSE FUNCTION" << endl;
+    traverseData();
+    
 	displayMenu();
 
 	while (choice != 'Q')
@@ -669,4 +686,10 @@ void CalorieCounterFoodDatabase::listManager() const
 void CalorieCounterFoodDatabase::rehashing()
 {
 	cout << "Rehashing called" << endl;
+}
+
+
+void CalorieCounterFoodDatabase::traverseData()
+{
+    hash->traverseHash(visit);
 }

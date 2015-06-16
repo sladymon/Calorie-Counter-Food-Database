@@ -148,6 +148,21 @@ int HashTable::hashed_Index(string name){
   }
 
 //*********************************************************************
+// Author - Shannon Ladymon
+// traverseHash - traverses every Food* item in the hash and calls
+//          the visit function on each one
+// @param visit - the function to call on each item
+//*********************************************************************
+void HashTable::traverseHash(void visit(Food*))
+{
+    for (int i=0; i < sizeTable ; i++) {
+        
+        foodTable[i].traverseBucket(visit);
+    }
+    foodList->displayList(); ///FIXEME - traverse linked list too
+}
+
+//*********************************************************************
 // Author - Wendy Martell
 // print_Table - prints all foods in the array and overflow linked list
 //*********************************************************************
@@ -261,46 +276,6 @@ bool HashTable::delete_Item (Food& find_food){
 
 return false;
 }
-
-
-    /*
-     if (done) {
-    
-        full_nodes--;
-        empty_nodes++;
-        return true;
-    }else{
-        bool deleteSuccessful = foodList->deleteNode(find_food);
-        overflow--;
-        return deleteSuccessful;
-    }
-    
-    return false;*/
-
-    /*
-    if (position_in_bucket == 0){
-        
-        load_factor--;
-        full_nodes--;
-        empty_nodes++;
-        empty_buckets++;
-        return true;
-        
-    }if(position_in_bucket == 1){
-        
-        collisions--;
-        full_nodes--;
-        empty_nodes++;
-        return true;
-        
-    }if(position_in_bucket == 2){
-        
-        collisions--;
-        empty_nodes++;
-        full_nodes--;
-        full_buckets--;
-        return true;
-     */
     
 
 //*********************************************************************
