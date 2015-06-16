@@ -27,10 +27,11 @@ private:
     Food *bucket_Array[3];
 
 public:
-    //Constructor
+    // constructor
     Bucket();
-    //
-    ~Bucket(); // delete each *
+    
+    // destructor
+    ~Bucket();
     
     // accessors
     int get_count() const	 {return count;}
@@ -44,16 +45,16 @@ public:
     // find an item and modify the reference parameter with its details
     bool find_Item_in_Bucket(Food& find_food);
     
-    // deletes an item 
-    //bool delete_Item_in_Bucket(Food& find_food);
+    // deletes an item
     int delete_Item_in_Bucket(Food& find_food);
     
     // print functions
     void print_Items_in_Bucket();  
     void print_Indented_Items_from_bucket();
 
-    // traverse
+    // traverse bucket functions
     void traverseBucket(void visit(Food*));
+    void traverseBucket(void visit(Food*, ofstream&), ofstream& outfile);
 
 
 };

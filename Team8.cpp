@@ -1,3 +1,13 @@
+//*********************************************************************
+//                      DRIVER FOR TEAM 8 PROJECT
+//
+// Author: Shuti Wang, Deepika Metkar
+// Description: Contains driver code for the project.  Main determines
+//          the hash size and builds a CalorieCounterFoodDatabase,
+//          then runs the menu.
+//
+//*********************************************************************
+
 #include <iostream>
 #include <fstream>
 #include "CalorieCounterFoodDatabase.h"
@@ -5,9 +15,9 @@
 using namespace std;
 
 //Shannon's files
-//const string INPUT_FILE = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/foodInput.txt";
-//const string OUTPUT_FILE = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/foodOutput.txt";
-//const string PRIME_NUMBERS = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/primeNumbers.txt";
+const string INPUT_FILE = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/foodInput.txt";
+const string OUTPUT_FILE = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/foodOutput.txt";
+const string PRIME_NUMBERS = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/primeNumbers.txt";
 
 //Wendy's files
 //const string INPUT_FILE = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/foodInput.txt";
@@ -15,9 +25,9 @@ using namespace std;
 //const string PRIME_NUMBERS = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/primeNumbers.txt";
 
 //Shuti's files
-const string INPUT_FILE = "foodInput.txt";
-const string OUTPUT_FILE = "foodOutput.txt";
-const string PRIME_NUMBERS = "primeNumbers.txt";
+//const string INPUT_FILE = "foodInput.txt";
+//const string OUTPUT_FILE = "foodOutput.txt";
+//const string PRIME_NUMBERS = "primeNumbers.txt";
 
 //Deepika's files
 //const string INPUT_FILE = "D:\\foodInput.txt";
@@ -30,10 +40,12 @@ int determineHashSize(const char* fileName);
 
 int main()
 {
-	//CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(determineHashSize(INPUT_FILE.c_str()));
-    CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(10);
+	CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(determineHashSize(INPUT_FILE.c_str()));
+    //CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(10);
+    
 	a->readFile(INPUT_FILE.c_str());
 	a->menu(OUTPUT_FILE.c_str());
+    delete a;
 	return 0;
 }
 
@@ -63,6 +75,8 @@ int determineHashSize(const char* fileName)
 	}
 	inFile.clear();
 	inFile.seekg(0, inFile.beg);
+    
+    inFile.close();
 
 
 	return nextPrime(inputCounter * 2);

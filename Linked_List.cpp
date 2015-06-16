@@ -49,6 +49,9 @@ Linked_List::~Linked_List()
         // Save a pointer to the next node.
         nextNode = nodePtr->next;
         
+        // Delete Food* in each node;
+        delete nodePtr->food;
+        
         // Delete the current node.
         delete nodePtr;
         
@@ -193,6 +196,27 @@ void Linked_List::traverseList(void visit(Food*))
     while (nodePtr)
     {
         visit(nodePtr->food);
+        nodePtr = nodePtr->next;
+    }
+    
+}
+
+//*********************************************************************
+// Author - Shannon Ladymon
+// traverseList - overloaded traverse for every Food* item in the
+//          list which calls the visit function on each one, which
+//          will print to file
+// @param visit - the function to call on each item
+// @param outfile - the file to write to
+//*********************************************************************
+void Linked_List::traverseList(void visit(Food*, ofstream&), ofstream& outfile)
+{
+    ListNode *nodePtr;
+    nodePtr = head->next;
+    
+    while (nodePtr)
+    {
+        visit(nodePtr->food, outfile);
         nodePtr = nodePtr->next;
     }
     

@@ -48,7 +48,7 @@ public:
     
     // Destructor
     ~HashTable(){
-        delete []foodTable;  //FIXME: Is this the correct destructor?
+        delete []foodTable;
         delete foodList;
     }
     
@@ -93,7 +93,9 @@ public:
     
     // traverse all items in hash
     void traverseHash(void visit(Food*));
+	void traverseHash(void visit(Food*, ofstream&), ofstream& outfile);
 	void rehash();
+    
     
 };
 

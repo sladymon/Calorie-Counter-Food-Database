@@ -38,8 +38,8 @@ Bucket::Bucket(){
 //          unless null
 //*********************************************************************
 Bucket::~Bucket(){    
-    count = 0;
     
+    count = 0;
     for(int i=0; i< 3; i++){
         
         if (bucket_Array[i]!=0) {
@@ -210,6 +210,27 @@ void Bucket::traverseBucket(void visit(Food*))
         }
     }
 }
+
+
+//*********************************************************************
+// Author - Shannon Ladymon
+// traverseBucket - overloaded traverse for every Food* item in the
+//          Bucket which calls the visit function on each one, which
+//          will print to file
+// @param visit - the function to call on each item
+// @param outfile - the file to write to
+//*********************************************************************
+void Bucket::traverseBucket(void visit(Food*, ofstream&), ofstream& outfile)
+{
+    for(int i=0; i< count; i++){
+        
+        if(bucket_Array[i] != 0) //if not a null ptr
+        {
+            visit(bucket_Array[i], outfile);
+        }
+    }
+}
+
 
 
 
