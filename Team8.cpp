@@ -15,24 +15,24 @@
 using namespace std;
 
 //Shannon's files
-const string INPUT_FILE = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/foodInput.txt";
-const string OUTPUT_FILE = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/foodOutput.txt";
-const string PRIME_NUMBERS = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/primeNumbers.txt";
+//const string INPUT_FILE = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/foodInput.txt";
+//const string OUTPUT_FILE = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/foodOutput.txt";
+
 
 //Wendy's files
 //const string INPUT_FILE = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/foodInput.txt";
 //const string OUTPUT_FILE = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/foodOutput.txt";
-//const string PRIME_NUMBERS = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/primeNumbers.txt";
+
 
 //Shuti's files
 //const string INPUT_FILE = "foodInput.txt";
 //const string OUTPUT_FILE = "foodOutput.txt";
-//const string PRIME_NUMBERS = "primeNumbers.txt";
+
 
 //Deepika's files
 //const string INPUT_FILE = "D:\\foodInput.txt";
 //const string OUTPUT_FILE = "D:\\foodOutput.txt";
-//const string OUTPUT_FILE = "D:\\primeNumbers.txt";
+
 
 
 int determineHashSize(const char* fileName);

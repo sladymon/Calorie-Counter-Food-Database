@@ -117,12 +117,8 @@ bool HashTable::insert(Food *food){
         overflow++;
         foodList->insertNode(food);
     }
-//<<<<<<< HEAD
-    
    load_factor=(items_at_pos_0 *100)/sizeTable ;
-//=======
 
-//>>>>>>> origin/master
     return true;
 }
 

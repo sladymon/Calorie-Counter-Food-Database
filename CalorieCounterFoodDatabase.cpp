@@ -16,7 +16,10 @@
 #include <sstream>
 #include <fstream>
 
-const string PRIME_NUMBERS = "primeNumbers.txt";
+//const string PRIME_NUMBERS = "primeNumbers.txt";
+//const string PRIME_NUMBERS = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/primeNumbers.txt";
+//const string PRIME_NUMBERS = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/primeNumbers.txt";
+//const string OUTPUT_FILE = "D:\\primeNumbers.txt";
 
 //TODO:
 //Get hash working with specified size
