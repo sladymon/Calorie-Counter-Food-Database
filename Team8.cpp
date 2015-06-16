@@ -6,8 +6,9 @@ using namespace std;
 
 //<<<<<<< Updated upstream
 //Shannon's files
-//const string INPUT_FILE = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/foodInput.txt";
-//const string OUTPUT_FILE = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/foodOutput.txt";
+const string INPUT_FILE = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/foodInput.txt";
+const string OUTPUT_FILE = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/foodOutput.txt";
+const string PRIME_NUMBERS = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/primeNumbers.txt";
 
 //Wendy's files
 //const string INPUT_FILE = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/foodInput.txt";
@@ -68,11 +69,12 @@ int determineHashSize(const char* fileName, const char* primeFile)
 
 	return nextPrime(inputCounter * 2, primeFile);
 }
-// 
+
+//
 int nextPrime(int inputCounter, const char* fileName)
 {
 	ifstream inFile(fileName);
-	int primeNumber = 0;
+	int primeNumber = inputCounter + 1;
 	if (!inFile)
 	{
 		cout << "Error opening prime number file." << endl;
@@ -90,6 +92,7 @@ int nextPrime(int inputCounter, const char* fileName)
 			inFile.close();
 			return primeNumber;
 		}
-	}
 
+	}
+    return primeNumber;
 }
