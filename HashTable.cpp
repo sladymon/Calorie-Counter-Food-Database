@@ -165,9 +165,11 @@ void HashTable::traverseHash(void visit(Food*))
 
 //*********************************************************************
 // Author - Shannon Ladymon
-// traverseHash - overloaded traverse for every Food* item in the hash
-//          which calls the visit function on each one
+// traverseHash - overloaded traverse for every Food* item in the
+//          hash which calls the visit function on each one, which
+//          will print to file
 // @param visit - the function to call on each item
+// @param outfile - the file to write to
 //*********************************************************************
 void HashTable::traverseHash(void visit(Food*, ofstream&), ofstream& outfile)
 {

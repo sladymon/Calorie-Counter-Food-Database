@@ -200,9 +200,11 @@ void Linked_List::traverseList(void visit(Food*))
 
 //*********************************************************************
 // Author - Shannon Ladymon
-// traverseList - traverses every Food* item in the list and calls
-//          the visit function on each one
+// traverseList - overloaded traverse for every Food* item in the
+//          list which calls the visit function on each one, which
+//          will print to file
 // @param visit - the function to call on each item
+// @param outfile - the file to write to
 //*********************************************************************
 void Linked_List::traverseList(void visit(Food*, ofstream&), ofstream& outfile)
 {

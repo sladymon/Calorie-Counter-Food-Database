@@ -214,9 +214,11 @@ void Bucket::traverseBucket(void visit(Food*))
 
 //*********************************************************************
 // Author - Shannon Ladymon
-// traverseBucket - traverses every Food* item in the bucket and calls
-//          the visit function on each one
+// traverseBucket - overloaded traverse for every Food* item in the
+//          Bucket which calls the visit function on each one, which
+//          will print to file
 // @param visit - the function to call on each item
+// @param outfile - the file to write to
 //*********************************************************************
 void Bucket::traverseBucket(void visit(Food*, ofstream&), ofstream& outfile)
 {
