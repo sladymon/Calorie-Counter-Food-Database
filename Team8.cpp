@@ -16,6 +16,7 @@ using namespace std;
 //Shuti's files
 //const string INPUT_FILE = "foodInput.txt";
 //const string OUTPUT_FILE = "foodOutput.txt";
+//const string PRIME_NUMBERS = "primeNumbers.txt";
 
 //Deepika's files
 //=======
@@ -26,28 +27,28 @@ using namespace std;
 //const string OUTPUT_FILE = "D:\\foodOutput.txt";
 
 
+int determineHashSize(const char* fileName, const char* primeFile);
+int nextPrime(int inputCounter, const char* primeFile);
 
-int nextPrime(int inputCounter);
-int determineHashSize(const char* fileName);
 int main()
 {
-	CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(determineHashSize(INPUT_FILE.c_str()));
+	CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(determineHashSize(INPUT_FILE.c_str(), PRIME_NUMBERS.c_str()));
 	a->readFile(INPUT_FILE.c_str());
 	a->menu();
 	return 0;
 }
 
 //Shuti
-int determineHashSize(const char* fileName)
+int determineHashSize(const char* fileName, const char* primeFile)
 {
 	int inputCounter = 0;
-	ifstream inFile("foodInput.txt");
+	ifstream inFile;
 	string temp;
 
-	inFile.open(INPUT_FILE);
+	inFile.open(fileName);
 	if (!inFile)
 	{
-		cout << "Error opening \'foodInput.txt\' File!\n";
+		cout << "Error opening " << fileName << "!\n";
 		return false;
 	}
 
@@ -65,12 +66,12 @@ int determineHashSize(const char* fileName)
 	inFile.seekg(0, inFile.beg);
 
 
-	return nextPrime(inputCounter * 2);
+	return nextPrime(inputCounter * 2, primeFile);
 }
 // 
-int nextPrime(int inputCounter)
+int nextPrime(int inputCounter, const char* fileName)
 {
-	ifstream inFile("primeNumbers.txt");
+	ifstream inFile(fileName);
 	int primeNumber = 0;
 	if (!inFile)
 	{
