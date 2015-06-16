@@ -249,6 +249,8 @@ bool HashTable::delete_Item (Food& find_food){
     }if (bucket_count==2){
         collisions--;
         empty_nodes++;
+        full_buckets--;
+        full_nodes--;
         return true;
         
     }else{

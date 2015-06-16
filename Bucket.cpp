@@ -121,8 +121,8 @@ void Bucket::print_Indented_Items_from_bucket(){
         
             cout << "\n\t\t\t\t"<<bucket_Array[i]->getName();
         }
-        
     }
+    cout <<endl;
 }
 
 
@@ -165,7 +165,7 @@ int Bucket::delete_Item_in_Bucket(Food& find_food){
     string search_name = find_food.getName();
     string cutName = search_name.substr(0,19);
    
-    bool found = false;
+    //bool found = false;
     int position = 0;
     
     int j = 0;
