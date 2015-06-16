@@ -201,14 +201,6 @@ CalorieCounterFoodDatabase::~CalorieCounterFoodDatabase()
     delete primaryBST;
     delete secondaryBST;
     delete hash;
-	//have a queue that has all the pointers u inserted in all these ADTS
-	//iterate through the queue and delete all pointers
-	//just like u allocated memory in main u should deallocate it in main
-	//HT doesnt have any privelage over BST to delete the memory
-
-	//one problem that results from having the bucket deallocate memory
-	//is when u want to rehash (move all ur buckets to a new array in the hashtable)
-	//when u delete the old array of buckets u deallocate memory and u dont have them anymore
 }
 
 
@@ -713,6 +705,8 @@ void CalorieCounterFoodDatabase::rehashing()
 {
 	
 	int newSize = nextPrime(hash->get_sizeTable() * 2);
+
+
 	cout << "testing new size: " << newSize << endl;
 	cout << "Rehashing called" << endl;
 }

@@ -27,7 +27,7 @@ class HashTable
 {
 private:
     
-    Bucket* foodTable;//should be a double pointer (array of pointers, so when u rehash u dont have to copy the whole bucket, u just copy an address)
+    Bucket* foodTable;
     Linked_List* foodList;
     int sizeTable;
     int collisions;
