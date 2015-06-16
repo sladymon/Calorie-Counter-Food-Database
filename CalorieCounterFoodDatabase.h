@@ -93,6 +93,7 @@ public:
     void traverseData();
 };
 
-
-
 #endif /* CALORIECOUNTERFOODDATABASE_H_ */
+
+
+int nextPrime(int inputCounter, const char* primeFile);

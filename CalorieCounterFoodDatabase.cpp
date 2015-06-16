@@ -276,8 +276,10 @@ bool CalorieCounterFoodDatabase::insertInDataStructures(Food* food)
     
     primaryBST->insert(food);
     secondaryBST->insert(food);
-    //if (hash->getLoadFactor() > 75)
-    // { rehash()}
+    if (hash->get_load_factor() > 75)
+	{
+		rehashing();
+	}
     
     hash->insert(food);
     return true;
@@ -688,7 +690,31 @@ void CalorieCounterFoodDatabase::rehashing()
 	cout << "Rehashing called" << endl;
 }
 
+int nextPrime(int inputCounter, const char* fileName)
+{
+	ifstream inFile(fileName);
+	int primeNumber = inputCounter + 1;
+	if (!inFile)
+	{
+		cout << "Error opening prime number file." << endl;
+		return false;
+	}
+	if (inFile.eof())
+	{
+		cout << "File is empty." << endl;
+		return false;
+	}
+	while (inFile >> primeNumber)
+	{
+		if (inputCounter < primeNumber)
+		{
+			inFile.close();
+			return primeNumber;
+		}
 
+	}
+	return primeNumber;
+}
 void CalorieCounterFoodDatabase::traverseData()
 {
     hash->traverseHash(visit);

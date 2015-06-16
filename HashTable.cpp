@@ -126,7 +126,8 @@ bool HashTable::insert(Food *food){
 //*********************************************************************
 int HashTable::hashed_Index(string name){
     
-    int size=21;
+	const int size = 21;  // work for shuti's computer
+	//int size=21;
     long int sum = 0;
     
     char key[size];
