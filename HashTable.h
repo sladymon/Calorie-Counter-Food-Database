@@ -47,23 +47,26 @@ public:
     
     // Destructor
     ~HashTable(){
-        delete []foodTable;  //FIXME: Is this the correct destructor?
+        delete []foodTable;
         delete foodList;
     }
     
     // mutators
     void set_sizeTable(int sizeTable) {this->sizeTable = sizeTable;}
-    void set_collision(float coallision) {this->collisions = coallision;}
+    void set_collision(float collision) {this->collisions = collision;}
+    void set_items_at_position_0(int items_at_pos_0){this->items_at_pos_0=items_at_pos_0;}
     void set_load_factor(float load_factor) {this->load_factor = load_factor;}
-    void set_empty_nodes(int empty_nodes) {this->empty_nodes = empty_nodes;}
-    void set_empty_buckets(int empty_buckets) {this->empty_buckets = empty_buckets;}
     void set_full_nodes(int full_nodes) {this->full_nodes = full_nodes;}
     void set_full_buckets(int full_buckets) {this->full_buckets = full_buckets;}
+    void set_empty_nodes(int empty_nodes) {this->empty_nodes = empty_nodes;}
+    void set_empty_buckets(int empty_buckets) {this->empty_buckets = empty_buckets;}
+    
     void set_overflow(int overflow) {this->overflow = overflow;}
     
     // accessors
-    float get_collision() const {return collisions;}
     int get_sizeTable() const {return sizeTable;}
+    float get_collision() const {return collisions;}
+    int get_items_at_position_0(){return items_at_pos_0;}
     float get_load_factor() const {return load_factor;}
     int get_full_nodes() const {return full_nodes;}
     int get_full_buckets() const {return full_buckets;}
@@ -89,6 +92,10 @@ public:
     // print functions
     void print_Table();
     void print_Indented_Items_with_Index_from_Bucket();
+    
+    // traverse all items in hash
+    void traverseHash(void visit(Food*));
+    void traverseHash(void visit(Food*, ofstream&), ofstream& outfile);
     
     
 };

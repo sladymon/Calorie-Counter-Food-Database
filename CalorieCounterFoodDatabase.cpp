@@ -19,21 +19,48 @@
 
 //TODO:
 //Get hash working with specified size
-//Get hash traverse to work for writing to file
-//Get secondaryBST search to print all matching items
-
-//CHECK THAT ONLY HASH DELETES
-
 
 using namespace std;
 
+// converts Food pointer to an output string
+string inputFoodToOutputString(Food* food);
+
+// display functions to pass as parameters to other class functions
 void displayIndentedNode(Food* anItem, int level);
 void displayFood(Food& anItem);
+void visit(Food* anItem);
+void writeFoodItemToFile(Food* anItem, ofstream& outfile);
+
+// compare functions to pass as parameters for BST constructors
 int compareBST(Food* food1, Food* food2);
 int compareBSTSecondary(Food* food1, Food* food2);
 
 
+
+
 /////////////////////////////////// Stand Alone Functions /////////////////////////////////////
+
+//*********************************************************************
+// Author - Deepika Metkar, Shannon Ladymon
+// inputFoodToOutputString - converts information from a Food pointer
+//          to a string with the data
+// @param food - the Food pointer to get the information from
+// @return - the string with all information on the food
+//*********************************************************************
+string inputFoodToOutputString(Food* food)
+{
+    stringstream amount, calories, fat, fiber, protein, sugar;
+    calories << food->getCalories();
+    amount << food->getAmount();
+    fat << food->getFat();
+    fiber << food->getFiber();
+    protein << food->getProtein();
+    sugar << food->getSugar();
+    
+    return food->getName() + ";" + food->getCategory() + ";" + amount.str()
+    + ";" + calories.str() + ";" + fiber.str() + ";" + sugar.str()
+    + ";"+ protein.str() + ";" + fat.str() ;
+}
 
 //*********************************************************************
 // Author - Shannon Ladymon
@@ -56,12 +83,37 @@ void displayIndentedNode(Food* anItem, int level)
 // displaySecondaryFoods -  Displays all informationg for a food.
 //          Is passed to BST function that displays all foods that
 //          match a secondary key.
-// @param anItem - pointer to Food to be displayed
-// @param level - current level of tree
+// @param anItem - reference parameter of Food to be displayed
 //*********************************************************************
 void displayFood(Food& anItem)
 {
     anItem.displayFood();
+    cout << endl;
+}
+
+//*********************************************************************
+// Author - Shannon Ladymon
+// visit -  Displays all informationg for a food.
+//          Is passed to Hash traversal function.
+// @param anItem - pointer to Food to be displayed
+//*********************************************************************
+void visit(Food* anItem)
+{
+    anItem->displayFood();
+    cout << endl;
+}
+
+//*********************************************************************
+// Author - Shannon Ladymon
+// writeFoodItemToFile - Given a food pointer, converts the food info
+//          to an output string and writes it to a file
+// @param anItem - pointer to Food to be displayed
+// @param outfile - the file to write the output string to
+//*********************************************************************
+void writeFoodItemToFile(Food* anItem, ofstream& outfile)
+{
+    string outStr = inputFoodToOutputString(anItem);
+    outfile << outStr << endl;
 }
 
 //*********************************************************************
@@ -110,13 +162,13 @@ int compareBSTSecondary(Food* food1, Food* food2)
 
 //*********************************************************************
 // Author - Shannon Ladymon
-// Constructor - initializes the hashSize and inputCounter, and
+// Constructor - initializes the hashSize and inputCounter to 0, and
 //          dynamically allocates the primaryBST, secondaryBST, and
 //          hash.
 //*********************************************************************
 CalorieCounterFoodDatabase::CalorieCounterFoodDatabase()
 {
-	this->hashSize = 10; //FIXME: Change this to 0 later once determineHashSize is working
+	this->hashSize = 0;
 	this->inputCounter = 0;
 	primaryBST = new BinarySearchTree<Food>(compareBST);
 	secondaryBST = new BinarySearchTree<Food>(compareBSTSecondary);
@@ -138,9 +190,6 @@ CalorieCounterFoodDatabase::CalorieCounterFoodDatabase(int hashSize)
     hash = new HashTable(hashSize);
 }
 
-
-//FIXME: Is this how the destructor should work?  How are items actually being deleted?
-//why isn't there conflict?
 //*********************************************************************
 // Author - Shannon Ladymon
 // Destructor - deletes dynamically allocated data structures:
@@ -215,7 +264,10 @@ bool CalorieCounterFoodDatabase::readFile(const char* fileName)
     {
         Food* foodObj = inputStringToFood(temp);
         insertInDataStructures(foodObj);
+        string outStr = inputFoodToOutputString(foodObj);
     }
+    
+    inFile.close();
     
     return true;
 }
@@ -235,12 +287,9 @@ bool CalorieCounterFoodDatabase::writeFile(const char* fileName)
         cout << "Error opening output file!\n";
         return false;
     }
+    hash->traverseHash(writeFoodItemToFile, outfile);
     
-    cout << "TESTING: writeFile is called\n";
-    
-    //FIXME: call hashItemsList function
-    // loop through it
-    //outfile << inputFoodToOutputString(food);
+    cout << "All items written to file\n";
     outfile.close();
     return true;
 }
@@ -264,32 +313,16 @@ bool CalorieCounterFoodDatabase::insertInDataStructures(Food* food)
     
     primaryBST->insert(food);
     secondaryBST->insert(food);
-    //if (hash->getLoadFactor() > 75)
-    // { rehash()}
+    if (hash->get_load_factor() > 75)
+	{
+		rehashing();
+	}
     
     hash->insert(food);
     return true;
 }
 
-//*********************************************************************
-// Author - Deepika Metkar
-// inputFoodToOutputString - converts information from a Food pointer
-//          to a string with the data
-// @param food - the Food pointer to get the information from
-// @return - the string with all information on the food
-//*********************************************************************
-string CalorieCounterFoodDatabase::inputFoodToOutputString(Food* food) const
-{
-	stringstream calories, fat, fiber, protein, sugar;
-	calories << food->getCalories();
-	fat << food->getFat();
-	fiber << food->getFiber();
-	protein << food->getProtein();
-	sugar << food->getSugar();
 
-	return food->getName() + "," + food->getCategory() + "," + calories.str() + "," + fat.str() + "," + fiber.str() + ","
-		+ protein.str() +"," + sugar.str();
-}
 
 //*********************************************************************
 // Author - Deepika Metkar, Shannon Ladymon
@@ -382,6 +415,7 @@ void CalorieCounterFoodDatabase::menu(const char* fileName)
     welcome();
     string choiceStr;
 	char choice = 'A'; //default to enter the while loop
+    
 	displayMenu();
 
 	while (choice != 'Q')
@@ -534,7 +568,7 @@ bool CalorieCounterFoodDatabase::deleteManager()
         cout << "Suggestion: restart your program - this is an unexpected error.\n";
     }
     
-    if(!secondaryBST->remove(toDelete, compareBST))  //FIXME: Why doesn't this crash when trying to delete actual item again?
+    if(!secondaryBST->remove(toDelete, compareBST))
     {
         cout << "Unable to remove " << name << " from secondaryBST" << endl;
         cout << "Suggestion: restart your program - this is an unexpected error.\n";
@@ -598,7 +632,7 @@ void CalorieCounterFoodDatabase::searchManager() const
             cout << name << " was not found." << endl;
         }
 	}
-	else if (choice == 'S') //FIXME: display ALL Matches - need to write additional search function for all matches
+	else if (choice == 'S') 
 	{
 		cout << "\nEnter the food category(S) to search for: ";
 		getline(cin, name);
@@ -649,9 +683,9 @@ void CalorieCounterFoodDatabase::listManager() const
 			break;
 		case'U': hash->print_Table();
 			break;
-		case'P': primaryBST->printTreeAsIndentedList(displayIndentedNode); //FIXME: should this be a list or an indented list?
+		case'P': primaryBST->printTreeAsIndentedList(displayIndentedNode);
 			break;
-		case'S': secondaryBST->printTreeAsIndentedList(displayIndentedNode); //FIXME: should this be a list or an indented list?
+		case'S': secondaryBST->printTreeAsIndentedList(displayIndentedNode); 
 			break;
 		default: cout << choice << " is an invalid option."
 			<< " Please choose one of the following options: \n";
@@ -669,4 +703,34 @@ void CalorieCounterFoodDatabase::listManager() const
 void CalorieCounterFoodDatabase::rehashing()
 {
 	cout << "Rehashing called" << endl;
+}
+
+int nextPrime(int inputCounter, const char* fileName)
+{
+	ifstream inFile(fileName);
+	int primeNumber = inputCounter + 1;
+	if (!inFile)
+	{
+		cout << "Error opening prime number file." << endl;
+		return false;
+	}
+	if (inFile.eof())
+	{
+		cout << "File is empty." << endl;
+		return false;
+	}
+	while (inFile >> primeNumber)
+	{
+		if (inputCounter < primeNumber)
+		{
+			inFile.close();
+			return primeNumber;
+		}
+
+	}
+	return primeNumber;
+}
+void CalorieCounterFoodDatabase::traverseData()
+{
+    hash->traverseHash(visit);
 }

@@ -46,5 +46,9 @@ public:
     bool searchNode(Food &foodData);
     void displayList() const;
     
+    // traverse list functions
+    void traverseList(void visit(Food*));
+    void traverseList(void visit(Food*, ofstream&), ofstream& outfile);
+    
 };
 #endif

@@ -31,12 +31,12 @@
 HashTable::HashTable(){
     sizeTable=0;
     collisions=0;
-    load_factor= 0.00;
     items_at_pos_0=0;
-    empty_nodes=sizeTable*3;
+    load_factor= 0.00;
     full_nodes=0;
-    empty_buckets=sizeTable;
     full_buckets = 0;
+    empty_nodes=sizeTable*3;
+    empty_buckets=sizeTable;
     overflow=0;
     foodTable=new Bucket[sizeTable];
     foodList = new Linked_List();
@@ -52,12 +52,12 @@ HashTable::HashTable(){
 HashTable::HashTable(int size){
     sizeTable= size;
     collisions=0;
-    load_factor= 0.00;
     items_at_pos_0=0;
-    empty_nodes=sizeTable*3;
+    load_factor= 0.00;
     full_nodes=0;
-    empty_buckets=sizeTable;
     full_buckets = 0;
+    empty_nodes=sizeTable*3;
+    empty_buckets=sizeTable;
     overflow=0;
     foodTable = new Bucket[size];
     foodList = new Linked_List();
@@ -109,8 +109,12 @@ bool HashTable::insert(Food *food){
         overflow++;
         foodList->insertNode(food);
     }
+//<<<<<<< HEAD
     
    load_factor=(items_at_pos_0 *100)/sizeTable ;
+//=======
+
+//>>>>>>> origin/master
     return true;
 }
 
@@ -124,7 +128,8 @@ bool HashTable::insert(Food *food){
 //*********************************************************************
 int HashTable::hashed_Index(string name){
     
-    int size=21;
+	const int size = 21;  // work for shuti's computer
+	//int size=21;
     long int sum = 0;
     
     char key[size];
@@ -144,39 +149,6 @@ int HashTable::hashed_Index(string name){
     int returnVal = sum % sizeTable;
     return returnVal;
   }
-
-//*********************************************************************
-// Author - Wendy Martell
-// print_Table - prints all foods in the array and overflow linked list
-//*********************************************************************
-
-void HashTable::print_Table(){
-    
-    for (int i=0; i < sizeTable ; i++) {
-        
-        foodTable[i].print_Items_in_Bucket();
-    }
-    foodList->displayList();
-}
-
-//*********************************************************************
-// Author - Wendy Martell
-// print_Indented_Items_with_Index_from_Bucket - prints indented list
-//          of all foods in the array by index and also prints
-//          items in the overflow linked list
-//*********************************************************************
-void HashTable::print_Indented_Items_with_Index_from_Bucket(){
-    
-    for (int i=0; i < sizeTable ; i++) {
-        
-        cout << "Index " << i << " : ";
-        foodTable[i].print_Indented_Items_from_bucket();
-        cout << endl;
-    }
-    cout << "Items in overflow linked list (" << foodList->getcount() << "): " << endl;
-    foodList->displayList();
-}
-
 
 //*********************************************************************
 // Author - Wendy Martell
@@ -221,13 +193,10 @@ bool HashTable::find_Item(Food& find_food){
 bool HashTable::delete_Item (Food& find_food){
     
     int index;
-    
-    //bool done;
     int bucket_count;
     
     index = hashed_Index (find_food.getName());
     
-    //done = foodTable[index].delete_Item_in_Bucket(find_food);
     bucket_count  = foodTable[index].delete_Item_in_Bucket(find_food);
     if (bucket_count==0){
         
@@ -259,52 +228,9 @@ bool HashTable::delete_Item (Food& find_food){
         load_factor=(items_at_pos_0 *100)/sizeTable ;
         return deleteSuccessful;
     }
-    
-    
 
 return false;
 }
-
-
-    /*
-     if (done) {
-    
-        full_nodes--;
-        empty_nodes++;
-        return true;
-    }else{
-        bool deleteSuccessful = foodList->deleteNode(find_food);
-        overflow--;
-        return deleteSuccessful;
-    }
-    
-    return false;*/
-
-    /*
-    if (position_in_bucket == 0){
-        
-        load_factor--;
-        full_nodes--;
-        empty_nodes++;
-        empty_buckets++;
-        return true;
-        
-    }if(position_in_bucket == 1){
-        
-        collisions--;
-        full_nodes--;
-        empty_nodes++;
-        return true;
-        
-    }if(position_in_bucket == 2){
-        
-        collisions--;
-        empty_nodes++;
-        full_nodes--;
-        full_buckets--;
-        return true;
-     */
-    
 
 //*********************************************************************
 // Author - Wendy Martell
@@ -336,4 +262,68 @@ void HashTable::statistics (){
     cout<<" \tAvg buckets index 1 or 2             : "<<fixed << setprecision(2)<<average<<endl;
     cout<< endl;
 
+}
+
+//*********************************************************************
+// Author - Wendy Martell
+// print_Table - prints all foods in the array and overflow linked list
+//*********************************************************************
+
+void HashTable::print_Table(){
+    
+    for (int i=0; i < sizeTable ; i++) {
+        
+        foodTable[i].print_Items_in_Bucket();
+    }
+    foodList->displayList();
+}
+
+//*********************************************************************
+// Author - Wendy Martell
+// print_Indented_Items_with_Index_from_Bucket - prints indented list
+//          of all foods in the array by index and also prints
+//          items in the overflow linked list
+//*********************************************************************
+void HashTable::print_Indented_Items_with_Index_from_Bucket(){
+    
+    for (int i=0; i < sizeTable ; i++) {
+        
+        cout << "Index " << i << " : ";
+        foodTable[i].print_Indented_Items_from_bucket();
+        cout << endl;
+    }
+    cout << "Items in overflow linked list (" << foodList->getcount() << "): " << endl;
+    foodList->displayList();
+}
+
+//*********************************************************************
+// Author - Shannon Ladymon
+// traverseHash - traverses every Food* item in the hash and calls
+//          the visit function on each one
+// @param visit - the function to call on each item
+//*********************************************************************
+void HashTable::traverseHash(void visit(Food*))
+{
+    for (int i=0; i < sizeTable ; i++) {
+        
+        foodTable[i].traverseBucket(visit);
+    }
+    foodList->traverseList(visit);
+}
+
+//*********************************************************************
+// Author - Shannon Ladymon
+// traverseHash - overloaded traverse for every Food* item in the
+//          hash which calls the visit function on each one, which
+//          will print to file
+// @param visit - the function to call on each item
+// @param outfile - the file to write to
+//*********************************************************************
+void HashTable::traverseHash(void visit(Food*, ofstream&), ofstream& outfile)
+{
+    for (int i=0; i < sizeTable ; i++) {
+        
+        foodTable[i].traverseBucket(visit, outfile);
+    }
+    foodList->traverseList(visit, outfile);
 }

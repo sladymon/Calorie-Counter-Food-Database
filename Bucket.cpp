@@ -38,8 +38,8 @@ Bucket::Bucket(){
 //          unless null
 //*********************************************************************
 Bucket::~Bucket(){    
-    count = 0;
     
+    count = 0;
     for(int i=0; i< 3; i++){
         
         if (bucket_Array[i]!=0) {
@@ -148,8 +148,6 @@ bool Bucket::find_Item_in_Bucket(Food& find_food){
     return false;
 }
 
-//FIXME: Check this function and j
-
 //*********************************************************************
 // Author - Wendy Martell
 // delete_Item_in_Bucket - deletes a food from the bucket if found
@@ -165,7 +163,6 @@ int Bucket::delete_Item_in_Bucket(Food& find_food){
     string search_name = find_food.getName();
     string cutName = search_name.substr(0,19);
    
-    //bool found = false;
     int position = 0;
     
     int j = 0;
@@ -173,7 +170,6 @@ int Bucket::delete_Item_in_Bucket(Food& find_food){
         if(bucket_Array[i]->getName().substr(0,19)==cutName){
             bucket_Array[i] = 0;
             
-           // found = true;
             position = i;
             
             j=i;
@@ -183,19 +179,45 @@ int Bucket::delete_Item_in_Bucket(Food& find_food){
             break;
         }
     }
-    /*
-    if(found){
-    //if (position==0||position==1){
-    
-        for(; j< count; j++){
-            bucket_Array[j] = bucket_Array[j+1];
-            bucket_Array[j+1] = 0;
-        }
-    }*/
-    //return found;
     return count;
 }
 
+//*********************************************************************
+// Author - Shannon Ladymon
+// traverseBucket - traverses every Food* item in the bucket and calls
+//          the visit function on each one
+// @param visit - the function to call on each item
+//*********************************************************************
+void Bucket::traverseBucket(void visit(Food*))
+{
+    for(int i=0; i< count; i++){
+        
+        if(bucket_Array[i] != 0) //if not a null ptr
+        {
+            visit(bucket_Array[i]);
+        }
+    }
+}
+
+
+//*********************************************************************
+// Author - Shannon Ladymon
+// traverseBucket - overloaded traverse for every Food* item in the
+//          Bucket which calls the visit function on each one, which
+//          will print to file
+// @param visit - the function to call on each item
+// @param outfile - the file to write to
+//*********************************************************************
+void Bucket::traverseBucket(void visit(Food*, ofstream&), ofstream& outfile)
+{
+    for(int i=0; i< count; i++){
+        
+        if(bucket_Array[i] != 0) //if not a null ptr
+        {
+            visit(bucket_Array[i], outfile);
+        }
+    }
+}
 
 
 
