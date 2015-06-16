@@ -25,20 +25,20 @@ const string PRIME_NUMBERS = "primeNumbers.txt";
 //const string OUTPUT_FILE = "D:\\primeNumbers.txt";
 
 
-int determineHashSize(const char* fileName, const char* primeFile);
+int determineHashSize(const char* fileName);
 
 
 int main()
 {
-	CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(determineHashSize(INPUT_FILE.c_str(), PRIME_NUMBERS.c_str()));
-    //CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(10);
+	//CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(determineHashSize(INPUT_FILE.c_str()));
+    CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(10);
 	a->readFile(INPUT_FILE.c_str());
 	a->menu(OUTPUT_FILE.c_str());
 	return 0;
 }
 
 //Shuti
-int determineHashSize(const char* fileName, const char* primeFile)
+int determineHashSize(const char* fileName)
 {
 	int inputCounter = 0;
 	ifstream inFile;
@@ -65,5 +65,5 @@ int determineHashSize(const char* fileName, const char* primeFile)
 	inFile.seekg(0, inFile.beg);
 
 
-	return nextPrime(inputCounter * 2, primeFile);
+	return nextPrime(inputCounter * 2);
 }

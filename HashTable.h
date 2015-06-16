@@ -27,7 +27,7 @@ class HashTable
 {
 private:
     
-    Bucket* foodTable;
+    Bucket* foodTable;//should be a double pointer (array of pointers, so when u rehash u dont have to copy the whole bucket, u just copy an address)
     Linked_List* foodList;
     int sizeTable;
     int collisions;
@@ -93,7 +93,7 @@ public:
     
     // traverse all items in hash
     void traverseHash(void visit(Food*));
-    
+	void rehash();
     
 };
 

@@ -16,6 +16,7 @@
 #include <sstream>
 #include <fstream>
 
+const string PRIME_NUMBERS = "primeNumbers.txt";
 
 //TODO:
 //Get hash working with specified size
@@ -163,6 +164,14 @@ CalorieCounterFoodDatabase::~CalorieCounterFoodDatabase()
     delete primaryBST;
     delete secondaryBST;
     delete hash;
+	//have a queue that has all the pointers u inserted in all these ADTS
+	//iterate through the queue and delete all pointers
+	//just like u allocated memory in main u should deallocate it in main
+	//HT doesnt have any privelage over BST to delete the memory
+
+	//one problem that results from having the bucket deallocate memory
+	//is when u want to rehash (move all ur buckets to a new array in the hashtable)
+	//when u delete the old array of buckets u deallocate memory and u dont have them anymore
 }
 
 
@@ -276,6 +285,7 @@ bool CalorieCounterFoodDatabase::insertInDataStructures(Food* food)
     
     primaryBST->insert(food);
     secondaryBST->insert(food);
+	cout << "testing load factor: " << hash->get_load_factor() << endl;
     if (hash->get_load_factor() > 75)
 	{
 		rehashing();
@@ -398,8 +408,8 @@ void CalorieCounterFoodDatabase::menu(const char* fileName)
 	char choice = 'A'; //default to enter the while loop
     
     //TESTING
-    cout << "TESTING TRAVERSE FUNCTION" << endl;
-    traverseData();
+   // cout << "TESTING TRAVERSE FUNCTION" << endl;
+   // traverseData();
     
 	displayMenu();
 
@@ -687,12 +697,15 @@ void CalorieCounterFoodDatabase::listManager() const
 //TODO: Write this
 void CalorieCounterFoodDatabase::rehashing()
 {
+	
+	int newSize = nextPrime(hash->get_sizeTable() * 2);
+	cout << "testing new size: " << newSize << endl;
 	cout << "Rehashing called" << endl;
 }
 
-int nextPrime(int inputCounter, const char* fileName)
+int nextPrime(int inputCounter)
 {
-	ifstream inFile(fileName);
+	ifstream inFile(PRIME_NUMBERS);
 	int primeNumber = inputCounter + 1;
 	if (!inFile)
 	{
