@@ -30,7 +30,7 @@
 //*********************************************************************
 HashTable::HashTable(){
     sizeTable=0;
-    collisions=0.00;
+    collisions=0;
     load_factor= 0.00;
     items_at_pos_0=0;
     items_in_the_Hash_and_List=0;
@@ -52,7 +52,7 @@ HashTable::HashTable(){
 //*********************************************************************
 HashTable::HashTable(int size){
     sizeTable= size;
-    collisions=0.00;
+    collisions=0;
     load_factor= 0.00;
     items_at_pos_0=0;
     items_in_the_Hash_and_List=0;
@@ -312,7 +312,7 @@ void HashTable::statistics (){
     int non_empty=0;
     total_nodes= sizeTable*3;
     non_empty = total_nodes-sizeTable;
-    double average = collisions/items_at_pos_0;
+    double average = (static_cast<double>(collisions))/items_at_pos_0;
     
     load_factor=(items_at_pos_0 *100)/sizeTable ;
     items_in_the_Hash_and_List=full_nodes + overflow;

@@ -30,7 +30,7 @@ private:
     Bucket* foodTable;
     Linked_List* foodList;
     int sizeTable;
-    float collisions;
+    int collisions;
     int items_at_pos_0;
     int items_in_the_Hash_and_List;
     float load_factor;

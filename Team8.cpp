@@ -30,7 +30,8 @@ int nextPrime(int inputCounter, const char* primeFile);
 
 int main()
 {
-	CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(determineHashSize(INPUT_FILE.c_str(), PRIME_NUMBERS.c_str()));
+	//CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(determineHashSize(INPUT_FILE.c_str(), PRIME_NUMBERS.c_str()));
+    CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(10);
 	a->readFile(INPUT_FILE.c_str());
 	a->menu(OUTPUT_FILE.c_str());
 	return 0;
