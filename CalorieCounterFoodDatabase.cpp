@@ -16,13 +16,10 @@
 #include <sstream>
 #include <fstream>
 
-const string PRIME_NUMBERS = "primeNumbers.txt";
+//const string PRIME_NUMBERS = "primeNumbers.txt";
 //const string PRIME_NUMBERS = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/primeNumbers.txt";
 //const string PRIME_NUMBERS = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/primeNumbers.txt";
 //const string OUTPUT_FILE = "D:\\primeNumbers.txt";
-
-//TODO:
-//Get hash working with specified size
 
 using namespace std;
 
@@ -33,6 +30,7 @@ string inputFoodToOutputString(Food* food);
 void displayIndentedNode(Food* anItem, int level);
 void displayFood(Food& anItem);
 void visit(Food* anItem);
+void visitRehash(Food* anItem, HashTable* newHash);
 void writeFoodItemToFile(Food* anItem, ofstream& outfile);
 
 // compare functions to pass as parameters for BST constructors
@@ -105,6 +103,16 @@ void visit(Food* anItem)
 {
     anItem->displayFood();
     cout << endl;
+}
+
+//*********************************************************************
+// Author - Shannon Ladymon
+// TODO
+// @param anItem - pointer to Food to be displayed
+//*********************************************************************
+void visitRehash(Food* anItem, HashTable* newHash)
+{
+    newHash->insert(anItem);
 }
 
 //*********************************************************************
@@ -317,7 +325,7 @@ bool CalorieCounterFoodDatabase::insertInDataStructures(Food* food)
     
     primaryBST->insert(food);
     secondaryBST->insert(food);
-	cout << "testing load factor: " << hash->get_load_factor() << endl;
+    
     if (hash->get_load_factor() > 75)
 	{
 		rehashing();
@@ -708,10 +716,13 @@ void CalorieCounterFoodDatabase::rehashing()
 {
 	
 	int newSize = nextPrime(hash->get_sizeTable() * 2);
+    HashTable* newHash = new HashTable(newSize);
+    
+    primaryBST->rehashTraverse(visitRehash, newHash);
+    //delete hash;
+    hash = newHash;
+    
 
-
-	cout << "testing new size: " << newSize << endl;
-	cout << "Rehashing called" << endl;
 }
 
 int nextPrime(int inputCounter)

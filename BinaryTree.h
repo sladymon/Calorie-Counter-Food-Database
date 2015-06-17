@@ -13,6 +13,7 @@
 #define _BINARY_TREE
 
 #include "BinaryNode.h"
+#include "HashTable.h"
 
 template<class ItemType>
 class BinaryTree
@@ -46,16 +47,40 @@ public:
     void printTreeAsIndentedList(void visit(ItemType*, int level)) const
     { _printIndented(visit, rootPtr, 0); }
     
+    // traverses tree to rehash table
+    void rehashTraverse(void visit(ItemType*, HashTable*), HashTable* newHash)
+    {_rehashTraverse(visit, rootPtr, newHash);}
+    
 private:
 	// delete all nodes from the tree
 	void _destroyTree(BinaryNode<ItemType>* nodePtr);
 
 	// internal traverse: print tree as an indeted list
 	void _printIndented(void visit(ItemType*, int level),
-		BinaryNode<ItemType>* nodePtr, int level) const;
+                        BinaryNode<ItemType>* nodePtr, int level) const;
+    
+    // internal traverse of tree to rehash table
+    void _rehashTraverse(void visit(ItemType*, HashTable*),
+                         BinaryNode<ItemType>* nodePtr, HashTable* newHash);
 };
 
 //////////////////////////////////////////////////////////////////////////
+
+//*********************************************************************
+// Author - Deepika Metkar
+// destroyTree - internal recursive function to delete all nodes in tree
+// @param nodePtr - BinaryNode ptr to root of current subtree
+//*********************************************************************
+template<class ItemType>
+void BinaryTree<ItemType>::_destroyTree(BinaryNode<ItemType>* nodePtr)
+{
+    if (nodePtr != 0)
+    {
+        _destroyTree(nodePtr->getLeftPtr());
+        _destroyTree(nodePtr->getRightPtr());
+        delete nodePtr;
+    }
+}
 
 //*********************************************************************
 // Author - Deepika Metkar
@@ -79,18 +104,25 @@ void BinaryTree<ItemType>::_printIndented(void visit(ItemType*, int level),
 }
 
 //*********************************************************************
-// Author - Deepika Metkar
-// destroyTree - internal recursive function to delete all nodes in tree
+// Author - Shannon Ladymon
+// _rehashTraverse - internal recursive traverse of binary tree to
+//          rehash - will use visit function on each Food*
+// @param visit - function to be called on each node
 // @param nodePtr - BinaryNode ptr to root of current subtree
+// @param newHash - HashTable* to the new hash table to be filled
 //*********************************************************************
 template<class ItemType>
-void BinaryTree<ItemType>::_destroyTree(BinaryNode<ItemType>* nodePtr)
+void BinaryTree<ItemType>::_rehashTraverse(void visit(ItemType*, HashTable*),
+                     BinaryNode<ItemType>* nodePtr, HashTable* newHash)
 {
-	if (nodePtr != 0)
-	{
-		_destroyTree(nodePtr->getLeftPtr());
-		_destroyTree(nodePtr->getRightPtr());
-		delete nodePtr;
-	}
+    if (nodePtr != 0)
+    {
+        _rehashTraverse(visit, nodePtr->getRightPtr(), newHash);
+        ItemType* item = nodePtr->getItem();
+        visit(item, newHash);
+        _rehashTraverse(visit, nodePtr->getLeftPtr(), newHash);
+    }
 }
+
+
 #endif

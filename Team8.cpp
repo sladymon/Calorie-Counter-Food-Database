@@ -24,8 +24,8 @@ using namespace std;
 
 
 //Shuti's files
-const string INPUT_FILE = "foodInput.txt";
-const string OUTPUT_FILE = "foodOutput.txt";
+//const string INPUT_FILE = "foodInput.txt";
+//const string OUTPUT_FILE = "foodOutput.txt";
 
 //Deepika's files
 //const string INPUT_FILE = "D:\\foodInput.txt";
@@ -38,8 +38,8 @@ int determineHashSize(const char* fileName);
 
 int main()
 {
-	CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(determineHashSize(INPUT_FILE.c_str()));
-    //CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(10);
+	//CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(determineHashSize(INPUT_FILE.c_str()));
+    CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(10);
     
 	a->readFile(INPUT_FILE.c_str());
 	a->menu(OUTPUT_FILE.c_str());
