@@ -927,14 +927,15 @@ void CalorieCounterFoodDatabase::createMenu() const
     
     while (choice != 'Q')
     {
-        cout << "\nPlease enter the option of your choice ('A' to add, 'Q' to quit): ";
+        cout << "\n'A' to add, 'Q' to quit : ";
         getline(cin, choiceStr);
         cout << endl;
         choice = toupper(choiceStr[0]);
         
         if (choice == 'A')
         {
-            cout << "Please enter the first food to add to the menu: ";
+            cout << "\n * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n"<< endl;
+            cout << "\tPlease enter a food to add to the menu: ";
             getline(cin, food1);
             food1 = stringToLower(food1);
             toSearch1->setName(food1);
@@ -947,9 +948,10 @@ void CalorieCounterFoodDatabase::createMenu() const
                 toSearch1->setName(food1);
             }
             
-            cout << food1 << " has " << toSearch1->getCalories() << " calories" << endl;
+            cout <<"\n\t\t|| "<< food1 << " has " << toSearch1->getCalories() << " calories" << endl;
             sum += toSearch1->getCalories();
-            cout << "The total calories for your menu is now: " << sum << endl;
+            cout << "\t\t|| Total menu calories is now: " << sum << endl;
+            cout << "\n * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n"<< endl;
             
         }
         else if (choice == 'Q')
