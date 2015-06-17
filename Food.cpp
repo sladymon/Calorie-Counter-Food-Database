@@ -11,6 +11,7 @@
 
 #include "Food.h"
 #include <string>
+#include <iomanip>
 #include <iostream>
 
 using namespace std;
@@ -46,13 +47,13 @@ Food::Food(string name, string category, int amount, int calories, int fiber, in
 
 void Food::displayFood()
 {
-	cout << "Food: " << this->name << endl
-		<< "Category: " << this->category << endl
-		<< "Amount: " << this->amount << " grams/mL" << endl
-		<< "Calories: " << this->calories << endl
-		<< "Fiber: " << this->fiber << " grams" << endl
-		<< "Sugar: " << this->sugar << " grams" << endl
-		<< "Protein: " << this->protein << " grams" << endl
-		<< "Fat: " << this->fat << " grams" << endl;
+	cout<< "\tFood    : " << this->name << endl
+		<< "\tCategory: " << setw(3) << this->category << endl
+		<< "\tAmount  : " << setw(3) << this->amount << " g/mL" << endl
+		<< "\tCalories: " << setw(3) <<this->calories << endl
+		<< "\tFiber   : " << setw(3) << this->fiber << " g" << endl
+		<< "\tSugar   : " << setw(3) << this->sugar << " g" << endl
+		<< "\tProtein : " << setw(3) << this->protein << " g" << endl
+		<< "\tFat     : " << setw(3) << this->fat << " g" << endl;
 }
 
