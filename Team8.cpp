@@ -24,12 +24,12 @@ using namespace std;
 
 
 //Shuti's files
-const string INPUT_FILE = "foodInput.txt";
-const string OUTPUT_FILE = "foodOutput.txt";
+//const string INPUT_FILE = "foodInput.txt";
+//const string OUTPUT_FILE = "foodOutput.txt";
 
 //Deepika's files
-//const string INPUT_FILE = "D:\\foodInput.txt";
-//const string OUTPUT_FILE = "D:\\foodOutput.txt";
+//const string INPUT_FILE = "D:\De Anza\5. Spring 2015\CIS 22C_Delia Gârbacea\Topic 14_Project Presentations\Calorie-Counter-Food-Database\foodInput.txt";
+//const string OUTPUT_FILE = "D:\De Anza\5. Spring 2015\CIS 22C_Delia Gârbacea\Topic 14_Project Presentations\Calorie-Counter-Food-Database\foodOutput.txt";
 
 int determineHashSize(const char* fileName);
 
@@ -39,7 +39,13 @@ int main()
 	//CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(determineHashSize(INPUT_FILE.c_str()));
     CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(10);
     
-	a->readFile(INPUT_FILE.c_str());
+	if (!a->readFile(INPUT_FILE.c_str()))
+	{
+		cout << "Unable to open File, so exiting program \n GoodBye!!!\n";
+		return 1;
+	}
+		
+
 	a->menu(OUTPUT_FILE.c_str());
     delete a;
 	return 0;

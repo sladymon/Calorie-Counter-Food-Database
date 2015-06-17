@@ -1,0 +1,25 @@
+strawberry;fruit;100;32;2;5;1;0
+banana;fruit;100;89;3;1;12;0
+apple;fruit;100;52;2;10;0;0
+orange;fruit;100;47;2;9;1;0
+blueberry;fruit;100;57;2;10;1;0
+carrot;vegetable;100;41;3;5;1;0
+cucumber;vegetable;100;12;1;1;1;0
+broccoli;vegetable;100;34;3;2;3;0
+spinach;vegetable;100;23;2;0;3;0
+peas;vegetable;100;81;5;6;5;0
+wheat bread;grain;100;246;5;37;8;0
+white rice;grain;100;130;0;0;3;0
+brown rice;grain;100;111;2;0;3;1
+oatmeal;grain;100;379;10;1;13;7
+cornmeal;grain;100;362;7;1;8;4
+egg;protein;100;155;0;1;13;11
+chicken breast;protein;100;165;0;0;31;4
+salmon;protein;100;206;0;0;22;12
+soy beans;protein;100;147;4;0;13;7
+shrimp;protein;100;106;0;0;20;2
+whole milk;dairy;100;62;0;5;3;3
+low fat 1% milk;dairy;100;44;0;0;4;1
+cheddar cheese;dairy;100;403;0;1;25;33
+reduced fat 2% cottage cheese;dairy;100;90;0;0;14;2
+nonfat greek yogurt;dairy;100;60;0;3;10;0

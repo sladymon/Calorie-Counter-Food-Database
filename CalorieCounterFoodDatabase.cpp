@@ -16,10 +16,11 @@
 #include <sstream>
 #include <fstream>
 
-const string PRIME_NUMBERS = "primeNumbers.txt";
+//const string PRIME_NUMBERS = "primeNumbers.txt";
 //const string PRIME_NUMBERS = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/primeNumbers.txt";
 //const string PRIME_NUMBERS = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/primeNumbers.txt";
-//const string OUTPUT_FILE = "D:\\primeNumbers.txt";
+//Deepika:->
+//const string OUTPUT_FILE = "D:\De Anza\5. Spring 2015\CIS 22C_Delia Gârbacea\Topic 14_Project Presentations\Calorie-Counter-Food-Database\primeNumbers.txt";
 
 using namespace std;
 
