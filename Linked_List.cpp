@@ -230,7 +230,7 @@ void Linked_List::setAllPointersToNull()
     while (nodePtr)
     {
         nextNodePtr = nodePtr->next;
-        nodePtr = 0; //set pointer to null
+        nodePtr->food = 0; //set Food* to null
         nodePtr = nextNodePtr;
     }
 }

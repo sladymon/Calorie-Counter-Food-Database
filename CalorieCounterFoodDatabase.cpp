@@ -296,6 +296,7 @@ bool CalorieCounterFoodDatabase::readFile(const char* fileName)
         {
             Food* foodObj = inputStringToFood(temp);
             insertInDataStructures(foodObj);
+
         }
         else
         {
@@ -984,8 +985,9 @@ void CalorieCounterFoodDatabase::createMenu() const
 //          the size and fills it with all the previous Food*
 //*********************************************************************
 void CalorieCounterFoodDatabase::rehashing()
-{	
-	// create new hash with doulbe the size and fill it with the Food*
+{
+    
+    // create new hash with doulbe the size and fill it with the Food*
     int newSize = nextPrime(hash->get_sizeTable() * 2);
     HashTable* newHash = new HashTable(newSize);
     primaryBST->rehashTraverse(visitRehash, newHash);
@@ -996,7 +998,7 @@ void CalorieCounterFoodDatabase::rehashing()
 
     // set CalorieCounterFoodDatabase hash to the new hashtable
     hash = newHash;
-    
+
 
 }
 

@@ -139,7 +139,7 @@ bool BinarySearchTree<ItemType>::getEntry(ItemType* anEntry, ItemType & returned
 template<class ItemType>
 bool BinarySearchTree<ItemType>::insert(ItemType* newEntry)
 {
-	BinaryNode<ItemType>* newNodePtr = new BinaryNode<ItemType>(newEntry);
+    BinaryNode<ItemType>* newNodePtr = new BinaryNode<ItemType>(newEntry);
 	rootPtr = _insert(rootPtr, newNodePtr);
 	count++;
 	return true;
