@@ -108,7 +108,7 @@ bool HashTable::insert(Food *food){
         overflow++;
         foodList->insertNode(food);
     }
-   load_factor=(items_at_pos_0 *100)/sizeTable ;
+	load_factor = (static_cast<float>(items_at_pos_0 * 100)) / sizeTable;
 
     return true;
 }
@@ -199,14 +199,14 @@ bool HashTable::delete_Item (Food& find_food){
         empty_buckets++;
         items_at_pos_0--;
         full_nodes--;
-        load_factor=(items_at_pos_0 *100)/sizeTable ;
+        load_factor=(static_cast<float>(items_at_pos_0 *100))/sizeTable ;
         return true;
     
     }if (bucket_count==1){
         full_nodes--;
         collisions--;
         empty_nodes++;
-        load_factor=(items_at_pos_0 *100)/sizeTable ;
+		load_factor = (static_cast<float>(items_at_pos_0 * 100)) / sizeTable;
         return true;
         
     }if (bucket_count==2){
@@ -214,13 +214,13 @@ bool HashTable::delete_Item (Food& find_food){
         empty_nodes++;
         full_buckets--;
         full_nodes--;
-        load_factor=(items_at_pos_0 *100)/sizeTable ;
+		load_factor = (static_cast<float>(items_at_pos_0 * 100)) / sizeTable;
         return true;
         
     }else{
         bool deleteSuccessful = foodList->deleteNode(find_food);
         overflow--;
-        load_factor=(items_at_pos_0 *100)/sizeTable ;
+		load_factor = (static_cast<float>(items_at_pos_0 * 100)) / sizeTable;
         return deleteSuccessful;
     }
 
@@ -238,7 +238,7 @@ void HashTable::statistics (){
     non_empty = total_nodes-sizeTable;
     double average = (static_cast<double>(collisions))/items_at_pos_0;
     
-    load_factor=(items_at_pos_0 *100)/sizeTable ;
+	load_factor = (static_cast<float>(items_at_pos_0 * 100)) / sizeTable;
     int items_in_the_Hash_and_List=full_nodes + overflow;
     
     cout << "\n\t\t\tHash Table Statistics\n" << endl;

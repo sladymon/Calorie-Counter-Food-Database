@@ -24,8 +24,8 @@ using namespace std;
 
 
 //Shuti's files
-//const string INPUT_FILE = "foodInput.txt";
-//const string OUTPUT_FILE = "foodOutput.txt";
+const string INPUT_FILE = "foodInput.txt";
+const string OUTPUT_FILE = "foodOutput.txt";
 
 //Deepika's files
 //const string INPUT_FILE = "D:\\foodInput.txt";
