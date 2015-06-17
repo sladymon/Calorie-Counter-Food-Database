@@ -171,12 +171,19 @@ bool Linked_List::deleteNode(Food& foodData)
     
     // If node-to-delete not found OR no nodes
     if (!nodePtr)
+    {
         return false;
+    }
+
     
-        foodData = *nodePtr->food;  // return the deleted data
-        previousNode->next = nodePtr->next;
+    foodData = *nodePtr->food;  // return the deleted data
+    previousNode->next = nodePtr->next;
+    if (nodePtr->food)
+    {
         delete nodePtr->food;
-        delete nodePtr;
+
+    }
+    delete nodePtr;
     
     count--;
     return true;

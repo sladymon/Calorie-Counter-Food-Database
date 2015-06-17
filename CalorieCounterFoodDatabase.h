@@ -83,10 +83,12 @@ public:
 	void displayMenu() const;
 	void displayListMenu() const;
     void displayInsertMenu() const;
+    void displayPlanMenu() const;
 	void insertManager();
 	bool deleteManager();
 	void searchManager() const;
 	void listManager() const;
+    void planMenuMananger() const;
 
 	//hash functions
 	void rehashing();

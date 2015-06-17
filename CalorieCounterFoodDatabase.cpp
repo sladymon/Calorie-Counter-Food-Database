@@ -488,6 +488,8 @@ void CalorieCounterFoodDatabase::menu(const char* fileName)
 			break;
 		case 'L': listManager();
 			break;
+        case 'P': planMenuMananger();
+            break;
 		case 'W': writeFile(fileName);
 			break;
 		case 'G': hash->statistics();
@@ -515,6 +517,7 @@ void CalorieCounterFoodDatabase::displayMenu() const
 		<< "D - Delete food entry" << endl
 		<< "S - Search for a food entry" << endl
 		<< "L - List food entries" << endl
+        << "P - Plan menu" << endl
 		<< "W - Write food entries to file" << endl
 		<< "G - Get statistics" << endl
 		<< "H - Help (see option list again)" << endl
@@ -544,6 +547,18 @@ void CalorieCounterFoodDatabase::displayInsertMenu() const
     << "M - Enter a food manually" << endl
     << "S - Enter an input string" << endl
     << "F - Enter multiple foods via file" << endl;
+}
+
+//*********************************************************************
+// Author - Shannon Ladymon
+// displayPlanMenu - a listing of the plan menu options
+//*********************************************************************
+void CalorieCounterFoodDatabase::displayPlanMenu() const
+{
+    cout << "\nPlan Menu Options:" << endl
+    << "C - Compare two foods' calories" << endl
+    << "R - Find foods within a calorie range" << endl
+    << "M - Create a menu for a meal" << endl;
 }
 
 //*********************************************************************
@@ -723,7 +738,6 @@ void CalorieCounterFoodDatabase::searchManager() const
 //*********************************************************************
 void CalorieCounterFoodDatabase::listManager() const
 {
-	string name;
 	string choiceStr;
 	char choice;
 	displayListMenu();
@@ -736,22 +750,58 @@ void CalorieCounterFoodDatabase::listManager() const
         
 		switch (choice)
 		{
-		case'I': hash->print_Indented_Items_with_Index_from_Bucket();
-			break;
-		case'U': hash->print_Table();
-			break;
-		case'P': primaryBST->printTreeAsIndentedList(displayIndentedNode);
-			break;
-		case'S': secondaryBST->printTreeAsIndentedList(displayIndentedNode); 
-			break;
-		default: cout << choice << " is an invalid option."
-			<< " Please choose one of the following options: \n";
-			displayListMenu();
+            case'I': hash->print_Indented_Items_with_Index_from_Bucket();
+                break;
+            case'U': hash->print_Table();
+                break;
+            case'P': primaryBST->printTreeAsIndentedList(displayIndentedNode);
+                break;
+            case'S': secondaryBST->printTreeAsIndentedList(displayIndentedNode);
+                break;
+            default: cout << choice << " is an invalid option."
+                << " Please choose one of the following options: \n";
+                displayListMenu();
 		}
-
+        
 	} while (choice != 'I' && choice != 'U' && choice != 'P' && choice != 'S');
+    
 }
 
+//*********************************************************************
+// Author - Shuti Wang
+// listManager - manages listing all food items stored in data
+//          structures.  Offers options to display by indented
+//          list, unsorted list, primary sorted list, or secondary
+//          sorted list.
+//*********************************************************************
+void CalorieCounterFoodDatabase::planMenuMananger() const
+{
+    string choiceStr;
+    char choice;
+    displayPlanMenu();
+    do{
+        
+        cout << "\nPlease enter the option of your choice: ";
+        getline(cin, choiceStr);
+        choice = toupper(choiceStr[0]);
+        cout << endl;
+        
+        switch (choice)
+        {
+            case'C': cout << "TESTING: c" << endl;
+                break;
+            case'R': cout << "TESTING: r" << endl;
+                break;
+            case'M': cout << "TESTING: m" << endl;
+                break;
+                
+            default: cout << choice << " is an invalid option."
+                << " Please choose one of the following options: \n";
+                displayListMenu();
+        }
+        
+    } while (choice != 'C' && choice != 'R' && choice != 'M');
+}
 
 /////////////////////////////////// Hash Functions /////////////////////////////////////
 
