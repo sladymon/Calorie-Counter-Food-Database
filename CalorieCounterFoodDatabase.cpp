@@ -256,10 +256,10 @@ void CalorieCounterFoodDatabase::welcome() const
 // goodbye - displays a goodbye message
 //*********************************************************************
 void CalorieCounterFoodDatabase::goodbye() const
-{
-	//cout << "      ~~~ Thank you for using Calorie Counter Food Database ~~~  \n";
-	//cout << ""
-	cout << "Goodbye!  Thank you for using Calorie Counter Food Database\n";
+{ 
+	cout << "\t  *                                                      *\n";
+	cout << "\t* ~~~ Thank you for using Calorie Counter Food Database ~~~ * \n";
+	cout << "\t  *\t\t\t Goodbye!                       *\n ";
 }
 
 
@@ -325,8 +325,8 @@ bool CalorieCounterFoodDatabase::writeFile(const char* fileName)
         return false;
     }
     hash->traverseHash(writeFoodItemToFile, outfile);
-    
-    cout << "All items written to file\n";
+	cout << "\n\n\n\t\t\t   * * * * * * * * * * * * * \n";
+    cout << "\t\t\t * All items written to file *\n";
     outfile.close();
     return true;
 }
@@ -560,7 +560,7 @@ void CalorieCounterFoodDatabase::menu(const char* fileName)
 		case 'H': displayMenu();
 			break;
             case 'Q': writeFile(fileName);
-            goodbye();
+                      goodbye();
 			break;
 		default: cout << choice << " is an invalid option."
 				<<" Please choose one of the following options: \n";
