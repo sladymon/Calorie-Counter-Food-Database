@@ -353,6 +353,9 @@ bool CalorieCounterFoodDatabase::insertInDataStructures(Food* food)
 //*********************************************************************
 // Author - Deepika Metkar, Shannon Ladymon
 // inputStringToFood - converts an input string into a food object
+//          NOTE: changes name (primary key) and category (secondary
+//          key) to lowercase, but allows both numbers and chars.
+//          All other items expect numbers, but will ignore chars.
 // @param input - string with the information for a new food item
 // @return - true for tree being printed
 //*********************************************************************
@@ -360,7 +363,7 @@ Food* CalorieCounterFoodDatabase::inputStringToFood(string input) const
 {
     string token;
     string fName;
-    string fCatagery;
+    string fCategory;
     int amount;
     int calories;
     int fiber;
@@ -371,8 +374,10 @@ Food* CalorieCounterFoodDatabase::inputStringToFood(string input) const
     
     getline(ss, token, ';');
     fName = token;
+    fName = stringToLower(fName);
     getline(ss, token, ';');
-    fCatagery = token;
+    fCategory = token;
+    fCategory = stringToLower(fCategory);
     getline(ss, token, ';');
     amount = std::stoi(token);
     getline(ss, token, ';');
@@ -386,7 +391,7 @@ Food* CalorieCounterFoodDatabase::inputStringToFood(string input) const
     getline(ss, token, ';');
     fat = std::stoi(token);
     
-    Food* foodObj = new Food(fName, fCatagery, amount, calories, fiber, sugar, protein, fat);
+    Food* foodObj = new Food(fName, fCategory, amount, calories, fiber, sugar, protein, fat);
     return foodObj;
 }
 
@@ -403,23 +408,32 @@ Food* CalorieCounterFoodDatabase::enterFoodManually() const
     
     cout << "\nEnter the name of the food you would like to add: ";
     getline(cin, name);
+    name = stringToLower(name);
+    
     cout << "Enter the category (fruit, vegetable, grain, protein, dairy): ";
     getline(cin, category);
+    category = stringToLower(category);
+    
     cout << "Enter the amount (in grams/mL): ";
     getline(cin, amountStr);
     amount = atoi(amountStr.c_str());
+    
     cout << "Enter the calories: ";
     getline(cin, caloriesStr);
     calories = atoi(caloriesStr.c_str());
+    
     cout << "Enter the fiber (in grams): ";
     getline(cin, fiberStr);
     fiber = atoi(caloriesStr.c_str());
+    
     cout << "Enter the sugar (in grams): ";
     getline(cin, sugarStr);
     sugar = atoi(sugarStr.c_str());
+    
     cout << "Enter the protein (in grams): ";
     getline(cin, proteinStr);
     protein = atoi(proteinStr.c_str());
+    
     cout << "Enter the fat (in grams): ";
     getline(cin, fatStr);
     fat = atoi(fatStr.c_str());
@@ -428,6 +442,20 @@ Food* CalorieCounterFoodDatabase::enterFoodManually() const
     return food;
 }
 
+//*********************************************************************
+// Author - Shannon Ladymon
+// enterFoodManually - prompts a user to enter a food's information
+//          and creates a food object dynamically with that info
+// @return - the lowercase string
+//*********************************************************************
+string CalorieCounterFoodDatabase::stringToLower(string str) const
+{
+    for (int i = 0; i < str.length(); i++)
+    {
+        str[i] = tolower(str[i]);
+    }
+    return str;
+}
 
 /////////////////////////////////// Menu/Option Manager Functions /////////////////////////////////////
 
@@ -521,9 +549,11 @@ void CalorieCounterFoodDatabase::displayInsertMenu() const
 //*********************************************************************
 // Author - Shannon Ladymon
 // insertManager - manages any insertion of new Food items into the
-//          data structures.  Offers different options for insertion
-//          and validates input before inserting.  Will display an
-//          error message if unable to insert.
+//          data structures.  Offers different options for insertion.
+//          Will display an error message if unable to insert.
+//          NOTE: changes name (primary key) and category (secondary
+//          key) to lowercase, but allows both numbers and chars.
+//          All other items expect numbers, but will ignore chars.
 //*********************************************************************
 void CalorieCounterFoodDatabase::insertManager()
 {
@@ -645,6 +675,7 @@ void CalorieCounterFoodDatabase::searchManager() const
 	{
 		cout << "\nEnter the food name(P) to search for: ";
 		getline(cin, name);
+        name = stringToLower(name);
 		toSearch->setName(name);
         cout << endl;
         
@@ -661,6 +692,7 @@ void CalorieCounterFoodDatabase::searchManager() const
 	{
 		cout << "\nEnter the food category(S) to search for: ";
 		getline(cin, name);
+        name = stringToLower(name);
 		toSearch->setCategory(name);
         cout << endl;
         

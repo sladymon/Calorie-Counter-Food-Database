@@ -69,14 +69,14 @@ public:
     //insert a food pointer into all data structures
     bool insertInDataStructures(Food* food);
     
-    //convert a food pointer to an output string
-    //string inputFoodToOutputString(Food* food) const;
-    
     //convert an input string to a food pointer
     Food* inputStringToFood(string input) const;
     
     //enter information for a food item manually
     Food* enterFoodManually() const;
+    
+    //convert a string to lower case
+    string stringToLower(string str) const;
 
 	//menus and option manager functions
 	void menu(const char* fileName);
