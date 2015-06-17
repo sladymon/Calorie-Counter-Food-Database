@@ -157,7 +157,6 @@ bool Bucket::find_Item_in_Bucket(Food& find_food){
 //          be deleted.
 // @return - false if unable to find
 //*********************************************************************
-//bool Bucket::delete_Item_in_Bucket(Food& find_food){
 int Bucket::delete_Item_in_Bucket(Food& find_food){
     
     string search_name = find_food.getName();
@@ -165,16 +164,16 @@ int Bucket::delete_Item_in_Bucket(Food& find_food){
    
     int position = 0;
     
-    int j = 0;
     for(int i=0; i< count; i++){
         if(bucket_Array[i]->getName().substr(0,19)==cutName){
+            
+            delete bucket_Array[i];
             bucket_Array[i] = 0;
             
             position = i;
             
-            j=i;
             count--;
-            bucket_Array[position] = bucket_Array[count];
+            bucket_Array[position] = bucket_Array[count]; //replace empty index with last item
             bucket_Array[count]=0;
             break;
         }
@@ -201,8 +200,19 @@ void Bucket::traverseBucket(void visit(Food*, ofstream&), ofstream& outfile)
     }
 }
 
+//*********************************************************************
+// Author - Shannon Ladymon
+// setAllPointersToNull - sets all Food* pointers in the bucket to null
+//          which is to be used when rehashing to avoid deleting data
+//          upon the destruction of the previous hashtable
+//*********************************************************************
+void Bucket::setAllPointersToNull()
+{
+    for(int i=0; i< count; i++){
 
-
+        bucket_Array[i] = 0; //set item to null ptr
+    }
+}
 
 
 

@@ -49,5 +49,8 @@ public:
     // traverse list function
     void traverseList(void visit(Food*, ofstream&), ofstream& outfile);
     
+    // set all pointers to null - to be used when rehashing
+    void setAllPointersToNull();
+    
 };
 #endif

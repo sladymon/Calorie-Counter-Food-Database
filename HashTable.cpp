@@ -308,3 +308,18 @@ void HashTable::traverseHash(void visit(Food*, ofstream&), ofstream& outfile)
     }
     foodList->traverseList(visit, outfile);
 }
+
+//*********************************************************************
+// Author - Shannon Ladymon
+// setAllPointersToNull - sets all Food* pointers in the hash to null
+//          which is to be used when rehashing to avoid deleting data
+//          upon the destruction of the previous hashtable
+//*********************************************************************
+void HashTable::setAllPointersToNull()
+{
+    for (int i=0; i < sizeTable ; i++) {
+        
+        foodTable[i].setAllPointersToNull();
+    }
+    foodList->setAllPointersToNull();
+}

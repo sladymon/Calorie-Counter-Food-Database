@@ -47,25 +47,24 @@ public:
     
     // Destructor
     ~HashTable(){
-        delete []foodTable;
+        delete []foodTable;  //FIXME: Is this correct?
         delete foodList;
     }
     
     // mutators
     void set_sizeTable(int sizeTable) {this->sizeTable = sizeTable;}
-    void set_collision(float collision) {this->collisions = collision;}
+    void set_collision(int collision) {this->collisions = collision;}
     void set_items_at_position_0(int items_at_pos_0){this->items_at_pos_0=items_at_pos_0;}
     void set_load_factor(float load_factor) {this->load_factor = load_factor;}
     void set_full_nodes(int full_nodes) {this->full_nodes = full_nodes;}
     void set_full_buckets(int full_buckets) {this->full_buckets = full_buckets;}
     void set_empty_nodes(int empty_nodes) {this->empty_nodes = empty_nodes;}
     void set_empty_buckets(int empty_buckets) {this->empty_buckets = empty_buckets;}
-    
     void set_overflow(int overflow) {this->overflow = overflow;}
     
     // accessors
     int get_sizeTable() const {return sizeTable;}
-    float get_collision() const {return collisions;}
+    int get_collision() const {return collisions;}
     int get_items_at_position_0(){return items_at_pos_0;}
     float get_load_factor() const {return load_factor;}
     int get_full_nodes() const {return full_nodes;}
@@ -95,6 +94,9 @@ public:
     
     // traverse all items in hash
 	void traverseHash(void visit(Food*, ofstream&), ofstream& outfile);
+    
+    // sets all pointers in the hash to null - to be used when rehashing
+    void setAllPointersToNull();
     
     
 };

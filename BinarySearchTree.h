@@ -327,26 +327,42 @@ template<class ItemType>
 BinaryNode<ItemType>* BinarySearchTree<ItemType>::_unlinkNode(BinaryNode<ItemType>* nodePtr, ItemType& toRemove)
 {
     toRemove = *(nodePtr->getItem()); //Set reference parameter to node that needs to be removed
+    BinaryNode<ItemType>* toReturn = 0;
+    BinaryNode<ItemType>* toClear = 0;
+
     if (nodePtr->isLeaf())
-	{
-		return 0;
-	}
-	else if (nodePtr->getLeftPtr() == 0)
-	{
-		return nodePtr->getRightPtr();
-	}
-	else if (nodePtr->getRightPtr() == 0)
-	{
-		return nodePtr->getLeftPtr();
-	}
-	else
-	{
-		ItemType* newNodeValue = new ItemType();
-		nodePtr->setRightPtr(_removeLeftmostNode(nodePtr->getRightPtr(), *newNodeValue));
-		nodePtr->setItem(newNodeValue);
-		return nodePtr;
-	}
-    
+    {
+        toReturn = 0;
+        toClear = nodePtr;
+    }
+    else if (nodePtr->getLeftPtr() == 0)
+    {
+        toReturn = nodePtr->getRightPtr();
+        toClear = nodePtr;
+    }
+    else if (nodePtr->getRightPtr() == 0)
+    {
+        toReturn = nodePtr->getLeftPtr();
+        toClear = nodePtr;
+    }
+    else
+    {
+        ItemType* newNodeValue = new ItemType();
+        nodePtr->setRightPtr(_removeLeftmostNode(nodePtr->getRightPtr(), *newNodeValue));
+        nodePtr->setItem(newNodeValue);
+        toReturn = nodePtr;
+        toClear = 0; // no clearing needed, this node will be reused,
+                     //clearing will happen to a node eventually down the _removeLeftmostNode chain.
+    }
+
+    if (toClear != 0)
+    {
+        toClear->setRightPtr(0);
+        toClear->setLeftPtr(0);
+        toClear->setItem(0);
+        delete toClear;
+    }
+    return toReturn;
 }
 
 //*********************************************************************

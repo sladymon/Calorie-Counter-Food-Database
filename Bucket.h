@@ -54,6 +54,9 @@ public:
 
     // traverse bucket function
     void traverseBucket(void visit(Food*, ofstream&), ofstream& outfile);
+    
+    // sets all pointers to null - to be used when rehashing
+    void setAllPointersToNull();
 
 
 };

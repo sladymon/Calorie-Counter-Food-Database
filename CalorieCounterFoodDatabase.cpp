@@ -17,7 +17,7 @@
 #include <fstream>
 
 //const string PRIME_NUMBERS = "primeNumbers.txt";
-//const string PRIME_NUMBERS = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/primeNumbers.txt";
+const string PRIME_NUMBERS = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/primeNumbers.txt";
 //const string PRIME_NUMBERS = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/primeNumbers.txt";
 //const string OUTPUT_FILE = "D:\\primeNumbers.txt";
 
@@ -215,6 +215,13 @@ CalorieCounterFoodDatabase::CalorieCounterFoodDatabase(int hashSize)
 //*********************************************************************
 CalorieCounterFoodDatabase::~CalorieCounterFoodDatabase()
 {
+    //FIXME: This should call a deleteData method
+    //maybe before the hash or something that acts as the primary
+    // which can also be called in the rehashing method
+    //and the deleteData method should maybe call a single deleteData method?
+    // that will be used in deleteManager?
+    //and then hash needs to be changed to not delete anything itself
+    
     delete primaryBST;
     delete secondaryBST;
     delete hash;
@@ -725,11 +732,16 @@ void CalorieCounterFoodDatabase::listManager() const
 void CalorieCounterFoodDatabase::rehashing()
 {
 	
-	int newSize = nextPrime(hash->get_sizeTable() * 2);
+	// create new hash with doulbe the size and fill it with the Food*
+    int newSize = nextPrime(hash->get_sizeTable() * 2);
     HashTable* newHash = new HashTable(newSize);
-    
     primaryBST->rehashTraverse(visitRehash, newHash);
-    //delete hash;   //FIXME! Breaks
+    
+    // set previous hash Food* to null and delete hash
+    hash->setAllPointersToNull();
+    delete hash;
+    
+    // set CalorieCounterFoodDatabase hash to the new hashtable
     hash = newHash;
     
 

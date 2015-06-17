@@ -203,4 +203,24 @@ void Linked_List::traverseList(void visit(Food*, ofstream&), ofstream& outfile)
     
 }
 
+//*********************************************************************
+// Author - Shannon Ladymon
+// setAllPointersToNull - sets all Food* pointers in the bucket to null
+//          which is to be used when rehashing to avoid deleting data
+//          upon the destruction of the previous hashtable
+//*********************************************************************
+void Linked_List::setAllPointersToNull()
+{
+    ListNode *nodePtr;
+    ListNode *nextNodePtr;
+    nodePtr = head->next;
+    
+    while (nodePtr)
+    {
+        nextNodePtr = nodePtr->next;
+        nodePtr = 0; //set pointer to null
+        nodePtr = nextNodePtr;
+    }
+}
+
 
