@@ -790,7 +790,7 @@ void CalorieCounterFoodDatabase::planMenuMananger() const
                 break;
             case'R': cout << "TESTING: r" << endl;
                 break;
-            case'M': cout << "TESTING: m" << endl;
+            case'M': createMenu();
                 break;
                 
             default: cout << choice << " is an invalid option."
@@ -843,6 +843,62 @@ void CalorieCounterFoodDatabase::compareTwoFoods() const
     
     delete toSearch1;
     delete toSearch2;
+}
+
+//*********************************************************************
+// Author - Shannon Ladymon
+// createMenu - calculates calories based on food choices for a meal
+//          menu
+//*********************************************************************
+void CalorieCounterFoodDatabase::createMenu() const
+{
+    int sum = 0;
+    string food1;
+    Food* toSearch1 = new Food();
+    
+    string choiceStr;
+    char choice = 'A'; //default to enter the while loop
+    cout << "Enter 'A' to add an item to the menu, 'Q' to quit the menu planner\n";
+    
+    while (choice != 'Q')
+    {
+        cout << "\nPlease enter the option of your choice ('A' to add, 'Q' to quit): ";
+        getline(cin, choiceStr);
+        cout << endl;
+        choice = toupper(choiceStr[0]);
+        
+        if (choice == 'A')
+        {
+            cout << "Please enter the first food to add to the menu: ";
+            getline(cin, food1);
+            food1 = stringToLower(food1);
+            toSearch1->setName(food1);
+            
+            while (!hash->find_Item(*toSearch1))
+            {
+                cout << food1 << " was not found in our list.  Please choose a different food: ";
+                getline(cin, food1);
+                food1 = stringToLower(food1);
+                toSearch1->setName(food1);
+            }
+            
+            cout << food1 << " has " << toSearch1->getCalories() << " calories" << endl;
+            sum += toSearch1->getCalories();
+            cout << "The total calories for your menu is now: " << sum << endl;
+            
+        }
+        else if (choice == 'Q')
+        {
+            cout << "Thank your for planning your meal.  Your meal has " << sum << " calories total" << endl;
+        }
+        else
+        {
+            cout << "Invalid choice\n";
+            cout << "Enter 'A' to add an item to the menu, 'Q' to quit the menu planner\n";
+        }
+    }
+    
+    delete toSearch1;
 }
 
 

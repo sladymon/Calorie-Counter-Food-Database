@@ -27,6 +27,7 @@ Linked_List::Linked_List() // dummy node
 {
     head = new ListNode;
     head->next = NULL;
+    head->food = NULL;
     count = 0;
 }
 

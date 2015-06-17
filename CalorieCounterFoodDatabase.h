@@ -91,6 +91,7 @@ public:
     void planMenuMananger() const;
     
     void compareTwoFoods() const;
+    void createMenu() const;
 
 	//hash functions
 	void rehashing();
