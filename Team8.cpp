@@ -31,8 +31,6 @@ using namespace std;
 //const string INPUT_FILE = "D:\\foodInput.txt";
 //const string OUTPUT_FILE = "D:\\foodOutput.txt";
 
-
-
 int determineHashSize(const char* fileName);
 
 
@@ -47,7 +45,13 @@ int main()
 	return 0;
 }
 
-//Shuti
+//*********************************************************************
+// Author - Shuti Wang, Deepika Metkar
+// determineHashSize - reads input file to determine what size hash
+//          should be
+// @param filename - the input file
+// @return - the size of the hash table
+//*********************************************************************
 int determineHashSize(const char* fileName)
 {
 	int inputCounter = 0;

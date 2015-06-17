@@ -96,4 +96,20 @@ public:
 #endif /* CALORIECOUNTERFOODDATABASE_H_ */
 
 
+/////////////////// Stand-Alone Functions /////////////////////
+
+// converts Food pointer to an output string
+string inputFoodToOutputString(Food* food);
+
+// display functions to pass as parameters to other class functions
+void displayIndentedNode(Food* anItem, int level);
+void displayFood(Food& anItem);
+void visitRehash(Food* anItem, HashTable* newHash);
+void writeFoodItemToFile(Food* anItem, ofstream& outfile);
+
+// compare functions to pass as parameters for BST constructors
+int compareBST(Food* food1, Food* food2);
+int compareBSTSecondary(Food* food1, Food* food2);
+
+// finds next prime number
 int nextPrime(int inputCounter);

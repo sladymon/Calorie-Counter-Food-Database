@@ -291,20 +291,6 @@ void HashTable::print_Indented_Items_with_Index_from_Bucket(){
     foodList->displayList();
 }
 
-//*********************************************************************
-// Author - Shannon Ladymon
-// traverseHash - traverses every Food* item in the hash and calls
-//          the visit function on each one
-// @param visit - the function to call on each item
-//*********************************************************************
-void HashTable::traverseHash(void visit(Food*))
-{
-    for (int i=0; i < sizeTable ; i++) {
-        
-        foodTable[i].traverseBucket(visit);
-    }
-    foodList->traverseList(visit);
-}
 
 //*********************************************************************
 // Author - Shannon Ladymon

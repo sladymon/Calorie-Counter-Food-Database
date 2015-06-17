@@ -94,9 +94,7 @@ public:
     void print_Indented_Items_with_Index_from_Bucket();
     
     // traverse all items in hash
-    void traverseHash(void visit(Food*));
 	void traverseHash(void visit(Food*, ofstream&), ofstream& outfile);
-	void rehash();
     
     
 };

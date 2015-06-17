@@ -23,22 +23,6 @@
 
 using namespace std;
 
-// converts Food pointer to an output string
-string inputFoodToOutputString(Food* food);
-
-// display functions to pass as parameters to other class functions
-void displayIndentedNode(Food* anItem, int level);
-void displayFood(Food& anItem);
-void visit(Food* anItem);
-void visitRehash(Food* anItem, HashTable* newHash);
-void writeFoodItemToFile(Food* anItem, ofstream& outfile);
-
-// compare functions to pass as parameters for BST constructors
-int compareBST(Food* food1, Food* food2);
-int compareBSTSecondary(Food* food1, Food* food2);
-
-
-
 
 /////////////////////////////////// Stand Alone Functions /////////////////////////////////////
 
@@ -95,20 +79,10 @@ void displayFood(Food& anItem)
 
 //*********************************************************************
 // Author - Shannon Ladymon
-// visit -  Displays all informationg for a food.
-//          Is passed to Hash traversal function.
-// @param anItem - pointer to Food to be displayed
-//*********************************************************************
-void visit(Food* anItem)
-{
-    anItem->displayFood();
-    cout << endl;
-}
-
-//*********************************************************************
-// Author - Shannon Ladymon
-// TODO
-// @param anItem - pointer to Food to be displayed
+// visitRehash - Given an Food* and a hash table, will insert the
+//          Food* into the hash table
+// @param anItem - pointer to Food* to be inserted
+// @param newHash - the hash table to insert the Food* into
 //*********************************************************************
 void visitRehash(Food* anItem, HashTable* newHash)
 {
@@ -167,6 +141,38 @@ int compareBSTSecondary(Food* food1, Food* food2)
         return -1;
     }
     return 0;
+}
+
+//*********************************************************************
+// Author - Shuti Wang, Deepika Metkar
+// nextPrime - given a number, finds the next prime number
+// @param inputCounter - the number to start with
+// @return - the next prime number
+//*********************************************************************
+int nextPrime(int inputCounter)
+{
+    ifstream inFile(PRIME_NUMBERS);
+    int primeNumber = inputCounter + 1;
+    if (!inFile)
+    {
+        cout << "Error opening prime number file." << endl;
+        return false;
+    }
+    if (inFile.eof())
+    {
+        cout << "File is empty." << endl;
+        return false;
+    }
+    while (inFile >> primeNumber)
+    {
+        if (inputCounter < primeNumber)
+        {
+            inFile.close();
+            return primeNumber;
+        }
+        
+    }
+    return primeNumber;
 }
 
 
@@ -711,7 +717,11 @@ void CalorieCounterFoodDatabase::listManager() const
 /////////////////////////////////// Hash Functions /////////////////////////////////////
 
 
-//TODO: Write this
+//*********************************************************************
+// Author - Shannon Ladymon, Shuti Wang
+// rehashing - dynamically allocates a new hash table that is twice
+//          the size and fills it with all the previous Food*
+//*********************************************************************
 void CalorieCounterFoodDatabase::rehashing()
 {
 	
@@ -719,38 +729,10 @@ void CalorieCounterFoodDatabase::rehashing()
     HashTable* newHash = new HashTable(newSize);
     
     primaryBST->rehashTraverse(visitRehash, newHash);
-    //delete hash;
+    //delete hash;   //FIXME! Breaks
     hash = newHash;
     
 
 }
 
-int nextPrime(int inputCounter)
-{
-	ifstream inFile(PRIME_NUMBERS);
-	int primeNumber = inputCounter + 1;
-	if (!inFile)
-	{
-		cout << "Error opening prime number file." << endl;
-		return false;
-	}
-	if (inFile.eof())
-	{
-		cout << "File is empty." << endl;
-		return false;
-	}
-	while (inFile >> primeNumber)
-	{
-		if (inputCounter < primeNumber)
-		{
-			inFile.close();
-			return primeNumber;
-		}
 
-	}
-	return primeNumber;
-}
-void CalorieCounterFoodDatabase::traverseData()
-{
-    hash->traverseHash(visit);
-}

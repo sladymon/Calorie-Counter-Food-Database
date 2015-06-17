@@ -52,8 +52,7 @@ public:
     void print_Items_in_Bucket();  
     void print_Indented_Items_from_bucket();
 
-    // traverse bucket functions
-    void traverseBucket(void visit(Food*));
+    // traverse bucket function
     void traverseBucket(void visit(Food*, ofstream&), ofstream& outfile);
 
 
