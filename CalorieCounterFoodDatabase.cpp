@@ -336,14 +336,13 @@ bool CalorieCounterFoodDatabase::insertInDataStructures(Food* food)
         return false;
     }
     
-    primaryBST->insert(food);
-    secondaryBST->insert(food);
-    
     if (hash->get_load_factor() > 75)
 	{
 		rehashing();
 	}
     
+    primaryBST->insert(food);
+    secondaryBST->insert(food);
     hash->insert(food);
     return true;
 }
@@ -557,7 +556,7 @@ void CalorieCounterFoodDatabase::displayPlanMenu() const
 {
     cout << "\nPlan Menu Options:" << endl
     << "C - Compare two foods' calories" << endl
-    << "R - Find foods within a calorie range" << endl
+    //<< "R - Find foods within a calorie range" << endl
     << "M - Create a menu for a meal" << endl;
 }
 
@@ -912,8 +911,7 @@ void CalorieCounterFoodDatabase::createMenu() const
 //          the size and fills it with all the previous Food*
 //*********************************************************************
 void CalorieCounterFoodDatabase::rehashing()
-{
-	
+{	
 	// create new hash with doulbe the size and fill it with the Food*
     int newSize = nextPrime(hash->get_sizeTable() * 2);
     HashTable* newHash = new HashTable(newSize);
@@ -922,7 +920,7 @@ void CalorieCounterFoodDatabase::rehashing()
     // set previous hash Food* to null and delete hash
     hash->setAllPointersToNull();
     delete hash;
-    
+
     // set CalorieCounterFoodDatabase hash to the new hashtable
     hash = newHash;
     
