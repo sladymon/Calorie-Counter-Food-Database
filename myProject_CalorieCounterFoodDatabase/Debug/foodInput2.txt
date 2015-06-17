@@ -1,0 +1,32 @@
+pineapple;fruit;100;32;2;5;1;0
+mango;fruit;100;89;3;1;12;0
+kiwi;fruit;100;52;2;10;0;0
+tangerine;fruit;100;47;2;9;1;0
+raspberry;fruit;100;57;2;10;1;0
+parsnip;vegetable;100;41;3;5;1;0
+tomato;vegetable;100;12;1;1;1;0
+bok choy;vegetable;100;34;3;2;3;0
+arugula;vegetable;100;23;2;0;3;0
+green beans;vegetable;100;81;5;6;5;0
+white bread;grain;100;246;5;37;8;0
+arobio rice;grain;100;130;0;0;3;0
+wild rice;grain;100;111;2;0;3;1
+steel cut oatmeal;grain;100;379;10;1;13;7
+quinoa;grain;100;362;7;1;8;4
+egg white;protein;100;155;0;1;13;11
+chicken thigh;protein;100;165;0;0;31;4
+halibut;protein;100;206;0;0;22;12
+tofu;protein;100;147;4;0;13;7
+seitan;protein;100;106;0;0;20;2
+chocolate milk;dairy;100;62;0;5;3;3
+heavy whipping cream;dairy;100;44;0;0;4;1
+swiss cheese;dairy;100;403;0;1;25;33
+manchego cheese;dairy;100;90;0;0;14;2
+sour cream;dairy;100;60;0;3;10;0
+strawberry;fruit;100;32;2;5;1;0
+banana;fruit;100;89;3;1;12;0
+apple;fruit;100;52;2;10;0;0
+cheddar cheese;dairy;100;403;0;1;25;33
+reduced fat 2% cottage cheese;dairy;100;90;0;0;14;2
+nonfat greek yogurt;dairy;100;60;0;3;10;0
+invalid_string_test;dairy;100;60;0;3

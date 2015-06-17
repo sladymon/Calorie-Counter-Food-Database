@@ -16,9 +16,9 @@
 #include <sstream>
 #include <fstream>
 
-//const string PRIME_NUMBERS = "primeNumbers.txt";
+const string PRIME_NUMBERS = "primeNumbers.txt";
 //const string PRIME_NUMBERS = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/primeNumbers.txt";
-const string PRIME_NUMBERS = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/primeNumbers.txt";
+//const string PRIME_NUMBERS = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/primeNumbers.txt";
 //const string OUTPUT_FILE = "D:\\primeNumbers.txt";
 
 using namespace std;
@@ -236,16 +236,19 @@ CalorieCounterFoodDatabase::~CalorieCounterFoodDatabase()
 //*********************************************************************
 void CalorieCounterFoodDatabase::welcome() const
 {
-    cout << "************************************************************" << endl
-    << "Welcome to the Calorie Counter Food Database!" << endl << endl
-    << "This database allows users to keep track of various foods" << endl
-    << "and their calorie and nutrition information" << endl << endl
-    << "Authors:" << endl
-    << "Shannon Ladymon - Team Leader and Add/Delete" << endl
-    << "Shuti Wang - Search/List and Hash Size" << endl
-    << "Deepika Metkar - Binary Search Tree and File I/O" << endl
-    << "Wendy Martell - Hash Table" << endl
-    << "************************************************************" << endl << endl;
+	cout << "**************************************************************" << endl
+    << "     Welcome to the Calorie Counter Food Database!" << endl << endl
+    << "      This database allows users to keep track of various foods" << endl
+    << "      and their calorie and nutrition information" << endl << endl
+	<< "     _________________________________________________________" << endl
+	<< "     |                                                       |" << endl 
+	<< "     | Authors:                                              |" << endl
+    << "     | Shannon Ladymon - Team Leader and Add/Delete          | " << endl
+    << "     | Shuti Wang - Search/List and Hash Size                |" << endl
+    << "     | Deepika Metkar - Binary Search Tree and File I/O      |" << endl
+    << "     | Wendy Martell - Hash Table                            |" << endl
+	<< "     |_______________________________________________________|\n\n" << endl
+    << "****************************************************************" << endl << endl;
 }
 
 //*********************************************************************
@@ -254,7 +257,9 @@ void CalorieCounterFoodDatabase::welcome() const
 //*********************************************************************
 void CalorieCounterFoodDatabase::goodbye() const
 {
-    cout << "Goodbye!  Thank you for using Calorie Counter Food Database\n";
+	//cout << "      ~~~ Thank you for using Calorie Counter Food Database ~~~  \n";
+	//cout << ""
+	cout << "Goodbye!  Thank you for using Calorie Counter Food Database\n";
 }
 
 
