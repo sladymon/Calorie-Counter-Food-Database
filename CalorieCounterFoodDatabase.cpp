@@ -16,7 +16,7 @@
 #include <sstream>
 #include <fstream>
 
-//const string PRIME_NUMBERS = "primeNumbers.txt";
+const string PRIME_NUMBERS = "primeNumbers.txt";
 //const string PRIME_NUMBERS = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/primeNumbers.txt";
 //const string PRIME_NUMBERS = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/primeNumbers.txt";
 //const string OUTPUT_FILE = "D:\\primeNumbers.txt";
@@ -326,7 +326,7 @@ bool CalorieCounterFoodDatabase::writeFile(const char* fileName)
         return false;
     }
     hash->traverseHash(writeFoodItemToFile, outfile);
-	cout << "\n\n\n\t\t\t   * * * * * * * * * * * * * \n";
+	cout << "\n";
     cout << "\t\t\t * All items written to file *\n";
     outfile.close();
     return true;
@@ -594,11 +594,11 @@ void CalorieCounterFoodDatabase::displayMenu() const
 //*********************************************************************
 void CalorieCounterFoodDatabase::displayListMenu() const
 {
-	cout << "\nList Menu Options:" << endl
-		<< "I - Special print, as an indented list" << endl
-		<< "U - List unsorted data." << endl
-		<< "P - List data sorted by the primary key" << endl
-        << "S - List data sorted by the secondary key" << endl;
+	cout << "\n\t\t\t\tLIST MENU OPTIONS\n" << endl
+		<< "\t\t\tI - Special print, as an indented list" << endl
+		<< "\t\t\tU - List unsorted data." << endl
+		<< "\t\t\tP - List data sorted by the primary key" << endl
+        << "\t\t\tS - List data sorted by the secondary key" << endl;
 }
 
 //*********************************************************************
@@ -607,7 +607,7 @@ void CalorieCounterFoodDatabase::displayListMenu() const
 //*********************************************************************
 void CalorieCounterFoodDatabase::displayInsertMenu() const
 {
-    cout << "\t\t\t\tInsert Menu Options:" << endl
+    cout << "\t\t\t\tINSERT MENU OPTIONS\n" << endl
     << "\t\t\tM - Enter a food manually" << endl
     << "\t\t\tS - Enter an input string" << endl
     << "\t\t\tF - Enter multiple foods via file" << endl;
@@ -741,9 +741,9 @@ void CalorieCounterFoodDatabase::searchManager() const
 	char choice;
 	
 	do{
-		cout << "\nSearch Menu Options: \n"
-			 << "P - Search by Primary key (by name)\n"
-			 << "S - Search by Secondary key (by category)\n";
+		cout << "\n\t\t\t\tSEARCH MENU OPTIONS \n\n"
+			 << "\t\t\tP - Search by Primary key (by name)\n"
+			 << "\t\t\tS - Search by Secondary key (by category)\n";
 		getline(cin, choiceStr);
 		choice = toupper(choiceStr[0]);
         
@@ -933,15 +933,15 @@ void CalorieCounterFoodDatabase::createMenu() const
     
     while (choice != 'Q')
     {
-        cout << "\n\t\t-> 'A' to add, 'Q' to quit : ";
+        cout << "\t\t----> 'A' to add, 'Q' to quit : ";
         getline(cin, choiceStr);
         cout << endl;
         choice = toupper(choiceStr[0]);
         
         if (choice == 'A')
         {
-            cout << "\n * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n"<< endl;
-            cout << "\tPlease enter a food to add to the menu: ";
+            cout << "\t\t      * * * * * * * * * * * * * * * * * * * * * *"<< endl;
+            cout << "\t\t      Please enter a food to add to the menu: ";
             getline(cin, food1);
             food1 = stringToLower(food1);
             toSearch1->setName(food1);
@@ -954,15 +954,16 @@ void CalorieCounterFoodDatabase::createMenu() const
                 toSearch1->setName(food1);
             }
             
-            cout <<"\n\t\t|| "<< food1 << " has " << toSearch1->getCalories() << " calories" << endl;
+            cout <<"\n\t\t\t|| "<< food1 << " has " << toSearch1->getCalories() << " calories" << endl;
             sum += toSearch1->getCalories();
-            cout << "\t\t|| Total menu calories is now: " << sum << endl;
-            cout << "\n * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n"<< endl;
+            cout << "\t\t\t|| Total menu calories is now: " << sum << endl;
+            cout << "\n\t\t      * * * * * * * * * * * * * * * * * * * * * * \n"<< endl;
             
         }
         else if (choice == 'Q')
         {
-            cout << "Thank your for planning your meal.  Your meal has " << sum << " calories total" << endl;
+            cout << "\t\t\tThank your for planning your meal.\n"
+				 << "\t\t\tYour meal has " << sum << " calories total" << endl;
         }
         else
         {
