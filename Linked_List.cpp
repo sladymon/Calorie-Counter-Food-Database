@@ -50,7 +50,11 @@ Linked_List::~Linked_List()
         nextNode = nodePtr->next;
         
         // Delete Food* in each node;
-        delete nodePtr->food;
+        if (nodePtr->food)
+        {
+            delete nodePtr->food;
+        }
+
         
         // Delete the current node.
         delete nodePtr;

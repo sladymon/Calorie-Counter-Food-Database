@@ -89,6 +89,8 @@ public:
 	void searchManager() const;
 	void listManager() const;
     void planMenuMananger() const;
+    
+    void compareTwoFoods() const;
 
 	//hash functions
 	void rehashing();

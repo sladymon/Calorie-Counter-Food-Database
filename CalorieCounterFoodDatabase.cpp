@@ -768,11 +768,9 @@ void CalorieCounterFoodDatabase::listManager() const
 }
 
 //*********************************************************************
-// Author - Shuti Wang
-// listManager - manages listing all food items stored in data
-//          structures.  Offers options to display by indented
-//          list, unsorted list, primary sorted list, or secondary
-//          sorted list.
+// Author - Shannon Ladymon
+// planMenuManager - manages planning menu options.  Users can compare
+//          two foods, find foods in a calorie range, or plan a menu.
 //*********************************************************************
 void CalorieCounterFoodDatabase::planMenuMananger() const
 {
@@ -788,7 +786,7 @@ void CalorieCounterFoodDatabase::planMenuMananger() const
         
         switch (choice)
         {
-            case'C': cout << "TESTING: c" << endl;
+            case'C': compareTwoFoods();
                 break;
             case'R': cout << "TESTING: r" << endl;
                 break;
@@ -802,6 +800,52 @@ void CalorieCounterFoodDatabase::planMenuMananger() const
         
     } while (choice != 'C' && choice != 'R' && choice != 'M');
 }
+
+//*********************************************************************
+// Author - Shannon Ladymon
+// compareTwoFoods - prompts users for two food items and compares
+//          the calories.
+//*********************************************************************
+void CalorieCounterFoodDatabase::compareTwoFoods() const
+{
+    string food1, food2;
+    Food* toSearch1 = new Food();
+    Food* toSearch2 = new Food();
+    
+    cout << "Please enter the first food to compare: ";
+    getline(cin, food1);
+    food1 = stringToLower(food1);
+    toSearch1->setName(food1);
+    
+    while (!hash->find_Item(*toSearch1))
+    {
+        cout << food1 << " was not found in our list.  Please choose a different food: ";
+        getline(cin, food1);
+        food1 = stringToLower(food1);
+        toSearch1->setName(food1);
+    }
+    
+    cout << "Please enter the second food to compare: ";
+    getline(cin, food2);
+    food2 = stringToLower(food2);
+    toSearch2->setName(food2);
+    
+    while (!hash->find_Item(*toSearch2))
+    {
+        cout << food2 << " was not found in our list.  Please choose a different food: ";
+        getline(cin, food2);
+        food2 = stringToLower(food2);
+        toSearch2->setName(food2);
+    }
+    
+    cout << food1 << " calories: " << toSearch1->getCalories() << endl;
+    cout << food2 << " calories: " << toSearch2->getCalories() << endl;
+    
+    delete toSearch1;
+    delete toSearch2;
+}
+
+
 
 /////////////////////////////////// Hash Functions /////////////////////////////////////
 
