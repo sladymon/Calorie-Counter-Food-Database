@@ -70,13 +70,15 @@ public:
     bool insertInDataStructures(Food* food);
     
     //convert an input string to a food pointer
-    Food* inputStringToFood(string input) const;
+    
     
     //enter information for a food item manually
     Food* enterFoodManually() const;
     
-    //convert a string to lower case
+    //input string manipulation
     string stringToLower(string str) const;
+    bool validateInputString(string input);
+    Food* inputStringToFood(string input) const;
 
 	//menus and option manager functions
 	void menu(const char* fileName);

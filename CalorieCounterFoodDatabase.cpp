@@ -287,9 +287,16 @@ bool CalorieCounterFoodDatabase::readFile(const char* fileName)
     string temp;
     while (getline(inFile, temp))
     {
-        Food* foodObj = inputStringToFood(temp);
-        insertInDataStructures(foodObj);
-        string outStr = inputFoodToOutputString(foodObj);
+        if (validateInputString(temp))
+        {
+            Food* foodObj = inputStringToFood(temp);
+            insertInDataStructures(foodObj);
+        }
+        else
+        {
+            cout << "Unable to insert: " << temp << " because it was not a valid input string\n";
+        }
+
     }
     
     inFile.close();
@@ -347,7 +354,58 @@ bool CalorieCounterFoodDatabase::insertInDataStructures(Food* food)
     return true;
 }
 
-
+//*********************************************************************
+// Author - Shannon Ladymon
+// validateInputString - validates that the input string can be used
+//          to create a Food*
+// @param input - the string to check
+// @return - true if the string is in correct format
+//*********************************************************************
+bool CalorieCounterFoodDatabase::validateInputString(string input)
+{
+    int totalSemicolons = 0;
+    bool validity = true;
+    bool end = false;
+    size_t currentPos = 0;
+    
+    
+    while (!end && input.find(";") != string::npos)
+    {
+        size_t semicolonPos = input.find(";", currentPos + 1);
+        if (semicolonPos <= input.length())
+        {
+            totalSemicolons++;
+            string temp = input.substr(currentPos, semicolonPos - currentPos);
+        
+            //checks that there is at least one character between semicolons
+            if (temp.length() < 1)
+            {
+                validity = false;
+            }
+            currentPos = semicolonPos + 1;
+        }
+        else
+        {
+            end = true;
+        }
+    }
+    
+    //checks that there is at least one character after the last semicolon
+    string temp = input.substr(currentPos);
+    if (temp.length() < 1)
+    {
+        validity = false;
+    }
+    
+    //checks that there are 7 semicolons
+    if (totalSemicolons != 7)
+    {
+        validity = false;
+    }
+    
+    
+    return validity;
+}
 
 //*********************************************************************
 // Author - Deepika Metkar, Shannon Ladymon
@@ -369,6 +427,7 @@ Food* CalorieCounterFoodDatabase::inputStringToFood(string input) const
     int sugar;
     int protein;
     int fat;
+    
     istringstream ss(input);
     
     getline(ss, token, ';');
@@ -593,8 +652,15 @@ void CalorieCounterFoodDatabase::insertManager()
                 break;
             case'S': cout << "\nEnter the input string: " << endl;
                 getline(cin, inputString);
-                toInsert = inputStringToFood(inputString);
-                insertInDataStructures(toInsert);
+                if (validateInputString(inputString))
+                {
+                    toInsert = inputStringToFood(inputString);
+                    insertInDataStructures(toInsert);
+                }
+                else
+                {
+                    cout << "Incorrect format for input string.  Cannot add." << endl;
+                }
                 break;
             case'F': cout << "\nEnter the name of the file to read: " << endl;
                 getline(cin, inputFile);

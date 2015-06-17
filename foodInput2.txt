@@ -29,3 +29,4 @@ apple;fruit;100;52;2;10;0;0
 cheddar cheese;dairy;100;403;0;1;25;33
 reduced fat 2% cottage cheese;dairy;100;90;0;0;14;2
 nonfat greek yogurt;dairy;100;60;0;3;10;0
+invalid_string_test;dairy;100;60;0;3
