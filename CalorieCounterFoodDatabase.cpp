@@ -16,7 +16,7 @@
 #include <sstream>
 #include <fstream>
 
-const string PRIME_NUMBERS = "primeNumbers.txt";
+//const string PRIME_NUMBERS = "primeNumbers.txt";
 //const string PRIME_NUMBERS = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/primeNumbers.txt";
 //const string PRIME_NUMBERS = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/primeNumbers.txt";
 //const string OUTPUT_FILE = "D:\\primeNumbers.txt";
@@ -236,7 +236,7 @@ CalorieCounterFoodDatabase::~CalorieCounterFoodDatabase()
 //*********************************************************************
 void CalorieCounterFoodDatabase::welcome() const
 {
-	cout << "**************************************************************" << endl
+	cout << "***************************************************************\n" << endl
     << "     Welcome to the Calorie Counter Food Database!" << endl << endl
     << "      This database allows users to keep track of various foods" << endl
     << "      and their calorie and nutrition information" << endl << endl
@@ -575,16 +575,16 @@ void CalorieCounterFoodDatabase::menu(const char* fileName)
 //*********************************************************************
 void CalorieCounterFoodDatabase::displayMenu() const
 {
-	cout << "\nMenu Options:" << endl
-		<< "A - Add new food entry" << endl
-		<< "D - Delete food entry" << endl
-		<< "S - Search for a food entry" << endl
-		<< "L - List food entries" << endl
-        << "P - Plan menu" << endl
-		<< "W - Write food entries to file" << endl
-		<< "G - Get statistics" << endl
-		<< "H - Help (see option list again)" << endl
-		<< "Q - Quit" << endl;
+	cout << "\n\t\t\t\tMENU OPTIONS\n" << endl
+		<< "\t\t\tA - Add new food entry" << endl
+		<< "\t\t\tD - Delete food entry" << endl
+		<< "\t\t\tS - Search for a food entry" << endl
+		<< "\t\t\tL - List food entries" << endl
+        << "\t\t\tP - Plan menu" << endl
+		<< "\t\t\tW - Write food entries to file" << endl
+		<< "\t\t\tG - Get statistics" << endl
+		<< "\t\t\tH - Help (see option list again)" << endl
+		<< "\t\t\tQ - Quit" << endl;
 }
 
 //*********************************************************************
@@ -606,10 +606,10 @@ void CalorieCounterFoodDatabase::displayListMenu() const
 //*********************************************************************
 void CalorieCounterFoodDatabase::displayInsertMenu() const
 {
-    cout << "\nInsert Menu Options:" << endl
-    << "M - Enter a food manually" << endl
-    << "S - Enter an input string" << endl
-    << "F - Enter multiple foods via file" << endl;
+    cout << "\t\t\t\tInsert Menu Options:" << endl
+    << "\t\t\tM - Enter a food manually" << endl
+    << "\t\t\tS - Enter an input string" << endl
+    << "\t\t\tF - Enter multiple foods via file" << endl;
 }
 
 //*********************************************************************
@@ -618,10 +618,10 @@ void CalorieCounterFoodDatabase::displayInsertMenu() const
 //*********************************************************************
 void CalorieCounterFoodDatabase::displayPlanMenu() const
 {
-    cout << "\nPlan Menu Options:" << endl
-    << "C - Compare two foods' calories" << endl
+    cout << "\t\t\t\tPLAN MENU OPTIONS\n" << endl
+    << "\t\t\tC - Compare two foods' calories" << endl
     //<< "R - Find foods within a calorie range" << endl
-    << "M - Create a menu for a meal" << endl;
+    << "\t\t\tM - Create a menu for a meal" << endl;
 }
 
 //*********************************************************************
@@ -849,7 +849,7 @@ void CalorieCounterFoodDatabase::planMenuMananger() const
     displayPlanMenu();
     do{
         
-        cout << "\nPlease enter the option of your choice: ";
+        cout << "\n\tPlease enter the option of your choice: ";
         getline(cin, choiceStr);
         choice = toupper(choiceStr[0]);
         cout << endl;
@@ -928,11 +928,11 @@ void CalorieCounterFoodDatabase::createMenu() const
     
     string choiceStr;
     char choice = 'A'; //default to enter the while loop
-    cout << "Enter 'A' to add an item to the menu, 'Q' to quit the menu planner\n";
+    cout << "\t\tEnter 'A' to add an item to the menu, 'Q' to quit the menu planner\n";
     
     while (choice != 'Q')
     {
-        cout << "\n'A' to add, 'Q' to quit : ";
+        cout << "\n\t\t-> 'A' to add, 'Q' to quit : ";
         getline(cin, choiceStr);
         cout << endl;
         choice = toupper(choiceStr[0]);
