@@ -470,52 +470,40 @@ Food* CalorieCounterFoodDatabase::enterFoodManually() const
 {
     string name, category, amountStr, caloriesStr, fiberStr, sugarStr, proteinStr, fatStr;
     int amount, calories, fiber, sugar, protein, fat;
-    Food* toSearch1 = new Food();
     
-    cout <<"\nEnter the following information for the food you would like to add:\n";
-    cout << "\tFood Name            : ";
+    cout << "\nEnter the name of the food you would like to add: ";
     getline(cin, name);
     name = stringToLower(name);
-    toSearch1->setName(name);
     
-    while (hash->find_Item(*toSearch1))
-    {
-        cout << name << " already exists. Please choose a different food name: ";
-        getline(cin, name);
-        name = stringToLower(name);
-        toSearch1->setName(name);
-    }
-    
-    cout << "\tCategory (fruit, vegetable, grain, protein, dairy): ";
+    cout << "Enter the category (fruit, vegetable, grain, protein, dairy): ";
     getline(cin, category);
     category = stringToLower(category);
     
-    cout << "\tAmount (in grams/mL) : ";
+    cout << "Enter the amount (in grams/mL): ";
     getline(cin, amountStr);
     amount = atoi(amountStr.c_str());
     
-    cout << "\tCalories             : ";
+    cout << "Enter the calories: ";
     getline(cin, caloriesStr);
     calories = atoi(caloriesStr.c_str());
     
-    cout << "\tFiber (in grams)     : ";
+    cout << "Enter the fiber (in grams): ";
     getline(cin, fiberStr);
     fiber = atoi(caloriesStr.c_str());
     
-    cout << "\tSugar (in grams)     : ";
+    cout << "Enter the sugar (in grams): ";
     getline(cin, sugarStr);
     sugar = atoi(sugarStr.c_str());
     
-    cout << "\tProtein(in grams)    : ";
+    cout << "Enter the protein (in grams): ";
     getline(cin, proteinStr);
     protein = atoi(proteinStr.c_str());
     
-    cout << "\tFat (in grams)       : ";
+    cout << "Enter the fat (in grams): ";
     getline(cin, fatStr);
     fat = atoi(fatStr.c_str());
     
     Food* food = new Food(name, category, amount, calories, fiber, sugar, protein, fat);
-    delete toSearch1;
     return food;
 }
 
@@ -546,10 +534,10 @@ void CalorieCounterFoodDatabase::menu(const char* fileName)
     welcome();
     string choiceStr;
 	char choice = 'A'; //default to enter the while loop
-	displayMenu();
 
 	while (choice != 'Q')
 	{
+        displayMenu();
 		cout << "\nPlease enter the option of your choice ('Q' to quit, 'H' to see option list): ";
 		getline(cin, choiceStr);
         cout << endl;
@@ -576,9 +564,7 @@ void CalorieCounterFoodDatabase::menu(const char* fileName)
             case 'Q': writeFile(fileName);
                       goodbye();
 			break;
-		default: cout << choice << " is an invalid option."
-				<<" Please choose one of the following options: \n";
-			displayMenu();
+		default: cout << choice << " is an invalid option.\n";
 		}
 	}
 }
@@ -626,7 +612,8 @@ void CalorieCounterFoodDatabase::displayInsertMenu() const
     cout << "\t\t\t\tINSERT MENU OPTIONS\n" << endl
     << "\t\t\tM - Enter a food manually" << endl
     << "\t\t\tS - Enter an input string" << endl
-    << "\t\t\tF - Enter multiple foods via file" << endl;
+    << "\t\t\tF - Enter multiple foods via file" << endl
+    << "\t\t\tQ - Quit" << endl;
 }
 
 //*********************************************************************
@@ -637,8 +624,8 @@ void CalorieCounterFoodDatabase::displayPlanMenu() const
 {
     cout << "\t\t\t\tPLAN MENU OPTIONS\n" << endl
     << "\t\t\tC - Compare two foods' calories" << endl
-    //<< "R - Find foods within a calorie range" << endl
-    << "\t\t\tM - Create a menu for a meal" << endl;
+    << "\t\t\tM - Create a menu for a meal" << endl
+    << "\t\t\tQ - Quit" << endl;
 }
 
 //*********************************************************************
@@ -656,12 +643,12 @@ void CalorieCounterFoodDatabase::insertManager()
     string choiceStr;
     string inputString;
     string inputFile;
-    char choice;
     Food* toInsert;
-    displayInsertMenu();
+    char choice = 'A'; //default to enter the while loop
 
-    do
+    while (choice != 'Q')
     {
+        displayInsertMenu();
         cout << "\nPlease enter the option of your choice: ";
         getline(cin, choiceStr);
         choice = toupper(choiceStr[0]);
@@ -670,10 +657,7 @@ void CalorieCounterFoodDatabase::insertManager()
         switch (choice)
         {
             case'M': toInsert = enterFoodManually();
-                if (insertInDataStructures(toInsert))
-                {
-                    cout << toInsert->getName() << " was successfully inserted" << endl;
-                }
+                insertInDataStructures(toInsert);
                 break;
             case'S': cout << "\nEnter the input string: " << endl;
                 getline(cin, inputString);
@@ -681,26 +665,26 @@ void CalorieCounterFoodDatabase::insertManager()
                 {
                     toInsert = inputStringToFood(inputString);
                     insertInDataStructures(toInsert);
-                    cout << toInsert->getName() << " was successfully inserted" << endl;
                 }
                 else
                 {
                     cout << "Incorrect format for input string.  Cannot add." << endl;
                 }
+                cout << endl;
                 break;
             case'F': cout << "\nEnter the name of the file to read: " << endl;
                 getline(cin, inputFile);
-                if (readFile(inputFile.c_str()))
-                {
-                    cout << "File was successfully read and items (except those listed) were inserted" << endl;
-                }
+                readFile(inputFile.c_str());
+                cout << endl;
+                break;
+            case 'Q': cout << "Returning to the main menu\n";
+                cout << endl;
                 break;
             default: cout << choice << " is an invalid option."
                 << " Please choose one of the following options: \n";
                 displayInsertMenu();
         }
-        
-    } while (choice != 'M' && choice != 'S' && choice != 'F');
+    }
 }
 
 //*********************************************************************
@@ -875,11 +859,12 @@ void CalorieCounterFoodDatabase::listManager() const
 void CalorieCounterFoodDatabase::planMenuMananger() const
 {
     string choiceStr;
-    char choice;
-    displayPlanMenu();
-    do{
-        
-        cout << "\n\tPlease enter the option of your choice: ";
+    char choice = 'A'; //default to enter the while loop
+    
+    while (choice != 'Q')
+    {
+        displayPlanMenu();
+        cout << "\nPlease enter the option of your choice: ";
         getline(cin, choiceStr);
         choice = toupper(choiceStr[0]);
         cout << endl;
@@ -887,18 +872,19 @@ void CalorieCounterFoodDatabase::planMenuMananger() const
         switch (choice)
         {
             case'C': compareTwoFoods();
-                break;
-            case'R': cout << "TESTING: r" << endl;
+                cout << endl;
                 break;
             case'M': createMenu();
+                cout << endl;
                 break;
-                
+            case'Q': cout << "Returning to the main menu\n";
+                break;
             default: cout << choice << " is an invalid option."
                 << " Please choose one of the following options: \n";
                 displayListMenu();
         }
         
-    } while (choice != 'C' && choice != 'R' && choice != 'M');
+    }
 }
 
 //*********************************************************************
@@ -912,7 +898,7 @@ void CalorieCounterFoodDatabase::compareTwoFoods() const
     Food* toSearch1 = new Food();
     Food* toSearch2 = new Food();
     
-    cout << "Please enter the first food to compare: ";
+    cout << "\tPlease enter the first food to compare: ";
     getline(cin, food1);
     food1 = stringToLower(food1);
     toSearch1->setName(food1);
@@ -925,7 +911,7 @@ void CalorieCounterFoodDatabase::compareTwoFoods() const
         toSearch1->setName(food1);
     }
     
-    cout << "Please enter the second food to compare: ";
+    cout << "\tPlease enter the second food to compare: ";
     getline(cin, food2);
     food2 = stringToLower(food2);
     toSearch2->setName(food2);
@@ -938,8 +924,9 @@ void CalorieCounterFoodDatabase::compareTwoFoods() const
         toSearch2->setName(food2);
     }
     
-    cout << food1 << " calories: " << toSearch1->getCalories() << endl;
-    cout << food2 << " calories: " << toSearch2->getCalories() << endl;
+    cout << "\tComparison:\n";
+    cout << "\t\t|| " << food1 << " calories: " << toSearch1->getCalories() << endl;
+    cout << "\t\t|| " << food2 << " calories: " << toSearch2->getCalories() << endl;
     
     delete toSearch1;
     delete toSearch2;
@@ -958,19 +945,17 @@ void CalorieCounterFoodDatabase::createMenu() const
     
     string choiceStr;
     char choice = 'A'; //default to enter the while loop
-    cout << "\t\tEnter 'A' to add an item to the menu, 'Q' to quit the menu planner\n";
+    
     
     while (choice != 'Q')
     {
-        cout << "\t\t----> 'A' to add, 'Q' to quit : ";
+        cout << "\tEnter 'A' to add an item to the menu, 'Q' to quit the menu planner: ";
         getline(cin, choiceStr);
-        cout << endl;
         choice = toupper(choiceStr[0]);
         
         if (choice == 'A')
         {
-            cout << "\t\t      * * * * * * * * * * * * * * * * * * * * * *"<< endl;
-            cout << "\t\t      Please enter a food to add to the menu: ";
+            cout << "\tAdd Food: ";
             getline(cin, food1);
             food1 = stringToLower(food1);
             toSearch1->setName(food1);
@@ -983,21 +968,19 @@ void CalorieCounterFoodDatabase::createMenu() const
                 toSearch1->setName(food1);
             }
             
-            cout <<"\n\t\t\t|| "<< food1 << " has " << toSearch1->getCalories() << " calories" << endl;
+            cout <<"\n\t\t|| "<< food1 << " has " << toSearch1->getCalories() << " calories" << endl;
             sum += toSearch1->getCalories();
-            cout << "\t\t\t|| Total menu calories is now: " << sum << endl;
-            cout << "\n\t\t      * * * * * * * * * * * * * * * * * * * * * * \n"<< endl;
+            cout << "\t\t|| Total menu calories is now: " << sum << endl << endl;
             
         }
         else if (choice == 'Q')
         {
-            cout << "\t\t\tThank your for planning your meal.\n"
-				 << "\t\t\tYour meal has " << sum << " calories total" << endl;
+            cout << "\n\tThank you for planning your meal.\n"
+				 << "\t\t|| Your meal has " << sum << " calories total" << endl;
         }
         else
         {
             cout << "Invalid choice\n";
-            cout << "Enter 'A' to add an item to the menu, 'Q' to quit the menu planner\n";
         }
     }
     
