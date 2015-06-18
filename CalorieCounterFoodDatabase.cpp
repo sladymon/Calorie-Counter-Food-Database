@@ -672,7 +672,7 @@ void CalorieCounterFoodDatabase::insertManager()
             case'M': toInsert = enterFoodManually();
                 if (insertInDataStructures(toInsert))
                 {
-                    cout << toInsert->getName() << " was successfully inserted" << endl;
+                    cout << endl << toInsert->getName() << " was successfully inserted" << endl << endl;
                 }
                 break;
             case'S': cout << "\nEnter the input string: " << endl;
@@ -682,7 +682,7 @@ void CalorieCounterFoodDatabase::insertManager()
                     toInsert = inputStringToFood(inputString);
                     if (insertInDataStructures(toInsert))
                     {
-                         cout << toInsert->getName() << " was successfully inserted" << endl;
+                         cout << endl << toInsert->getName() << " was successfully inserted" << endl << endl;
                     }
                 }
                 else
@@ -695,7 +695,7 @@ void CalorieCounterFoodDatabase::insertManager()
                 getline(cin, inputFile);
                 if (readFile(inputFile.c_str()))
                 {
-                    cout << "File was successfully read and items (except those listed) were inserted" << endl;
+                    cout << endl << "File was successfully read and items (except those listed) were inserted" << endl << endl;
                 }
                 cout << endl;
                 break;

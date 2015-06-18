@@ -250,7 +250,7 @@ void HashTable::statistics (){
     cout<< "\tNumber of items in the Overflow      : "<< overflow << endl;
     cout<< "\tHash Table - Empty Nodes             : "<< empty_nodes <<endl;
     cout<< "\tCollisions                           : " << collisions << endl;
-    cout<< "\tLoad Factor                          : " << load_factor << " %"<< endl;
+    cout<< "\tLoad Factor                          : " <<fixed << setprecision(2) << load_factor << " %"<< endl;
     cout<< "\tFull Buckets                         : "<< full_buckets <<endl;
     cout<< "\tEmpty Buckets                        : "<< empty_buckets <<endl;
     cout<< "\tBuckets with at least one item       : "<<fixed << setprecision(2)<< items_at_pos_0 <<endl;
