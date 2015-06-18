@@ -589,16 +589,18 @@ void CalorieCounterFoodDatabase::menu(const char* fileName)
 //*********************************************************************
 void CalorieCounterFoodDatabase::displayMenu() const
 {
-	cout << "\n\t\t\t\tMENU OPTIONS\n" << endl
-		<< "\t\t\tA - Add new food entry" << endl
-		<< "\t\t\tD - Delete food entry" << endl
-		<< "\t\t\tS - Search for a food entry" << endl
-		<< "\t\t\tL - List food entries" << endl
-        << "\t\t\tP - Plan menu" << endl
-		<< "\t\t\tW - Write food entries to file" << endl
-		<< "\t\t\tG - Get statistics" << endl
-		<< "\t\t\tH - Help (see option list again)" << endl
-		<< "\t\t\tQ - Quit" << endl;
+	cout << "\t\t\t__________________________________\n"
+        << "\t\t\t| MENU OPTIONS                    |" << endl
+		<< "\t\t\t| A - Add new food entry          |" << endl
+		<< "\t\t\t| D - Delete food entry           |" << endl
+		<< "\t\t\t| S - Search for a food entry     |" << endl
+		<< "\t\t\t| L - List food entries           |" << endl
+        << "\t\t\t| P - Plan menu                   |" << endl
+		<< "\t\t\t| W - Write food entries to file  |" << endl
+		<< "\t\t\t| G - Get statistics              |" << endl
+		<< "\t\t\t| H - Help (see option list again)|" << endl
+		<< "\t\t\t| Q - Quit                        |" << endl
+	    << "\t\t\t|_________________________________|" << endl;
 }
 
 //*********************************************************************
@@ -611,7 +613,8 @@ void CalorieCounterFoodDatabase::displayListMenu() const
 		<< "\t\t\tI - Special print, as an indented list" << endl
 		<< "\t\t\tU - List unsorted data." << endl
 		<< "\t\t\tP - List data sorted by the primary key" << endl
-        << "\t\t\tS - List data sorted by the secondary key" << endl;
+		<< "\t\t\tS - List data sorted by the secondary key" << endl
+		<< "\t\t\tQ - Quit the list food entries" << endl;
 }
 
 //*********************************************************************
@@ -758,64 +761,67 @@ void CalorieCounterFoodDatabase::searchManager() const
 {
 	string name;
 	string choiceStr;
-	char choice;
+	char choice = 'A'; //default to enter the while loop
 	
-	do{
-		cout << "\n\t\t\t\tSEARCH MENU OPTIONS \n\n"
-			 << "\t\t\tP - Search by Primary key (by name)\n"
-			 << "\t\t\tS - Search by Secondary key (by category)\n";
-		getline(cin, choiceStr);
-		choice = toupper(choiceStr[0]);
-        
-        if (choice != 'P' && choice != 'S')
-        {
-            cout << "Invalid option.  Please enter a valid option.\n";
-        }
-
-	} while (choice != 'P' && choice != 'S');
-    
-	Food* toSearch = new Food();
-	Food* toReturn = new Food();
-	
-	if (choice == 'P')
+	while (choice != 'Q')
 	{
-		cout << "\nEnter the food name(P) to search for: ";
-		getline(cin, name);
-        name = stringToLower(name);
-		toSearch->setName(name);
-        cout << endl;
-        
-        if (hash->find_Item(*toSearch))
-        {
-            toSearch->displayFood();
-        }
-        else
-        {
-            cout << name << " was not found." << endl;
-        }
-	}
-	else if (choice == 'S') 
-	{
-		cout << "\nEnter the food category(S) to search for: ";
-		getline(cin, name);
-        name = stringToLower(name);
-		toSearch->setCategory(name);
-        cout << endl;
-        
-        
-		if(!secondaryBST->getEntry(toSearch, *toReturn))
-        {
-            cout << "Could not find " << name << endl;
-        }
-        else
-        {
-            secondaryBST->printAllMatches(toSearch, displayFood);
-        }
-	}
+	cout << "\n\t\t\t\tSEARCH MENU OPTIONS \n\n"
+		<< "\t\t\tP - Search by Primary key (by name)\n"
+		<< "\t\t\tS - Search by Secondary key (by fruit, vegetable, grain, protein, dairy)\n"
+	    << "\t\t\tQ - Quit search for a food entry\n";
+	getline(cin, choiceStr);
+	choice = toupper(choiceStr[0]);
 
-    delete toSearch;
-    delete toReturn;
+		if (choice != 'P' && choice != 'S' && choice !='Q')
+		{
+			cout << "Invalid option.  Please enter a valid option.\n";
+		}
 
+		Food* toSearch = new Food();
+		Food* toReturn = new Food();
+
+		if (choice == 'P')
+		{
+			cout << "\nEnter the food name(P) to search for: ";
+			getline(cin, name);
+			name = stringToLower(name);
+			toSearch->setName(name);
+			cout << endl;
+
+			if (hash->find_Item(*toSearch))
+			{
+				toSearch->displayFood();
+			}
+			else
+			{
+				cout << name << " was not found." << endl;
+			}
+		}
+		else if (choice == 'S')
+		{
+			cout << "\nEnter the food category(S) to search for: ";
+			getline(cin, name);
+			name = stringToLower(name);
+			toSearch->setCategory(name);
+			cout << endl;
+
+
+			if (!secondaryBST->getEntry(toSearch, *toReturn))
+			{
+				cout << "Could not find " << name << endl;
+			}
+			else
+			{
+				secondaryBST->printAllMatches(toSearch, displayFood);
+			}
+		}
+
+		delete toSearch;
+		delete toReturn;
+
+	}
+	if (choice == 'Q')
+		displayMenu();
 }
 
 
@@ -830,31 +836,34 @@ void CalorieCounterFoodDatabase::searchManager() const
 void CalorieCounterFoodDatabase::listManager() const
 {
 	string choiceStr;
-	char choice;
-	displayListMenu();
-	do{
-
+	char choice = 'A';
+	
+	while (choice != 'Q')
+	{
+		displayListMenu();
 		cout << "\nPlease enter the option of your choice: ";
 		getline(cin, choiceStr);
 		choice = toupper(choiceStr[0]);
-        cout << endl;
-        
+		cout << endl;
+
 		switch (choice)
 		{
-            case'I': hash->print_Indented_Items_with_Index_from_Bucket();
-                break;
-            case'U': hash->print_Table();
-                break;
-            case'P': primaryBST->printTreeAsIndentedList(displayIndentedNode);
-                break;
-            case'S': secondaryBST->printTreeAsIndentedList(displayIndentedNode);
-                break;
-            default: cout << choice << " is an invalid option."
-                << " Please choose one of the following options: \n";
-                displayListMenu();
+		case'I': hash->print_Indented_Items_with_Index_from_Bucket();
+			break;
+		case'U': hash->print_Table();
+			break;
+		case'P': primaryBST->printTreeAsIndentedList(displayIndentedNode);
+			break;
+		case'S': secondaryBST->printTreeAsIndentedList(displayIndentedNode);
+			break;
+		case'Q': displayMenu();
+			break;
+		default: cout << choice << " is an invalid option."
+			<< " Please choose one of the following options: \n";
+			displayListMenu();
 		}
-        
-	} while (choice != 'I' && choice != 'U' && choice != 'P' && choice != 'S');
+
+	}
     
 }
 
