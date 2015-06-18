@@ -2,10 +2,14 @@
 //                              FOOD CLASS
 //
 // Author: Shannon Ladymon
+// Class: 22C Spring2015
+//
 // Description: Food is a class that contains information about a food
 //              item, including name (primary, unique key), category
 //              (secondary, non-unique key), and information about the
 //              calories and nutrition.
+//
+// Purpose: This is our data class that the database is using.
 //
 //*********************************************************************
 

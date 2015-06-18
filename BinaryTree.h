@@ -2,10 +2,19 @@
 //                          BINARY TREE CLASS
 // Author: Deepika Metkar
 // Modified by: Shannon Ladymon
+// Class: 22C Spring2015
+//
 // Description: BinaryTree holds a binary tree with BinaryNodes.  It
 //              is templated to work with any class.  It contains a
 //              pointer to the root BinaryNode and maintains a count.
 //              It expects to work with pointer data.
+//
+// Purpose: This file is the base parent class for our binary search
+//              tree.  It handles functions that are not based on
+//              tree being sorted, such as printing the tree as an
+//              indented list.  It also destroys the tree once the
+//              destructor is called and deletes the nodePtrs (but
+//              note that it will not delete the Food*)
 //
 //*********************************************************************
 

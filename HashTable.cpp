@@ -2,11 +2,18 @@
 //                              HASH TABLE CLASS
 //
 // Author: Wendy Martell
+// Class: 22C Spring2015
+//
 // Description: HashTable contains a dynamically allocated array of
 //              Buckets in which to store Food pointers, and a
 //              dynamically allocated linked list for any overflow
 //              It also contains numerous data items to track
 //              statistics for the hash table, such as collisions.
+//
+// Purpose: This file is one of our main data structures.  HashTable
+//              is used for all searches and for managing the deletion
+//              of all Food* (our data).  It calls on Bucket and
+//              LinkedList to store the actual Food* and do the deletes.
 //
 //*********************************************************************
 
@@ -65,6 +72,37 @@ HashTable::HashTable(int size){
 
 //*********************************************************************
 // Author - Wendy Martell
+// hashed_Index - given a unique key (food name), it will determine
+//          the index in the hash table to insert the item.
+// @param name - the unique key (food name)
+// @return - the index where the food should be inserted in the hash
+//*********************************************************************
+int HashTable::hashed_Index(string name){
+    
+    const int size = 21;  // work for shuti's computer
+    //int size=21;
+    long int sum = 0;
+    
+    char key[size];
+    
+    //partial copy (only 20 chars)
+    strncpy(key,name.c_str(),20);
+    key[20] = '\0';                  /* null character manually added */
+    
+    char *index= key;
+    
+    while(*index) {
+        
+        sum += *index * *index * *index;
+        index ++;
+    }
+    
+    int returnVal = sum % sizeTable;
+    return returnVal;
+}
+
+//*********************************************************************
+// Author - Wendy Martell
 // insert - inserts a new Food pointer into hash table. Calls the hash
 //          function to determine which index of the table to insert at.
 //          If the bucket at that index if full, it will be inserted
@@ -110,67 +148,6 @@ bool HashTable::insert(Food *food){
     }
 	load_factor = (static_cast<float>(items_at_pos_0 * 100)) / sizeTable;
 
-    return true;
-}
-
-
-//*********************************************************************
-// Author - Wendy Martell
-// hashed_Index - given a unique key (food name), it will determine
-//          the index in the hash table to insert the item.
-// @param name - the unique key (food name)
-// @return - the index where the food should be inserted in the hash
-//*********************************************************************
-int HashTable::hashed_Index(string name){
-    
-	const int size = 21;  // work for shuti's computer
-	//int size=21;
-    long int sum = 0;
-    
-    char key[size];
-    
-    //partial copy (only 20 chars)
-    strncpy(key,name.c_str(),20);
-    key[20] = '\0';                  /* null character manually added */
-    
-    char *index= key;
-    
-    while(*index) {
-        
-        sum += *index * *index * *index;
-        index ++;
-    }
-    
-    int returnVal = sum % sizeTable;
-    return returnVal;
-  }
-
-//*********************************************************************
-// Author - Wendy Martell
-// find_Item - finds a food in the hash table.  First searches for the
-//          item in the expected index of the array.  If not found
-//          there, searches in the overflow linked list.  Modifies the
-//          reference parameter with the food's information if found
-// @param food - a reference parameter with the name of the food to find
-// @return - true if found
-//*********************************************************************
-bool HashTable::find_Item(Food& find_food){
-
-    int index;
-    bool found;
-
-    index = hashed_Index (find_food.getName());
-    
-    found = foodTable[index].find_Item_in_Bucket(find_food);
-    
-    if (!found) {
-    
-        found = foodList->searchNode(find_food);
-    }
-    if (!found){
-        return false;
-    }
-    
     return true;
 }
 
@@ -229,6 +206,35 @@ return false;
 
 //*********************************************************************
 // Author - Wendy Martell
+// find_Item - finds a food in the hash table.  First searches for the
+//          item in the expected index of the array.  If not found
+//          there, searches in the overflow linked list.  Modifies the
+//          reference parameter with the food's information if found
+// @param food - a reference parameter with the name of the food to find
+// @return - true if found
+//*********************************************************************
+bool HashTable::find_Item(Food& find_food){
+    
+    int index;
+    bool found;
+    
+    index = hashed_Index (find_food.getName());
+    
+    found = foodTable[index].find_Item_in_Bucket(find_food);
+    
+    if (!found) {
+        
+        found = foodList->searchNode(find_food);
+    }
+    if (!found){
+        return false;
+    }
+    
+    return true;
+}
+
+//*********************************************************************
+// Author - Wendy Martell
 // statistics - displays the statistics for the hash table
 //*********************************************************************
 void HashTable::statistics (){
@@ -263,7 +269,6 @@ void HashTable::statistics (){
 // Author - Wendy Martell
 // print_Table - prints all foods in the array and overflow linked list
 //*********************************************************************
-
 void HashTable::print_Table(){
     
     for (int i=0; i < sizeTable ; i++) {
@@ -290,7 +295,6 @@ void HashTable::print_Indented_Items_with_Index_from_Bucket(){
     cout << "Items in overflow linked list (" << foodList->getcount() << "): " << endl;
     foodList->displayList();
 }
-
 
 //*********************************************************************
 // Author - Shannon Ladymon

@@ -2,9 +2,17 @@
 //                      DRIVER FOR TEAM 8 PROJECT
 //
 // Author: Shuti Wang, Deepika Metkar
-// Description: Contains driver code for the project.  Main determines
-//          the hash size and builds a CalorieCounterFoodDatabase,
-//          then runs the menu.
+// Class: 22C Spring2015
+//
+// Description: This database allows users to store and find
+//              information about various foods and their nutrition
+//              details, such as calories.  Healthy eating is of prime
+//              importance (especially in America), so this database can
+//              help users be informed about their eating choices.
+//
+// Purpose: Contains driver code for the project.  Main determines
+//              the hash size and builds a CalorieCounterFoodDatabase,
+//              then runs the menu.
 //
 //*********************************************************************
 
@@ -14,9 +22,11 @@
 
 using namespace std;
 
+//********FOR TEST RUN*********
 //Shannon's files
 //const string INPUT_FILE = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/foodInput.txt";
 //const string OUTPUT_FILE = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/foodOutput.txt";
+//*****************************
 
 //Wendy's files
 //const string INPUT_FILE = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/foodInput.txt";
@@ -36,8 +46,8 @@ int determineHashSize(const char* fileName);
 
 int main()
 {
-	//CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(determineHashSize(INPUT_FILE.c_str()));
-    CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(10);
+	CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(determineHashSize(INPUT_FILE.c_str()));
+    //CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(10);
     
 	if (!a->readFile(INPUT_FILE.c_str()))
 	{
@@ -45,7 +55,6 @@ int main()
 		return 1;
 	}
 		
-
 	a->menu(OUTPUT_FILE.c_str());
     delete a;
 	return 0;

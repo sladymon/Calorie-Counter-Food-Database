@@ -2,11 +2,18 @@
 //                              HASH TABLE CLASS
 //
 // Author: Wendy Martell
+// Class: 22C Spring2015
+//
 // Description: HashTable contains a dynamically allocated array of
 //              Buckets in which to store Food pointers, and a
 //              dynamically allocated linked list for any overflow
 //              It also contains numerous data items to track
 //              statistics for the hash table, such as collisions.
+//
+// Purpose: This file is one of our main data structures.  HashTable
+//              is used for all searches and for managing the deletion
+//              of all Food* (our data).  It calls on Bucket and
+//              LinkedList to store the actual Food* and do the deletes.
 //
 //*********************************************************************
 
@@ -47,7 +54,7 @@ public:
     
     // Destructor
     ~HashTable(){
-        delete []foodTable;  //FIXME: Is this correct?
+        delete []foodTable;  
         delete foodList;
     }
     
@@ -76,14 +83,14 @@ public:
     // hashing function to determine index based on unique key (name)
     int hashed_Index (string name);
     
-    // finds item in hash
-    bool find_Item (Food& find_food);
-    
     // inserts food pointer into hash
     bool insert(Food* food);
     
     // deletes item in hash
     bool delete_Item (Food& find_food);
+    
+    // finds item in hash
+    bool find_Item (Food& find_food);
     
     // displays statistics on hash
     void statistics ();

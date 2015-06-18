@@ -3,10 +3,18 @@
 //                          BINARY NODE CLASS
 // Author: Deepika Metkar
 // Modified by: Shannon Ladymon
+// Class: 22C Spring2015
+//
 // Description: BinaryNode is a node for use with BinaryTree and
 //              BinarySearchTree.  It is templated to work with any
 //              class.  It contains a pointer data item of that class
 //              and two BinaryNode pointers for its children.
+//
+// Purpose: This file provides the base class used in our binary search
+//              tree.  It holds the pointer to our data (Food).  It
+//              does not manage its own data deletion since HashTable
+//              has taken responsibility for all Food* deletions in
+//              our program.
 //
 //*********************************************************************
 

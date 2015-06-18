@@ -2,8 +2,19 @@
 //                              BUCKET CLASS
 //
 // Author: Wendy Martell
+// Class: 22C Spring2015
+//
 // Description: Bucket contains a count of items in the bucket and an
 //              array of 3 pointers to Food objects.
+//
+// Purpose: This file is used as the main conflict resolution method
+//              for our project.  When up to three items are hashed to
+//              the same index, they are able to be placed in
+//              subsequent indexes of the bucket.  Once the bucket is
+//              full, the HashTable class will instead place any items
+//              in the LinkedList instead.  Because Bucket is part of
+//              the HashTable class, it manages the deletion of Food*
+//              when its deletion or destructor methods are called.
 //
 //*********************************************************************
 
@@ -42,11 +53,11 @@ public:
     // insert food pointer into bucket
     int insert_Items_in_Bucket(Food *food);
     
-    // find an item and modify the reference parameter with its details
-    bool find_Item_in_Bucket(Food& find_food);
-    
     // deletes an item
     int delete_Item_in_Bucket(Food& find_food);
+    
+    // find an item and modify the reference parameter with its details
+    bool find_Item_in_Bucket(Food& find_food);
     
     // print functions
     void print_Items_in_Bucket();  

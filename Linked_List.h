@@ -2,11 +2,22 @@
 //                              LINKED LIST CLASS
 //
 // Author: Wendy Martell
+// Class: 22C Spring2015
+//
 // Description: LinkedList is a singlely-linked list with a dummy node
 //              which contains a pointer the the head of the list, a
 //              count of items in the list, and ListNodes, which each
 //              hold a Food pointer and a pointer to the next item in
 //              the list.
+//
+// Purpose: This file is used as our overflow storage for Food* not
+//              able to fit in the main collision resolution method,
+//              Bucket.  It can store a virtually unlimited number of
+//              extra Food*; however, it will usually store no more
+//              than a few due to the automatic rehashing that occurs
+//              when the HashTable load factor is greater than 75%.
+//              Because it is part of the HashTable, it manages the
+//              deletion of Food* in its destructor and remove function.
 //
 //*********************************************************************
 

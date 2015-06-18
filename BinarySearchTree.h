@@ -2,12 +2,24 @@
 //                          BINARY SEARCH TREE CLASS
 // Author: Deepika Metkar
 // Modified by: Shannon Ladymon
+// Class: 22C Spring2015
+//
 // Description: BinarySearchTree is a child of BinaryTree.  It holds a
 //              sorted binary tree.  It is templated to work with any
 //              class. It uses its parent's data items (rootPtr and
 //              count).  It expects to work with pointer data.  The
 //              constructor allows specification of the comparison
 //              function to determine how to sort the tree.
+//
+// Purpose: This file is used for one of our main data structures. We
+//              have two binary search trees in our project, one based
+//              on a primary key, one on a secondary key.  This class
+//              provides a sorted tree based on the specified key.  It
+//              is able to remove nodes based on a specified comparision
+//              which allows a tree based on a secondary key to still
+//              find and delete the correct, unique node (but note that
+//              it will not delete the Food* since HashTable has that
+//              responsibility)
 //
 //*********************************************************************
 

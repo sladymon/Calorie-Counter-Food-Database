@@ -6,7 +6,9 @@ bok choy;vegetable;100;34;3;2;3;0
 spinach;vegetable;100;23;2;0;3;0
 low fat 1% milk;dairy;100;44;0;0;4;1
 white bread;grain;100;246;5;37;8;0
+melon;fruit;100;1;1;1;1;1
 heavy whipping cream;dairy;100;44;0;0;4;1
+brown egg;protein;100;1;1;1;1;1
 arobio rice;grain;100;130;0;0;3;0
 chicken thigh;protein;100;165;0;0;31;4
 pineapple;fruit;100;32;2;5;1;0
@@ -16,7 +18,6 @@ reduced fat 2% cottage cheese;dairy;100;90;0;0;14;2
 egg;protein;100;155;0;1;13;11
 chicken breast;protein;100;165;0;0;31;4
 halibut;protein;100;206;0;0;22;12
-text;1;1;1;1;1;1;1
 whole milk;dairy;100;62;0;5;3;3
 wheat bread;grain;100;246;5;37;8;0
 quinoa;grain;100;362;7;1;8;4
@@ -31,7 +32,6 @@ white rice;grain;100;130;0;0;3;0
 mango;fruit;100;89;3;1;12;0
 cornmeal;grain;100;362;7;1;8;4
 broccoli;vegetable;100;34;3;2;3;0
-strawberry;fruit;100;32;2;5;1;0
 oatmeal;grain;100;379;10;1;13;7
 shrimp;protein;100;106;0;0;20;2
 cucumber;vegetable;100;12;1;1;1;0
@@ -43,7 +43,6 @@ blueberry;fruit;100;57;2;10;1;0
 kiwi;fruit;100;52;2;10;0;0
 tofu;protein;100;147;4;0;13;7
 manchego cheese;dairy;100;90;0;0;14;2
-egg2;1;1;1;1;1;1;1
 chocolate milk;dairy;100;62;0;5;3;3
 seitan;protein;100;106;0;0;20;2
 swiss cheese;dairy;100;403;0;1;25;33

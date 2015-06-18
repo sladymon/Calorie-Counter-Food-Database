@@ -2,11 +2,18 @@
 //                  CALORIE COUNTER FOOD DATABASE CLASS
 //
 // Author: Shannon Ladymon, Deepika Metkar, Shuti Wang
+// Class: 22C Spring2015
+//
 // Description: CalorieCounterFoodDatabase maintains a database of food
 //              objects in three data structures: a BinarySearchTree
 //              based on food names (primary, unique key), a
 //              BinarySearchTree based on food categories (secondary,
 //              non-unique key), and a HashTable based on food names.
+//
+// Purpose: This file is used as the primary object for our project. It
+//              maintains all of our data, manages the manipulation of
+//              that data, and handles all user interaction through
+//              various menus.
 //
 //*********************************************************************
 
@@ -66,11 +73,11 @@ public:
     //write output file with all items from data structures
 	bool writeFile(const char* fileName);
     
-    //insert a food pointer into all data structures
-    bool insertInDataStructures(Food* food);
-    
     //enter information for a food item manually
     Food* enterFoodManually() const;
+    
+    //insert a food pointer into all data structures
+    bool insertInDataStructures(Food* food);
     
     //input/output string manipulation
     string stringToLower(string str) const;
@@ -93,7 +100,7 @@ public:
     void compareTwoFoods() const;
     void createMenu() const;
 
-	//hash functions
+	//Rehash function
 	void rehashing();
 };
 

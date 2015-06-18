@@ -2,11 +2,18 @@
 //                  CALORIE COUNTER FOOD DATABASE CLASS
 //
 // Author: Shannon Ladymon, Deepika Metkar, Shuti Wang
-// Description: CalorieCounterFoodDatabase maintains a database of food
+// Class: 22C Spring2015
+//
+// Description: CalorieCounterFoodDatabase maintains a database of Food
 //              objects in three data structures: a BinarySearchTree
 //              based on food names (primary, unique key), a
 //              BinarySearchTree based on food categories (secondary,
 //              non-unique key), and a HashTable based on food names.
+//
+// Purpose: This file is used as the primary object for our project. It
+//              maintains all of our data, manages the manipulation of
+//              that data, and handles all user interaction through
+//              various menus.
 //
 //*********************************************************************
 
@@ -16,165 +23,16 @@
 #include <sstream>
 #include <fstream>
 
-//const string PRIME_NUMBERS = "primeNumbers.txt";
+//********FOR TEST RUN*********
 //const string PRIME_NUMBERS = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/primeNumbers.txt";
+//*****************************
+
+//const string PRIME_NUMBERS = "primeNumbers.txt";
 //const string PRIME_NUMBERS = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/primeNumbers.txt";
 //Deepika:->
-//const string OUTPUT_FILE = "D:\De Anza\5. Spring 2015\CIS 22C_Delia Gârbacea\Topic 14_Project Presentations\Calorie-Counter-Food-Database\primeNumbers.txt";
+//const string PRIME_NUMBERS = "D:\De Anza\5. Spring 2015\CIS 22C_Delia Gârbacea\Topic 14_Project Presentations\Calorie-Counter-Food-Database\primeNumbers.txt";
 
 using namespace std;
-
-
-/////////////////////////////////// Stand Alone Functions /////////////////////////////////////
-
-//*********************************************************************
-// Author - Deepika Metkar, Shannon Ladymon
-// inputFoodToOutputString - converts information from a Food pointer
-//          to a string with the data
-// @param food - the Food pointer to get the information from
-// @return - the string with all information on the food
-//*********************************************************************
-string inputFoodToOutputString(Food* food)
-{
-    stringstream amount, calories, fat, fiber, protein, sugar;
-    calories << food->getCalories();
-    amount << food->getAmount();
-    fat << food->getFat();
-    fiber << food->getFiber();
-    protein << food->getProtein();
-    sugar << food->getSugar();
-    
-    return food->getName() + ";" + food->getCategory() + ";" + amount.str()
-    + ";" + calories.str() + ";" + fiber.str() + ";" + sugar.str()
-    + ";"+ protein.str() + ";" + fat.str() ;
-}
-
-//*********************************************************************
-// Author - Shannon Ladymon
-// displayIndentedNode - Displays food name, indented with
-//		tabs dependent on level.  Is passed to BST functions
-// @param anItem - pointer to Food to be displayed
-// @param level - current level of tree
-//*********************************************************************
-void displayIndentedNode(Food* anItem, int level)
-{
-    for (int i = 1; i <= level; i++)
-    {
-        cout << "\t";
-    }
-    cout << level + 1 << ". " << anItem->getName() << endl;
-}
-
-//*********************************************************************
-// Author - Shannon Ladymon
-// displaySecondaryFoods -  Displays all informationg for a food.
-//          Is passed to BST function that displays all foods that
-//          match a secondary key.
-// @param anItem - reference parameter of Food to be displayed
-//*********************************************************************
-void displayFood(Food& anItem)
-{
-    anItem.displayFood();
-    cout << endl;
-}
-
-//*********************************************************************
-// Author - Shannon Ladymon
-// visitRehash - Given an Food* and a hash table, will insert the
-//          Food* into the hash table
-// @param anItem - pointer to Food* to be inserted
-// @param newHash - the hash table to insert the Food* into
-//*********************************************************************
-void visitRehash(Food* anItem, HashTable* newHash)
-{
-    newHash->insert(anItem);
-}
-
-//*********************************************************************
-// Author - Shannon Ladymon
-// writeFoodItemToFile - Given a food pointer, converts the food info
-//          to an output string and writes it to a file
-// @param anItem - pointer to Food to be displayed
-// @param outfile - the file to write the output string to
-//*********************************************************************
-void writeFoodItemToFile(Food* anItem, ofstream& outfile)
-{
-    string outStr = inputFoodToOutputString(anItem);
-    outfile << outStr << endl;
-}
-
-//*********************************************************************
-// Author - Deepika Metkar
-// compareBST - a comparison function to work with the primary key, name
-// @param food1 - a pointer to the first food to compare
-// @param food2 - a pointer to the second food to compare
-// @return - 1 if food1 is greater; 0 if equal; -1 if food1 is less
-//*********************************************************************
-int compareBST(Food* food1, Food* food2)
-{
-    if (food1->getName() > food2->getName())
-    {
-        return 1;
-    }
-    else if (food1->getName() < food2->getName())
-    {
-        return -1;
-    }
-    return 0;
-}
-
-//*********************************************************************
-// Author - Deepika Metkar
-// compareBSTSecondary - a comparison function to work with the
-//          secondary key, category
-// @param food1 - a pointer to the first food to compare
-// @param food2 - a pointer to the second food to compare
-// @return - 1 if food1 is greater; 0 if equal; -1 if food1 is less
-//*********************************************************************
-int compareBSTSecondary(Food* food1, Food* food2)
-{
-    if (food1->getCategory() > food2->getCategory())
-    {
-        return 1;
-    }
-    else if (food1->getCategory() < food2->getCategory())
-    {
-        return -1;
-    }
-    return 0;
-}
-
-//*********************************************************************
-// Author - Shuti Wang, Deepika Metkar
-// nextPrime - given a number, finds the next prime number
-// @param inputCounter - the number to start with
-// @return - the next prime number
-//*********************************************************************
-int nextPrime(int inputCounter)
-{
-    ifstream inFile(PRIME_NUMBERS);
-    int primeNumber = inputCounter + 1;
-    if (!inFile)
-    {
-        cout << "Error opening prime number file." << endl;
-        return false;
-    }
-    if (inFile.eof())
-    {
-        cout << "File is empty." << endl;
-        return false;
-    }
-    while (inFile >> primeNumber)
-    {
-        if (inputCounter < primeNumber)
-        {
-            inFile.close();
-            return primeNumber;
-        }
-        
-    }
-    return primeNumber;
-}
 
 
 /////////////////////////////////// Constructors/Destructor /////////////////////////////////////
@@ -335,6 +193,66 @@ bool CalorieCounterFoodDatabase::writeFile(const char* fileName)
 
 //*********************************************************************
 // Author - Shannon Ladymon
+// enterFoodManually - prompts a user to enter a food's information
+//          and creates a food object dynamically with that info
+// @return - a pointer to the food created
+//*********************************************************************
+Food* CalorieCounterFoodDatabase::enterFoodManually() const
+{
+    string name, category, amountStr, caloriesStr, fiberStr, sugarStr, proteinStr, fatStr;
+    int amount, calories, fiber, sugar, protein, fat;
+    Food* toSearch1 = new Food();
+    
+    cout <<"\nEnter the following information for the food you would like to add:\n";
+    cout << "\tFood Name            : ";
+    getline(cin, name);
+    name = stringToLower(name);
+    
+    toSearch1->setName(name);
+    
+    while (hash->find_Item(*toSearch1))
+    {
+        cout << name << " already exists. Please choose a different food name: ";
+        getline(cin, name);
+        name = stringToLower(name);
+        toSearch1->setName(name);
+    }
+    
+    cout << "\tCategory (fruit, vegetable, grain, protein, dairy): ";
+    getline(cin, category);
+    category = stringToLower(category);
+    
+    cout << "\tAmount (in grams/mL) : ";
+    getline(cin, amountStr);
+    amount = atoi(amountStr.c_str());
+    
+    cout << "\tCalories             : ";
+    getline(cin, caloriesStr);
+    calories = atoi(caloriesStr.c_str());
+    
+    cout << "\tFiber (in grams)     : ";
+    getline(cin, fiberStr);
+    fiber = atoi(caloriesStr.c_str());
+    
+    cout << "\tSugar (in grams)     : ";
+    getline(cin, sugarStr);
+    sugar = atoi(sugarStr.c_str());
+    
+    cout << "\tProtein(in grams)    : ";
+    getline(cin, proteinStr);
+    protein = atoi(proteinStr.c_str());
+    
+    cout << "\tFat (in grams)       : ";
+    getline(cin, fatStr);
+    fat = atoi(fatStr.c_str());
+    
+    Food* food = new Food(name, category, amount, calories, fiber, sugar, protein, fat);
+    delete toSearch1;
+    return food;
+}
+
+//*********************************************************************
+// Author - Shannon Ladymon
 // insertInDataStructures - inserts a food pointer into all data
 //          structures (primaryBST, secondaryBST, hash) if it is
 //          a unique key
@@ -359,6 +277,21 @@ bool CalorieCounterFoodDatabase::insertInDataStructures(Food* food)
     secondaryBST->insert(food);
     hash->insert(food);
     return true;
+}
+
+//*********************************************************************
+// Author - Shannon Ladymon
+// enterFoodManually - prompts a user to enter a food's information
+//          and creates a food object dynamically with that info
+// @return - the lowercase string
+//*********************************************************************
+string CalorieCounterFoodDatabase::stringToLower(string str) const
+{
+    for (int i = 0; i < str.length(); i++)
+    {
+        str[i] = tolower(str[i]);
+    }
+    return str;
 }
 
 //*********************************************************************
@@ -460,80 +393,6 @@ Food* CalorieCounterFoodDatabase::inputStringToFood(string input) const
     return foodObj;
 }
 
-//*********************************************************************
-// Author - Shannon Ladymon
-// enterFoodManually - prompts a user to enter a food's information
-//          and creates a food object dynamically with that info
-// @return - a pointer to the food created
-//*********************************************************************
-Food* CalorieCounterFoodDatabase::enterFoodManually() const
-{
-    string name, category, amountStr, caloriesStr, fiberStr, sugarStr, proteinStr, fatStr;
-    int amount, calories, fiber, sugar, protein, fat;
-    Food* toSearch1 = new Food();
-    
-    cout <<"\nEnter the following information for the food you would like to add:\n";
-    cout << "\tFood Name            : ";
-    getline(cin, name);
-    name = stringToLower(name);
-    
-    toSearch1->setName(name);
-    
-    while (hash->find_Item(*toSearch1))
-    {
-        cout << name << " already exists. Please choose a different food name: ";
-        getline(cin, name);
-        name = stringToLower(name);
-        toSearch1->setName(name);
-    }
-    
-    cout << "\tCategory (fruit, vegetable, grain, protein, dairy): ";
-    getline(cin, category);
-    category = stringToLower(category);
-    
-    cout << "\tAmount (in grams/mL) : ";
-    getline(cin, amountStr);
-    amount = atoi(amountStr.c_str());
-    
-    cout << "\tCalories             : ";
-    getline(cin, caloriesStr);
-    calories = atoi(caloriesStr.c_str());
-    
-    cout << "\tFiber (in grams)     : ";
-    getline(cin, fiberStr);
-    fiber = atoi(caloriesStr.c_str());
-    
-    cout << "\tSugar (in grams)     : ";
-    getline(cin, sugarStr);
-    sugar = atoi(sugarStr.c_str());
-    
-    cout << "\tProtein(in grams)    : ";
-    getline(cin, proteinStr);
-    protein = atoi(proteinStr.c_str());
-    
-    cout << "\tFat (in grams)       : ";
-    getline(cin, fatStr);
-    fat = atoi(fatStr.c_str());
-    
-    Food* food = new Food(name, category, amount, calories, fiber, sugar, protein, fat);
-    delete toSearch1;
-    return food;
-}
-
-//*********************************************************************
-// Author - Shannon Ladymon
-// enterFoodManually - prompts a user to enter a food's information
-//          and creates a food object dynamically with that info
-// @return - the lowercase string
-//*********************************************************************
-string CalorieCounterFoodDatabase::stringToLower(string str) const
-{
-    for (int i = 0; i < str.length(); i++)
-    {
-        str[i] = tolower(str[i]);
-    }
-    return str;
-}
 
 /////////////////////////////////// Menu/Option Manager Functions /////////////////////////////////////
 
@@ -1007,7 +866,7 @@ void CalorieCounterFoodDatabase::createMenu() const
 
 
 
-/////////////////////////////////// Hash Functions /////////////////////////////////////
+/////////////////////////////////// Rehash Function /////////////////////////////////////
 
 
 //*********************************************************************
@@ -1029,8 +888,158 @@ void CalorieCounterFoodDatabase::rehashing()
 
     // set CalorieCounterFoodDatabase hash to the new hashtable
     hash = newHash;
-
-
 }
+
+/////////////////////////////////// Stand Alone Functions /////////////////////////////////////
+
+//*********************************************************************
+// Author - Deepika Metkar, Shannon Ladymon
+// inputFoodToOutputString - converts information from a Food pointer
+//          to a string with the data
+// @param food - the Food pointer to get the information from
+// @return - the string with all information on the food
+//*********************************************************************
+string inputFoodToOutputString(Food* food)
+{
+    stringstream amount, calories, fat, fiber, protein, sugar;
+    calories << food->getCalories();
+    amount << food->getAmount();
+    fat << food->getFat();
+    fiber << food->getFiber();
+    protein << food->getProtein();
+    sugar << food->getSugar();
+    
+    return food->getName() + ";" + food->getCategory() + ";" + amount.str()
+    + ";" + calories.str() + ";" + fiber.str() + ";" + sugar.str()
+    + ";"+ protein.str() + ";" + fat.str() ;
+}
+
+//*********************************************************************
+// Author - Shannon Ladymon
+// displayIndentedNode - Displays food name, indented with
+//		tabs dependent on level.  Is passed to BST functions
+// @param anItem - pointer to Food to be displayed
+// @param level - current level of tree
+//*********************************************************************
+void displayIndentedNode(Food* anItem, int level)
+{
+    for (int i = 1; i <= level; i++)
+    {
+        cout << "\t";
+    }
+    cout << level + 1 << ". " << anItem->getName() << endl;
+}
+
+//*********************************************************************
+// Author - Shannon Ladymon
+// displaySecondaryFoods -  Displays all informationg for a food.
+//          Is passed to BST function that displays all foods that
+//          match a secondary key.
+// @param anItem - reference parameter of Food to be displayed
+//*********************************************************************
+void displayFood(Food& anItem)
+{
+    anItem.displayFood();
+    cout << endl;
+}
+
+//*********************************************************************
+// Author - Shannon Ladymon
+// visitRehash - Given an Food* and a hash table, will insert the
+//          Food* into the hash table
+// @param anItem - pointer to Food* to be inserted
+// @param newHash - the hash table to insert the Food* into
+//*********************************************************************
+void visitRehash(Food* anItem, HashTable* newHash)
+{
+    newHash->insert(anItem);
+}
+
+//*********************************************************************
+// Author - Shannon Ladymon
+// writeFoodItemToFile - Given a food pointer, converts the food info
+//          to an output string and writes it to a file
+// @param anItem - pointer to Food to be displayed
+// @param outfile - the file to write the output string to
+//*********************************************************************
+void writeFoodItemToFile(Food* anItem, ofstream& outfile)
+{
+    string outStr = inputFoodToOutputString(anItem);
+    outfile << outStr << endl;
+}
+
+//*********************************************************************
+// Author - Deepika Metkar
+// compareBST - a comparison function to work with the primary key, name
+// @param food1 - a pointer to the first food to compare
+// @param food2 - a pointer to the second food to compare
+// @return - 1 if food1 is greater; 0 if equal; -1 if food1 is less
+//*********************************************************************
+int compareBST(Food* food1, Food* food2)
+{
+    if (food1->getName() > food2->getName())
+    {
+        return 1;
+    }
+    else if (food1->getName() < food2->getName())
+    {
+        return -1;
+    }
+    return 0;
+}
+
+//*********************************************************************
+// Author - Deepika Metkar
+// compareBSTSecondary - a comparison function to work with the
+//          secondary key, category
+// @param food1 - a pointer to the first food to compare
+// @param food2 - a pointer to the second food to compare
+// @return - 1 if food1 is greater; 0 if equal; -1 if food1 is less
+//*********************************************************************
+int compareBSTSecondary(Food* food1, Food* food2)
+{
+    if (food1->getCategory() > food2->getCategory())
+    {
+        return 1;
+    }
+    else if (food1->getCategory() < food2->getCategory())
+    {
+        return -1;
+    }
+    return 0;
+}
+
+//*********************************************************************
+// Author - Shuti Wang, Deepika Metkar
+// nextPrime - given a number, finds the next prime number
+// @param inputCounter - the number to start with
+// @return - the next prime number
+//*********************************************************************
+int nextPrime(int inputCounter)
+{
+    ifstream inFile(PRIME_NUMBERS);
+    int primeNumber = inputCounter + 1;
+    if (!inFile)
+    {
+        cout << "Error opening prime number file." << endl;
+        return false;
+    }
+    if (inFile.eof())
+    {
+        cout << "File is empty." << endl;
+        return false;
+    }
+    while (inFile >> primeNumber)
+    {
+        if (inputCounter < primeNumber)
+        {
+            inFile.close();
+            return primeNumber;
+        }
+        
+    }
+    return primeNumber;
+}
+
 
 
