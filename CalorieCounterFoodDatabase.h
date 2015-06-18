@@ -69,13 +69,10 @@ public:
     //insert a food pointer into all data structures
     bool insertInDataStructures(Food* food);
     
-    //convert an input string to a food pointer
-    
-    
     //enter information for a food item manually
     Food* enterFoodManually() const;
     
-    //input string manipulation
+    //input/output string manipulation
     string stringToLower(string str) const;
     bool validateInputString(string input);
     Food* inputStringToFood(string input) const;
@@ -92,12 +89,12 @@ public:
 	void listManager() const;
     void planMenuMananger() const;
     
+    //Food comparision functions
     void compareTwoFoods() const;
     void createMenu() const;
 
 	//hash functions
 	void rehashing();
-    void traverseData();
 };
 
 #endif /* CALORIECOUNTERFOODDATABASE_H_ */
