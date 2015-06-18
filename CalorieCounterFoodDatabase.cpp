@@ -16,7 +16,7 @@
 #include <sstream>
 #include <fstream>
 
-//const string PRIME_NUMBERS = "primeNumbers.txt";
+const string PRIME_NUMBERS = "primeNumbers.txt";
 //const string PRIME_NUMBERS = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/primeNumbers.txt";
 //const string PRIME_NUMBERS = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/primeNumbers.txt";
 //Deepika:->
@@ -752,7 +752,8 @@ void CalorieCounterFoodDatabase::searchManager() const
 	cout << "\n\t\t\t\tSEARCH MENU OPTIONS \n\n"
 		<< "\t\t\tP - Search by Primary key (by name)\n"
 		<< "\t\t\tS - Search by Secondary key (by fruit, vegetable, grain, protein, dairy)\n"
-	    << "\t\t\tQ - Quit search for a food entry\n";
+	    << "\t\t\tQ - Quit search for a food entry\n"
+		<< "\nPlease enter the option of your choice: ";
 	getline(cin, choiceStr);
 	choice = toupper(choiceStr[0]);
 
@@ -805,7 +806,7 @@ void CalorieCounterFoodDatabase::searchManager() const
 
 	}
 	if (choice == 'Q')
-		displayMenu();
+		cout << "\nReturning to main menu\n";
 }
 
 
@@ -840,11 +841,10 @@ void CalorieCounterFoodDatabase::listManager() const
 			break;
 		case'S': secondaryBST->printTreeAsIndentedList(displayIndentedNode);
 			break;
-		case'Q': displayMenu();
+		case'Q': cout << "\nReturning to main menu\n";
 			break;
-		default: cout << choice << " is an invalid option."
-			<< " Please choose one of the following options: \n";
-			displayListMenu();
+		default: cout << choice << " is an invalid option.";
+	
 		}
 
 	}
