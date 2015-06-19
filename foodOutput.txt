@@ -6,9 +6,9 @@ bok choy;vegetable;100;34;3;2;3;0
 spinach;vegetable;100;23;2;0;3;0
 low fat 1% milk;dairy;100;44;0;0;4;1
 white bread;grain;100;246;5;37;8;0
-melon;fruit;100;1;1;1;1;1
+melon;fruit;1;1;1;1;1;1
 heavy whipping cream;dairy;100;44;0;0;4;1
-brown egg;protein;100;1;1;1;1;1
+brown egg;protein;1;1;1;1;1;1
 arobio rice;grain;100;130;0;0;3;0
 chicken thigh;protein;100;165;0;0;31;4
 pineapple;fruit;100;32;2;5;1;0

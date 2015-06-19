@@ -24,10 +24,11 @@
 #include <fstream>
 
 //********FOR TEST RUN*********
-//const string PRIME_NUMBERS = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/primeNumbers.txt";
+const string PRIME_NUMBERS = "primeNumbers.txt";
 //*****************************
 
-//const string PRIME_NUMBERS = "primeNumbers.txt";
+//FOR DEVELOPERS
+//const string PRIME_NUMBERS = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/primeNumbers.txt";
 //const string PRIME_NUMBERS = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/primeNumbers.txt";
 //Deepika:->
 //const string PRIME_NUMBERS = "D:\De Anza\5. Spring 2015\CIS 22C_Delia Gârbacea\Topic 14_Project Presentations\Calorie-Counter-Food-Database\primeNumbers.txt";
@@ -206,6 +207,13 @@ Food* CalorieCounterFoodDatabase::enterFoodManually() const
     cout <<"\nEnter the following information for the food you would like to add:\n";
     cout << "\tFood Name            : ";
     getline(cin, name);
+    
+    while (!validateString(name))
+    {
+        cout << name << " must have a least one character. Please choose a different food name: ";
+        getline(cin, name);
+    }
+    
     name = stringToLower(name);
     
     toSearch1->setName(name);
@@ -220,31 +228,37 @@ Food* CalorieCounterFoodDatabase::enterFoodManually() const
     
     cout << "\tCategory (fruit, vegetable, grain, protein, dairy): ";
     getline(cin, category);
+    
+    while (!validateString(category))
+    {
+        cout << category << " must have a least one character. Please choose a different category: ";
+        getline(cin, category);
+    }
     category = stringToLower(category);
     
     cout << "\tAmount (in grams/mL) : ";
     getline(cin, amountStr);
-    amount = atoi(amountStr.c_str());
+    amount = getNum(amountStr);
     
     cout << "\tCalories             : ";
     getline(cin, caloriesStr);
-    calories = atoi(caloriesStr.c_str());
+    calories = getNum(caloriesStr);
     
     cout << "\tFiber (in grams)     : ";
     getline(cin, fiberStr);
-    fiber = atoi(caloriesStr.c_str());
+    fiber = getNum(fiberStr);
     
     cout << "\tSugar (in grams)     : ";
     getline(cin, sugarStr);
-    sugar = atoi(sugarStr.c_str());
+    sugar = getNum(sugarStr);
     
     cout << "\tProtein(in grams)    : ";
     getline(cin, proteinStr);
-    protein = atoi(proteinStr.c_str());
+    protein = getNum(proteinStr);
     
     cout << "\tFat (in grams)       : ";
     getline(cin, fatStr);
-    fat = atoi(fatStr.c_str());
+    fat = getNum(fatStr);
     
     Food* food = new Food(name, category, amount, calories, fiber, sugar, protein, fat);
     delete toSearch1;
@@ -281,8 +295,7 @@ bool CalorieCounterFoodDatabase::insertInDataStructures(Food* food)
 
 //*********************************************************************
 // Author - Shannon Ladymon
-// enterFoodManually - prompts a user to enter a food's information
-//          and creates a food object dynamically with that info
+// stringToLower - converts a string to lower case
 // @return - the lowercase string
 //*********************************************************************
 string CalorieCounterFoodDatabase::stringToLower(string str) const
@@ -294,6 +307,8 @@ string CalorieCounterFoodDatabase::stringToLower(string str) const
     return str;
 }
 
+
+
 //*********************************************************************
 // Author - Shannon Ladymon
 // validateInputString - validates that the input string can be used
@@ -301,7 +316,7 @@ string CalorieCounterFoodDatabase::stringToLower(string str) const
 // @param input - the string to check
 // @return - true if the string is in correct format
 //*********************************************************************
-bool CalorieCounterFoodDatabase::validateInputString(string input)
+bool CalorieCounterFoodDatabase::validateInputString(string input) const
 {
     int totalSemicolons = 0;
     bool validity = true;
@@ -317,11 +332,8 @@ bool CalorieCounterFoodDatabase::validateInputString(string input)
             totalSemicolons++;
             string temp = input.substr(currentPos, semicolonPos - currentPos);
         
-            //checks that there is at least one character between semicolons
-            if (temp.length() < 1)
-            {
-                validity = false;
-            }
+            validity = validateString(temp);
+            
             currentPos = semicolonPos + 1;
         }
         else
@@ -348,6 +360,59 @@ bool CalorieCounterFoodDatabase::validateInputString(string input)
 }
 
 //*********************************************************************
+// Author - Shannon Ladymon
+// validateString - validates that a string is more than one char and
+//          not all spaces
+// @param input - the string to check
+// @return - true if the string is in correct format
+//*********************************************************************
+bool CalorieCounterFoodDatabase::validateString(string temp) const
+{
+    bool validity = true;
+    
+    //checks that there is at least one character between semicolons
+    if (temp.length() < 1)
+    {
+        validity = false;
+    }
+    
+    //checks if the string is only spaces
+    bool allSpaces = true;
+    for (int i = 0; i < temp.length(); i++)
+    {
+        if (!isspace(temp[i]))
+        {
+            allSpaces = false;
+        }
+    }
+    
+    if(allSpaces)
+    {
+        validity = false;
+    }
+    
+    return validity;
+}
+
+//*********************************************************************
+// Author - Shannon Ladymon
+// getNum - given a string, converts it to an int.
+// @param input - the string to check
+// @return - the int version of the string.  If the string is a char,
+//      returns 0. If the string is a negative number, returns 0.
+//*********************************************************************
+int CalorieCounterFoodDatabase::getNum(string input) const 
+{
+    int num = atoi(input.c_str());
+    if (num < 0)
+    {
+        num = 0;
+    }
+    return num;
+}
+
+//FIXME: Check for negative numbers
+//*********************************************************************
 // Author - Deepika Metkar, Shannon Ladymon
 // inputStringToFood - converts an input string into a food object
 //          NOTE: changes name (primary key) and category (secondary
@@ -371,23 +436,21 @@ Food* CalorieCounterFoodDatabase::inputStringToFood(string input) const
     istringstream ss(input);
     
     getline(ss, token, ';');
-    fName = token;
-    fName = stringToLower(fName);
+    fName = stringToLower(token);
     getline(ss, token, ';');
-    fCategory = token;
-    fCategory = stringToLower(fCategory);
+    fCategory = stringToLower(token);
     getline(ss, token, ';');
-    amount = std::stoi(token);
+    amount = getNum(token);
     getline(ss, token, ';');
-    calories = std::stoi(token);
+    calories = getNum(token);
     getline(ss, token, ';');
-    fiber = std::stoi(token);
+    fiber = getNum(token);
     getline(ss, token, ';');
-    sugar = std::stoi(token);
+    sugar = getNum(token);
     getline(ss, token, ';');
-    protein = std::stoi(token);
+    protein = getNum(token);
     getline(ss, token, ';');
-    fat = std::stoi(token);
+    fat = getNum(token);
     
     Food* foodObj = new Food(fName, fCategory, amount, calories, fiber, sugar, protein, fat);
     return foodObj;

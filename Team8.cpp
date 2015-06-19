@@ -23,19 +23,17 @@
 using namespace std;
 
 //********FOR TEST RUN*********
-//Shannon's files
+const string INPUT_FILE = "foodInput.txt";
+const string OUTPUT_FILE = "foodOutput.txt";
+//*****************************
+
+//Shannon's Files
 //const string INPUT_FILE = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/foodInput.txt";
 //const string OUTPUT_FILE = "/Users/Shannon/Documents/GitHub/Calorie-Counter-Food-Database/foodOutput.txt";
-//*****************************
 
 //Wendy's files
 //const string INPUT_FILE = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/foodInput.txt";
 //const string OUTPUT_FILE = "/Users/wendymartell/Dropbox/GITHUB/Food-Calorie-Counter-22C-2015/Calorie-Counter-Food-Database/foodOutput.txt";
-
-
-//Shuti's files
-//const string INPUT_FILE = "foodInput.txt";
-//const string OUTPUT_FILE = "foodOutput.txt";
 
 //Deepika's files
 //const string INPUT_FILE = "D:\De Anza\5. Spring 2015\CIS 22C_Delia Gârbacea\Topic 14_Project Presentations\Calorie-Counter-Food-Database\foodInput.txt";
@@ -46,8 +44,8 @@ int determineHashSize(const char* fileName);
 
 int main()
 {
-	CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(determineHashSize(INPUT_FILE.c_str()));
-    //CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(10);
+	//CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(determineHashSize(INPUT_FILE.c_str()));
+    CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(10);
     
 	if (!a->readFile(INPUT_FILE.c_str()))
 	{

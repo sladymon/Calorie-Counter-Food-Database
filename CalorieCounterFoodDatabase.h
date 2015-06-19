@@ -79,9 +79,11 @@ public:
     //insert a food pointer into all data structures
     bool insertInDataStructures(Food* food);
     
-    //input/output string manipulation
+    //input/output string manipulation and validation
     string stringToLower(string str) const;
-    bool validateInputString(string input);
+    bool validateInputString(string input) const;
+    bool validateString(string temp) const;
+    int getNum(string input) const;
     Food* inputStringToFood(string input) const;
 
 	//menus and option manager functions
