@@ -44,8 +44,8 @@ int determineHashSize(const char* fileName);
 
 int main()
 {
-	//CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(determineHashSize(INPUT_FILE.c_str()));
-    CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(10);
+	CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(determineHashSize(INPUT_FILE.c_str()));
+    //CalorieCounterFoodDatabase* a = new CalorieCounterFoodDatabase(10);
     
 	if (!a->readFile(INPUT_FILE.c_str()))
 	{

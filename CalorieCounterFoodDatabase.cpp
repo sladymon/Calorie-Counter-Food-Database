@@ -222,6 +222,11 @@ Food* CalorieCounterFoodDatabase::enterFoodManually() const
     {
         cout << name << " already exists. Please choose a different food name: ";
         getline(cin, name);
+        while (!validateString(name))
+        {
+            cout << name << " must have a least one character. Please choose a different food name: ";
+            getline(cin, name);
+        }
         name = stringToLower(name);
         toSearch1->setName(name);
     }
